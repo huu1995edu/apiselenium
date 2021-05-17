@@ -30,7 +30,7 @@ namespace DockerApi.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ReqTinDang value)
+        public IActionResult Post([FromBody] ReqTinDang value)
         {
             CustomResult cusRes = new CustomResult();
             try

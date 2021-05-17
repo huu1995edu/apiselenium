@@ -93,7 +93,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 }
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 driver.Close();
 
