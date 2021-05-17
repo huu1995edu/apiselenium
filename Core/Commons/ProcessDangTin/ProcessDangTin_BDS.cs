@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Tesseract;
@@ -24,8 +25,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             lOptions.Add("--incognito"); // chạy trong trình ẩn anh
            
             chromeOptions.AddArguments(lOptions);
-            // System.setProperty("webdriver.chrome.driver", "chromedriver");
-            IWebDriver driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory, chromeOptions);
+            var chromeService = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+            IWebDriver driver = new ChromeDriver(chromeService, chromeOptions);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             driver.Manage().Window.Maximize();
             try
