@@ -11,4 +11,4 @@ docker [push/pull] huu1995edu/coreapiselenium
 [list file]
 docker exec -it [id] bash  -> ls
 [clear cache]
-docker builder prune"# apiselenium" 
+docker builder prune
