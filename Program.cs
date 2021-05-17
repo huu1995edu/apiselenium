@@ -19,7 +19,7 @@ namespace DockerApi
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-            string url = String.Concat("https://0.0.0.0:", port);
+            string url = String.Concat("http://0.0.0.0:", port);
             return WebHost.CreateDefaultBuilder(args)
                 .UseUrls(url)
                 .UseStartup<Startup>();
