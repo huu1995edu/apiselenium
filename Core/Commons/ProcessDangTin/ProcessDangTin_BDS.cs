@@ -21,23 +21,25 @@ namespace DockerApi.Core.Commons.ProcessDangTin
         public void dangTin(TinDang tinDang)
         {
             IWebDriver driver;
+            var path = String.Empty;
             try
             {
-                 var chromeOptions = new ChromeOptions();
+                var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh           
                 chromeOptions.AddArguments(lOptions);
-                var chromeService = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var chromeService = ChromeDriverService.CreateDefaultService(path);
                 driver = new ChromeDriver(chromeService, chromeOptions);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 driver.Manage().Window.Maximize();
             }
             catch (System.Exception ex)
             {
-                
-                throw new Exception(@"Error - ChromeDriver: " + ex.Message);
+
+                throw new Exception(@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
             }
-           
+
             try
             {
 
@@ -47,7 +49,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 driver.Navigate().GoToUrl(pathDangTin);
                 CommonMethods.SetInput(driver, "txtProductTitle20180807", tinDang.TieuDe);
                 Thread.Sleep(500);
-                var hinhThuc = tinDang.HinhThuc >0 ? tinDang.HinhThuc : 38;
+                var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
                 CommonMethods.SelectLi(driver, "divProductType", hinhThuc);
                 Thread.Sleep(100);
@@ -60,7 +62,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 CommonMethods.SelectLi(driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
                 CommonMethods.SetInput(driver, "txtArea", tinDang.DienTich);
                 CommonMethods.SetInput(driver, "txtPrice", tinDang.Gia);
-                CommonMethods.SelectOptions(driver, "ddlPriceType", tinDang.DonViTinh == 1?7:1);//set đơn vị của giá               
+                CommonMethods.SelectOptions(driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1);//set đơn vị của giá               
                 CommonMethods.SetInput(driver, "txtDescription", tinDang.MoTa);
                 CommonMethods.SetInput(driver, "txtWidth", tinDang.MatTien);
                 CommonMethods.SetInput(driver, "txtLandWidth", tinDang.DuongVao);
@@ -99,14 +101,16 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 }
                 if (!String.IsNullOrEmpty(error))
                 {
-                    throw new Exception(error);
+                    throw new Exception("error - ProcessDangTin_BDS: " + error);
+
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 driver.Close();
-                throw;
+                throw new Exception("errorCatch - ProcessDangTin_BDS: " + ex.Message);
+
             }
             driver.Close();
 
@@ -119,7 +123,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             driver.Navigate().GoToUrl(pathLogin);
             driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tinDang.TenDangNhap);
             driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(tinDang.MatKhau + Keys.Enter);
-            if(driver.Url == pathLogin)
+            if (driver.Url == pathLogin)
             {
                 var login_err_msgs = driver.FindElements(By.ClassName("login-err-msg"));
                 var loginerror = driver.FindElement(By.ClassName("loginerror"));
@@ -138,7 +142,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                     }
                 }
             }
-            
+
 
 
         }
@@ -181,8 +185,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             {
 
             }
-            
-            
+
+
             return null;
         }
 

@@ -7,8 +7,7 @@ COPY . ./
 RUN dotnet publish -c Realase -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
-COPY Resources/chromedriver.exe .
-COPY Resources/chromedriver .
+COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 EXPOSE 80
 COPY --from=build-env /app/out .
