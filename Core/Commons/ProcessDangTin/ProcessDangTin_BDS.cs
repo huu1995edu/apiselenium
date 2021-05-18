@@ -20,15 +20,24 @@ namespace DockerApi.Core.Commons.ProcessDangTin
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
         public void dangTin(TinDang tinDang)
         {
-            var chromeOptions = new ChromeOptions();
-            List<string> lOptions = new List<string>();
-            lOptions.Add("--incognito"); // chạy trong trình ẩn anh
+            IWebDriver driver;
+            try
+            {
+                 var chromeOptions = new ChromeOptions();
+                List<string> lOptions = new List<string>();
+                lOptions.Add("--incognito"); // chạy trong trình ẩn anh           
+                chromeOptions.AddArguments(lOptions);
+                var chromeService = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                driver = new ChromeDriver(chromeService, chromeOptions);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                driver.Manage().Window.Maximize();
+            }
+            catch (System.Exception ex)
+            {
+                
+                throw new Exception(@"Error - ChromeDriver: " + ex.Message);
+            }
            
-            chromeOptions.AddArguments(lOptions);
-            var chromeService = ChromeDriverService.CreateDefaultService(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
-            IWebDriver driver = new ChromeDriver(chromeService, chromeOptions);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.Manage().Window.Maximize();
             try
             {
 
@@ -97,7 +106,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             catch (Exception)
             {
                 driver.Close();
-
                 throw;
             }
             driver.Close();
