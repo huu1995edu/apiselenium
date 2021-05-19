@@ -29,7 +29,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
                 lOptions.Add("--remote-debugging-port=9222");//fix “DevToolsActivePort file doesn't exist”
                 lOptions.Add("--headless");
-                lOptions.Add("--no-sandbox");                
+                lOptions.Add("--no-sandbox");
+                lOptions.Add("--window-size=1920,1080");
+                lOptions.Add("--allow-running-insecure-content");
                 chromeOptions.AddArguments(lOptions);
                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chromeService = ChromeDriverService.CreateDefaultService(path);
@@ -125,7 +127,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
             //Login
             driver.Navigate().GoToUrl(pathLogin);
-            Thread.Sleep(500);
             driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tinDang.TenDangNhap);
             driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(tinDang.MatKhau + Keys.Enter);
             if (driver.Url == pathLogin)
