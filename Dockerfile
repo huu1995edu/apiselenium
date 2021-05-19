@@ -8,6 +8,7 @@ RUN dotnet publish -c Realase -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 ENV ASPNETCORE_URLS http://0.0.0.0:8080
 WORKDIR /app
+RUN chmod 700 /app
 COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 EXPOSE 80
