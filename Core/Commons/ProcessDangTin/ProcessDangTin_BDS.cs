@@ -26,7 +26,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             {
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
-                lOptions.Add("--incognito"); // chạy trong trình ẩn anh           
+                lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
+                lOptions.Add("--remote-debugging-port=9222");//fix “DevToolsActivePort file doesn't exist”
+                lOptions.Add("--headless");
                 chromeOptions.AddArguments(lOptions);
                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chromeService = ChromeDriverService.CreateDefaultService(path);
