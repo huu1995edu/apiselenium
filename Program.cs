@@ -18,7 +18,9 @@ namespace DockerApi
         }
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
+            string url = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
             return WebHost.CreateDefaultBuilder(args)
+                .UseUrls(url)
                 .UseStartup<Startup>();
         }
 
