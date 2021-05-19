@@ -6,23 +6,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
-namespace DockerApi
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
+using Microsoft.Extensions.Logging;
+namespace DockerApi {
+    public class Program {
+        public static void Main (string[] args) {
+            CreateWebHostBuilder (args).Build ().Run ();
         }
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            string url = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
-            return WebHost.CreateDefaultBuilder(args)
-                .UseUrls(url)
-                .UseStartup<Startup>();
+        public static IWebHostBuilder CreateWebHostBuilder (string[] args) {
+            string url = Environment.GetEnvironmentVariable ("ASPNETCORE_URLS");
+            return WebHost.CreateDefaultBuilder (args)
+                .UseUrls (url)
+                .UseStartup<Startup> ();
         }
 
     }
-}
+} 
