@@ -18,18 +18,10 @@ namespace DockerApi
         }
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var isProduction = environment == Microsoft.AspNetCore.Hosting.EnvironmentName.Production;
-            if (isProduction)
-            {
-                string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
-                string url = String.Concat("http://0.0.0.0:", port);
-                return WebHost.CreateDefaultBuilder(args)
-                    .UseUrls(url)
-                    .UseStartup<Startup>();
-
-            }
+            string port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+            string url = String.Concat("http://0.0.0.0:", port);
             return WebHost.CreateDefaultBuilder(args)
+                .UseUrls(url)
                 .UseStartup<Startup>();
 
 
