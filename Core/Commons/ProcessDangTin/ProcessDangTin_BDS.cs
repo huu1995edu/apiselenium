@@ -29,8 +29,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 // driver = new ChromeDriver(chromeService, chromeOptions);
                 driver = new ChromeDriver ();
 
-                driver.Manage ().Timeouts ().ImplicitWait = TimeSpan.FromSeconds (10);
-                driver.Manage ().Window.Maximize ();
+                // driver.Manage ().Timeouts ().ImplicitWait = TimeSpan.FromSeconds (10);
+                // driver.Manage ().Window.Maximize ();
             } catch (System.Exception ex) {
 
                 throw new Exception (@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
