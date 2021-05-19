@@ -6,6 +6,7 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Realase -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+ENV ASPNETCORE_URLS http://+:80
 WORKDIR /app
 COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
