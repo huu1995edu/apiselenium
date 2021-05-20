@@ -1,5 +1,7 @@
 # Add your dotnet core project build stuff here
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
+# set up network
+ENV ASPNETCORE_URLS http://+:80
 WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
@@ -30,7 +32,6 @@ google-chrome-stable \
 --no-install-recommends \
 && apt-get purge --auto-remove -y curl \
 && rm -rf /var/lib/apt/lists/*
-
 # Download ChromeDriver
 RUN set -x \
 && apt-get update \
@@ -51,13 +52,11 @@ unzip \
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
 && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
 WORKDIR /app
-ENV ASPNETCORE_URLS = "http://+:8080"
+# synce lên git thì hãy mở ra còn chyaj ở local thì nên đóng lại
 COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 RUN chmod -R 777 /app/chromedriver
 RUN chmod -R 777 /app/tessdata
-EXPOSE 80
-EXPOSE 443
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "DockerApi.dll"]
 # FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS base
