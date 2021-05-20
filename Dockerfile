@@ -51,7 +51,7 @@ unzip \
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
 && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
 WORKDIR /app
-ENV ASPNETCORE_URLS = "http://[:]:8080"
+ENV ASPNETCORE_URLS = "http://+:8080"
 COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 RUN chmod -R 777 /app/chromedriver
