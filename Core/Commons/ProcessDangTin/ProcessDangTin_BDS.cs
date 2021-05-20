@@ -29,7 +29,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
                 lOptions.Add("--no-sandbox");
                 lOptions.Add("--window-size=1420,1080");
-                lOptions.Add("--headless");
+                // lOptions.Add("--headless");
                 lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
                 // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
