@@ -38,17 +38,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 driver = new ChromeDriver(chromeService, chromeOptions);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
                 driver.Manage().Window.Maximize();
-                // ChromeOptions options = new ChromeOptions();
-                // options.AddArguments("headless");
-                // options.AddArguments("no-sandbox");
-                // options.AddArgument("--whitelisted-ips");
-                // options.AddArgument("--disable-extensions");
-                // options.BinaryLocation = "/opt/google/chrome/chrome";
-                // path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                // var chromeService = ChromeDriverService.CreateDefaultService(path);
-                // driver = new ChromeDriver(chromeService, options, TimeSpan.FromSeconds(30));
-                // driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
-                // // driver.Manage().Window.Maximize();
 
             }
             catch (System.Exception ex)
