@@ -7,7 +7,7 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Realase -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
-# ENV ASPNETCORE_URLS=http://*:8080
+ENV ASPNETCORE_URLS=http://*:8080
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
 WORKDIR /app
 # synce lên git thì hãy mở ra còn chyaj ở local thì nên đóng lại
