@@ -45,8 +45,9 @@
 
 FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+ENV ASPNETCORE_URLS=http://*:8080
+# EXPOSE 80
+# EXPOSE 443
 FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS build 
 WORKDIR /src
 COPY ["DockerApi.csproj", ""]
