@@ -50,14 +50,14 @@ unzip \
 # Add chrome user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
 && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
-EXPOSE 80
-EXPOSE 443
 WORKDIR /app
+ENV ASPNETCORE_URLS = "http://[:]:8080"
 COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 RUN chmod -R 777 /app/chromedriver
 RUN chmod -R 777 /app/tessdata
 EXPOSE 80
+EXPOSE 443
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "DockerApi.dll"]
 # FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS base
