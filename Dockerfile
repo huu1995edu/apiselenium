@@ -1,15 +1,14 @@
 # Add your dotnet core project build stuff here
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 # set up network
-ENV ASPNETCORE_URLS http://+:80
 WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Realase -o out
 FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
+ENV ASPNETCORE_URLS=http://*:8080
 ADD https://dl.google.com/linux/direct/google-talkplugin_current_amd64.deb /src/google-talkplugin_current_amd64.deb
-
 # Install Chrome
 RUN apt-get update && apt-get install -y \
 apt-transport-https \
