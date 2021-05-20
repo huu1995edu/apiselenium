@@ -27,17 +27,18 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                lOptions.Add("--remote-debugging-port=9222");//fix “DevToolsActivePort file doesn't exist”
-                // lOptions.Add("--headless");
                 lOptions.Add("--no-sandbox");
-                lOptions.Add("--window-size=1920,1080");
-                lOptions.Add("--allow-running-insecure-content");
+                lOptions.Add("--window-size=1420,1080");
+                // lOptions.Add("--headless");
+                lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
+                // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chromeService = ChromeDriverService.CreateDefaultService(path);
                 driver = new ChromeDriver(chromeService, chromeOptions);
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
                 driver.Manage().Window.Maximize();
+
             }
             catch (System.Exception ex)
             {
@@ -127,6 +128,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
             //Login
             driver.Navigate().GoToUrl(pathLogin);
+            var tg1 = driver.FindElement(By.TagName("body"));
+            var strText = tg1.Text;
             driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tinDang.TenDangNhap);
             driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(tinDang.MatKhau + Keys.Enter);
             if (driver.Url == pathLogin)
