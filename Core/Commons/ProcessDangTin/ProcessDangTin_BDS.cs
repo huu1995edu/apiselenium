@@ -24,29 +24,31 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             var path = String.Empty;
             try
             {
-                // var chromeOptions = new ChromeOptions();
-                // List<string> lOptions = new List<string>();
-                // lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                // lOptions.Add("--no-sandbox");
-                // lOptions.Add("--window-size=1420,1080");
-                // lOptions.Add("--headless");
-                // lOptions.Add("--disable-gpu");
-                // chromeOptions.AddArguments(lOptions);
+                var chromeOptions = new ChromeOptions();
+                List<string> lOptions = new List<string>();
+                lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
+                lOptions.Add("--no-sandbox");
+                lOptions.Add("--window-size=1420,1080");
+                lOptions.Add("--headless");
+                lOptions.Add("--disable-gpu");
+                chromeOptions.AddArguments(lOptions);
+                // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
+                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var chromeService = ChromeDriverService.CreateDefaultService(path);
+                driver = new ChromeDriver(chromeService, chromeOptions);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
+                driver.Manage().Window.Maximize();
+                // ChromeOptions options = new ChromeOptions();
+                // options.AddArguments("headless");
+                // options.AddArguments("no-sandbox");
+                // options.AddArgument("--whitelisted-ips");
+                // options.AddArgument("--disable-extensions");
+                // options.BinaryLocation = "/opt/google/chrome/chrome";
                 // path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 // var chromeService = ChromeDriverService.CreateDefaultService(path);
-                // driver = new ChromeDriver(chromeService, chromeOptions);
-                string driverPath = "/opt/selenium/";
-                String driverExecutableFileName = "chromedriver";
-                ChromeOptions options = new ChromeOptions();
-                options.AddArguments("headless");
-                options.AddArguments("no-sandbox");
-                options.AddArgument("--whitelisted-ips");
-                options.AddArgument("--disable-extensions");
-                options.BinaryLocation = "/opt/google/chrome/chrome";
-                ChromeDriverService service = ChromeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
-                driver = new ChromeDriver(service, options, TimeSpan.FromSeconds(30));
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
-                // driver.Manage().Window.Maximize();
+                // driver = new ChromeDriver(chromeService, options, TimeSpan.FromSeconds(30));
+                // driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
+                // // driver.Manage().Window.Maximize();
 
             }
             catch (System.Exception ex)
