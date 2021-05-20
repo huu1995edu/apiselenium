@@ -35,7 +35,6 @@ COPY libs/chromedriver/linux .
 COPY tessdata /app/tessdata
 RUN chmod -R 777 /app/chromedriver
 RUN chmod -R 777 /app/tessdata
-EXPOSE 80
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "DockerApi.dll"]
 # FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS base

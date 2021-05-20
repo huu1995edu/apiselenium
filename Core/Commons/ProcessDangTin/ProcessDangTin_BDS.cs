@@ -28,7 +28,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 List<string> lOptions = new List<string>();
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
                 lOptions.Add("--remote-debugging-port=9222");//fix “DevToolsActivePort file doesn't exist”
-                lOptions.Add("--headless");
+                // lOptions.Add("--headless");
                 lOptions.Add("--no-sandbox");
                 lOptions.Add("--window-size=1920,1080");
                 lOptions.Add("--allow-running-insecure-content");
