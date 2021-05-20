@@ -40,8 +40,8 @@ RUN apt-get update && apt-get install -y \
 # Add chrome user
 RUN groupadd -r chrome && useradd -r -g chrome -G audio,video chrome \
     && mkdir -p /home/chrome/Downloads && chown -R chrome:chrome /home/chrome
-EXPOSE 80
-EXPOSE 443
+# EXPOSE 80
+# EXPOSE 443
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "DockerApi.dll"]
 ## Solution 2 => không khuyến cáo dùng do bên thứ 3 chưa kiểm chứng
