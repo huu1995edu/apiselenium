@@ -44,7 +44,7 @@ EXPOSE 80
 EXPOSE 443
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "DockerApi.dll"]
-
+## Solution 2 => không khuyến cáo dùng do bên thứ 3 chưa kiểm chứng
 # FROM masteroleary/selenium-dotnetcore2.2-linux:v2 AS base
 # WORKDIR /app
 # ENV ASPNETCORE_URLS=http://*:8080
