@@ -32,7 +32,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 lOptions.Add("--headless");
                 lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
-                // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
+                chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chromeService = ChromeDriverService.CreateDefaultService(path);
                 driver = new ChromeDriver(chromeService, chromeOptions);
