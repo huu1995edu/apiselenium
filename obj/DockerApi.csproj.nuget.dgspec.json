@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\01_MyWork\\01_Sources\\9998_OutSource\\01_DangTinBDS\\apiselenium\\DockerApi.csproj": {}
+    "D:\\Source\\Docker\\02_BDS\\coreapiselenium\\DockerApi.csproj": {}
   },
   "projects": {
-    "D:\\01_MyWork\\01_Sources\\9998_OutSource\\01_DangTinBDS\\apiselenium\\DockerApi.csproj": {
+    "D:\\Source\\Docker\\02_BDS\\coreapiselenium\\DockerApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\01_MyWork\\01_Sources\\9998_OutSource\\01_DangTinBDS\\apiselenium\\DockerApi.csproj",
+        "projectUniqueName": "D:\\Source\\Docker\\02_BDS\\coreapiselenium\\DockerApi.csproj",
         "projectName": "DockerApi",
-        "projectPath": "D:\\01_MyWork\\01_Sources\\9998_OutSource\\01_DangTinBDS\\apiselenium\\DockerApi.csproj",
+        "projectPath": "D:\\Source\\Docker\\02_BDS\\coreapiselenium\\DockerApi.csproj",
         "packagesPath": "C:\\Users\\trong\\.nuget\\packages\\",
-        "outputPath": "D:\\01_MyWork\\01_Sources\\9998_OutSource\\01_DangTinBDS\\apiselenium\\obj\\",
+        "outputPath": "D:\\Source\\Docker\\02_BDS\\coreapiselenium\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
