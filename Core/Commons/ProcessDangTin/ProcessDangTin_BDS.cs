@@ -27,18 +27,18 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             {
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
-                //lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                //lOptions.Add("--no-sandbox");
-                //lOptions.Add("--window-size=1420,1080");
-                //// lOptions.Add("--headless");
-                //lOptions.Add("--disable-gpu");
+                lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
+                lOptions.Add("--no-sandbox");
+                // lOptions.Add("--window-size=1420,1080");
+                // // lOptions.Add("--headless");
+                // lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
                 // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
-                //path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                //var chromeService = ChromeDriverService.CreateDefaultService(path);
-                //driver = new ChromeDriver(chromeService, chromeOptions);
-                var remoteUrl = "http://localhost:4444/wd/hub";
-                driver = new RemoteWebDriver(new Uri(remoteUrl), chromeOptions);
+                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                var chromeService = ChromeDriverService.CreateDefaultService(path);
+                driver = new ChromeDriver(chromeService, chromeOptions);
+                // var remoteUrl = "http://localhost:4444";
+                // driver = new RemoteWebDriver(new Uri(remoteUrl), chromeOptions);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
                 driver.Manage().Window.Maximize();
 
@@ -48,12 +48,13 @@ namespace DockerApi.Core.Commons.ProcessDangTin
 
                 throw new Exception(@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
             }
-
+            var strSteps = 0;
             try
             {
 
                 //B1 Login
                 login(driver, tinDang);
+                strSteps++;
                 //B2 Đăng tin
                 driver.Navigate().GoToUrl(pathDangTin);
                 Thread.Sleep(500);
@@ -61,6 +62,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 Thread.Sleep(500);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
+                strSteps++;
                 CommonMethods.SelectLi(driver, "divProductType", hinhThuc);
                 Thread.Sleep(100);
                 CommonMethods.SelectLi(driver, "divProductCate", loai);
@@ -70,6 +72,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 CommonMethods.SelectLi(driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
                 Thread.Sleep(100);
                 CommonMethods.SelectLi(driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
+                strSteps++;
                 CommonMethods.SetInput(driver, "txtArea", tinDang.DienTich);
                 CommonMethods.SetInput(driver, "txtPrice", tinDang.Gia);
                 CommonMethods.SelectOptions(driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1);//set đơn vị của giá               
@@ -81,13 +84,16 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 CommonMethods.SetInput(driver, "txtLegality", tinDang.ThongTinPhapLy);
                 tinDang.DiaChi = String.IsNullOrEmpty(tinDang.DiaChi) ? driver.FindElement(By.Id("txtAddress")).GetAttribute("value") : tinDang.DiaChi;
                 CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
+                strSteps++;
                 //B3: upload load hình
                 CommonMethods.UploadImages(driver, "file", tinDang.ListHinhAnh);
                 //B4: set maps
+                strSteps++;
                 CommonMethods.SetInput(driver, "txtBrName", tinDang.TenLienHe);
                 CommonMethods.SetInput(driver, "txtBrAddress", tinDang.DiaChiLienHe);
                 CommonMethods.SetInput(driver, "txtBrEmail", tinDang.EmailLienHe);
                 CommonMethods.SelectLi(driver, "divBrMobile", tinDang.DienThoaiLienHe);
+                strSteps++;
                 if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue)
                 {
                     var tuNgay = tinDang.TuNgay.ToString("dd/MM//yy");
@@ -119,7 +125,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             catch (Exception ex)
             {
                 driver.Close();
-                throw new Exception("errorCatch - ProcessDangTin_BDS: " + ex.Message);
+                throw new Exception("errorCatch - ProcessDangTin_BDS: " + strSteps + ": " + ex.Message);
 
             }
             driver.Close();
@@ -131,8 +137,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
             //Login
             driver.Navigate().GoToUrl(pathLogin);
-            var tg1 = driver.FindElement(By.TagName("body"));
-            var strText = tg1.Text;
             driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tinDang.TenDangNhap);
             driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(tinDang.MatKhau + Keys.Enter);
             if (driver.Url == pathLogin)

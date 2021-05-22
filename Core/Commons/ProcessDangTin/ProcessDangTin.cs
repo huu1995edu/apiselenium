@@ -10,9 +10,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
     {
         public void dangTin(ReqTinDang reqTinDang)
         {
-            try
-            {
-                var error = "Không tìm thấy nguồn phù hợp";
+             var error = "Không tìm thấy nguồn phù hợp";
                 if (reqTinDang.Sources.ToString().IndexOf(Variables.NguonTinDang.BatDongSan.ToString()) >= 0)
                 {
                     error = null;
@@ -22,12 +20,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 {
                     throw new Exception(error);
                 }
-            }
-            catch (System.Exception ex)
-            {
-
-                throw new Exception("error - dangTin: " + ex.Message);
-            }
 
 
         }
