@@ -2,6 +2,7 @@
 using GoogleMaps.LocationServices;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -26,16 +27,18 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             {
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
-                lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                lOptions.Add("--no-sandbox");
-                lOptions.Add("--window-size=1420,1080");
-                // lOptions.Add("--headless");
-                lOptions.Add("--disable-gpu");
+                //lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
+                //lOptions.Add("--no-sandbox");
+                //lOptions.Add("--window-size=1420,1080");
+                //// lOptions.Add("--headless");
+                //lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
                 // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
-                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var chromeService = ChromeDriverService.CreateDefaultService(path);
-                driver = new ChromeDriver(chromeService, chromeOptions);
+                //path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                //var chromeService = ChromeDriverService.CreateDefaultService(path);
+                //driver = new ChromeDriver(chromeService, chromeOptions);
+                var remoteUrl = "http://localhost:4444/wd/hub";
+                driver = new RemoteWebDriver(new Uri(remoteUrl), chromeOptions);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
                 driver.Manage().Window.Maximize();
 

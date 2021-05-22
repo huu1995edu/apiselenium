@@ -12,3 +12,5 @@ docker [push/pull] huu1995edu/coreapiselenium
 docker exec -it [id] bash -> ls
 [clear cache]
 docker builder prune
+[clear all cache]
+docker system prune -a
