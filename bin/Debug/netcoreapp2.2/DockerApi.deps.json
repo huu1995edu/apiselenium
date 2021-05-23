@@ -5,13 +5,14 @@
   },
   "compilationOptions": {
     "defines": [
+      "DEBUG",
       "TRACE",
       "DEBUG",
       "NETCOREAPP",
       "NETCOREAPP2_2"
     ],
     "languageVersion": "",
-    "platform": "x86",
+    "platform": "x64",
     "allowUnsafe": false,
     "warningsAsErrors": false,
     "optimize": false,
