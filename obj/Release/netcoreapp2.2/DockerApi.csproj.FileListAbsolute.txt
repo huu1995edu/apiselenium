@@ -16,10 +16,6 @@ D:\Source\Docker\02_BDS\coreapiselenium\obj\Release\netcoreapp2.2\DockerApi.Asse
 D:\Source\Docker\02_BDS\coreapiselenium\obj\Release\netcoreapp2.2\DockerApi.RazorTargetAssemblyInfo.cache
 D:\Source\Docker\02_BDS\coreapiselenium\obj\Release\netcoreapp2.2\DockerApi.dll
 D:\Source\Docker\02_BDS\coreapiselenium\obj\Release\netcoreapp2.2\DockerApi.pdb
-D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x86\leptonica-1.80.0.dll
-D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x86\tesseract41.dll
-D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x64\leptonica-1.80.0.dll
-D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x64\tesseract41.dll
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\DockerApi.deps.json
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\DockerApi.runtimeconfig.json
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\DockerApi.runtimeconfig.dev.json

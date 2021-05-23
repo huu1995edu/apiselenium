@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Tesseract;
@@ -31,15 +32,28 @@ namespace DockerApi
         }
         public static string OCR(Pix b)
         {
-            string res = "";
-            using (var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.Default))
+            try
             {
-                engine.SetVariable("tessedit_char_whitelist", "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-                engine.SetVariable("tessedit_unrej_any_wd", true);
-                using (var page = engine.Process(b, PageSegMode.SingleLine))
-                    res = page.GetText();
+                string res = "";
+                var pathtessdata = Path.Combine(Directory.GetCurrentDirectory(), "tessdata");
+                using (var engine = new TesseractEngine(pathtessdata, "eng", EngineMode.Default))
+                {
+                    engine.SetVariable("tessedit_char_whitelist", "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+                    engine.SetVariable("tessedit_unrej_any_wd", true);
+                    using (var page = engine.Process(b, PageSegMode.SingleLine))
+                    {
+                        res = page.GetText();
+                    }
+                }
+                return res;
             }
-            return res;
+            catch (Exception ex)
+            {
+                LogWriter.LogWrite($"Không thể đọc được mã: {ex.Message}");
+                throw new Exception("Không thể đọc được mã: " + ex.Message);
+
+            }
+
         }
 
     }

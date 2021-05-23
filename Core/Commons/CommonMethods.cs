@@ -18,6 +18,21 @@ namespace DockerApi
     {
 
         #region Xử lý IWebDriver
+        public static Screenshot TakeScreenshot(IWebDriver driver)
+        {
+            try
+            {
+                Screenshot ss = ((ITakesScreenshot)driver).GetScreenshot();
+                var path = Path.Combine(Directory.GetCurrentDirectory(), @"Images\SeleniumTestingScreenshot.png");
+                ss.SaveAsFile(path, ScreenshotImageFormat.Png);
+                return ss;
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Không thể chụp lại được màn hình: " + e.Message);
+                
+            }
+        }
         /// <summary>
         /// ReadRecaptcha: Xử lý đọc recaptcha
         /// </summary>
@@ -27,49 +42,99 @@ namespace DockerApi
         /// <returns></returns>
         public static string ReadRecaptcha(IWebDriver driver, string idRecaptcha, string idReload)
         {
-            var eleReCaptcha = driver.FindElement(By.Id(idRecaptcha));
-            eleReCaptcha.Click();
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+
+            try
+            {
+                js.ExecuteScript("return document.getElementsByClassName('meshim_widget_components_chatButton_ButtonBar')[0].remove();");
+            }
+            catch (System.Exception)
+            {
+                
+            }
             var strResult = "";
-            int loop = 1000; // tronghuu95 20210325150000 xử lý an toàn nên chuyển từ while sang for
-            for (int i = 0; i < loop; i++)
+            Boolean horzscrollStatus = (Boolean)js.ExecuteScript("return document.documentElement.scrollWidth>document.documentElement.clientWidth;");
+
+            try
             {
+                var eleReCaptcha = driver.FindElement(By.Id(idRecaptcha));
                 eleReCaptcha.Click();
-                var arrScreen = ((ITakesScreenshot)driver).GetScreenshot().AsByteArray;
-                var msScreen = new MemoryStream(arrScreen);
-                Bitmap bitmap = new Bitmap(msScreen);
-                Point location = new Point(eleReCaptcha.Location.X, bitmap.Size.Height - eleReCaptcha.Size.Height);// 15 la thanh cuon
-                Bitmap bn = bitmap.Clone(new Rectangle(location, eleReCaptcha.Size), bitmap.PixelFormat);
-                bn = OCR_Recaptcha.FormatImageRecaptcha(bn);
-                Pix img = Pix.LoadFromMemory(ImageToByteArray(bn));
-                strResult = OCR_Recaptcha.OCR(img);
-                strResult = strResult.Replace("\n", "");
-                if (String.IsNullOrEmpty(strResult) || strResult.Length == 0 || strResult.Length != 4 || strResult.Contains(" "))
+                int loop = 1000; // tronghuu95 20210325150000 xử lý an toàn nên chuyển từ while sang for
+                for (int i = 0; i < loop; i++)
                 {
-                    strResult = "";
-                    var eleReloadCaptcha = driver.FindElement(By.Id(idReload));
-                    eleReloadCaptcha.Click();
+                    eleReCaptcha.Click();
+                    Screenshot ss = TakeScreenshot(driver);
+                    var arrScreen = ss.AsByteArray;
+                    var msScreen = new MemoryStream(arrScreen);
+                    Bitmap bitmap = new Bitmap(msScreen);
+                    Point location = new Point(eleReCaptcha.Location.X, bitmap.Size.Height - eleReCaptcha.Size.Height - (horzscrollStatus ? 15 : 0));// 15 la thanh cuon
+                    Bitmap bn = bitmap.Clone(new Rectangle(location, new Size(eleReCaptcha.Size.Width - 20, eleReCaptcha.Size.Height)), bitmap.PixelFormat);
+                    bn = OCR_Recaptcha.FormatImageRecaptcha(bn);
+                    var pathFormatImageRecaptcha = Path.Combine(Directory.GetCurrentDirectory(), @"Images\FormatImageRecaptcha.png");
+                    bn.Save(pathFormatImageRecaptcha);   
+                    Pix img = ConvertBitmapToPix(bn);
+                    LogWriter.LogWrite($"LoadFromMemory");
+                    strResult = OCR_Recaptcha.OCR(img);
+                    LogWriter.LogWrite($"strResult {strResult}");
+                    strResult = strResult.Replace("\n", "");
+                    if (String.IsNullOrEmpty(strResult) || strResult.Length == 0 || strResult.Length != 4 || strResult.Contains(" "))
+                    {
+                        strResult = "";
+                        var eleReloadCaptcha = driver.FindElement(By.Id(idReload));
+                        eleReloadCaptcha.Click();
+                    }
+                    if (!String.IsNullOrEmpty(strResult)) break;
                 }
-                if (!String.IsNullOrEmpty(strResult)) break;
+                if(String.IsNullOrEmpty(strResult))
+                {
+                    throw new Exception(Messages.ERR_Not_Read_Recaptch);
+                }
+                return strResult;
             }
-            if(String.IsNullOrEmpty(strResult))
+            catch (System.Exception ex)
             {
-                throw new Exception(Messages.ERR_Not_Read_Recaptch);
+                
+                throw new Exception($"errorCatch - {strResult}: {ex.Message}");
             }
-            return strResult;
+            
         }
         /// <summary>
         /// ImageToByteArray chuyển đổi Bitmap hoặc Image to ByteArray
         /// </summary>
         /// <param name="img">Là Image hoặc Bitmap</param>
         /// <returns></returns>
-        public static byte[] ImageToByteArray(Image img)
+        public static byte[] ImageToByteArray(Bitmap img)
         {
-            using (var stream = new MemoryStream())
+            try
             {
-                img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                return stream.ToArray();
+                using (var stream = new MemoryStream())
+                {
+                    img.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                    return stream.ToArray();
+                }
             }
+            catch (System.Exception ex)
+            {
+                LogWriter.LogWrite($"ImageToByteArray {ex.Message}");
+                throw new Exception($"ImageToByteArray: {ex.Message}");
+            }
+            
         }
+        public static Pix ConvertBitmapToPix(Bitmap img)
+        {
+            try
+            {
+                return Pix.LoadFromMemory(ImageToByteArray(img));
+
+            }
+            catch (System.Exception ex)
+            {
+                LogWriter.LogWrite($"BitmapToPix: {ex.Message}");
+                throw new Exception($"BitmapToPix: {ex.Message}");
+            }
+
+        }
+
         /// <summary>
         /// SetInput gán giá trị vào thẻ input
         /// </summary>
@@ -290,4 +355,5 @@ namespace DockerApi
         }
         #endregion
     }
+    
 }

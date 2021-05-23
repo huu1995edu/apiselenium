@@ -18,18 +18,19 @@ namespace DockerApi.Core.Commons.ProcessDangTin
 {
     public class ProcessDangTin_BDS
     {
+        IWebDriver driver;
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
         public void dangTin(TinDang tinDang)
         {
-            IWebDriver driver;
             var path = String.Empty;
             try
             {
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                lOptions.Add("--no-sandbox");
-                // lOptions.Add("--window-size=1420,1080");
+                // lOptions.Add("--no-sandbox");
+                lOptions.Add("--start-maximized");
+                lOptions.Add("--window-size=1366,768");
                 // // lOptions.Add("--headless");
                 // lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
@@ -39,22 +40,20 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 driver = new ChromeDriver(chromeService, chromeOptions);
                 // var remoteUrl = "http://localhost:4444";
                 // driver = new RemoteWebDriver(new Uri(remoteUrl), chromeOptions);
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 driver.Manage().Window.Maximize();
 
             }
             catch (System.Exception ex)
             {
-
+                driver.Close();
                 throw new Exception(@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
             }
-            var strSteps = 0;
             try
             {
 
                 //B1 Login
                 login(driver, tinDang);
-                strSteps++;
                 //B2 Đăng tin
                 driver.Navigate().GoToUrl(pathDangTin);
                 Thread.Sleep(500);
@@ -62,7 +61,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 Thread.Sleep(500);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
-                strSteps++;
                 CommonMethods.SelectLi(driver, "divProductType", hinhThuc);
                 Thread.Sleep(100);
                 CommonMethods.SelectLi(driver, "divProductCate", loai);
@@ -72,7 +70,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 CommonMethods.SelectLi(driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
                 Thread.Sleep(100);
                 CommonMethods.SelectLi(driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
-                strSteps++;
                 CommonMethods.SetInput(driver, "txtArea", tinDang.DienTich);
                 CommonMethods.SetInput(driver, "txtPrice", tinDang.Gia);
                 CommonMethods.SelectOptions(driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1);//set đơn vị của giá               
@@ -84,16 +81,13 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 CommonMethods.SetInput(driver, "txtLegality", tinDang.ThongTinPhapLy);
                 tinDang.DiaChi = String.IsNullOrEmpty(tinDang.DiaChi) ? driver.FindElement(By.Id("txtAddress")).GetAttribute("value") : tinDang.DiaChi;
                 CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
-                strSteps++;
                 //B3: upload load hình
                 CommonMethods.UploadImages(driver, "file", tinDang.ListHinhAnh);
                 //B4: set maps
-                strSteps++;
                 CommonMethods.SetInput(driver, "txtBrName", tinDang.TenLienHe);
                 CommonMethods.SetInput(driver, "txtBrAddress", tinDang.DiaChiLienHe);
                 CommonMethods.SetInput(driver, "txtBrEmail", tinDang.EmailLienHe);
                 CommonMethods.SelectLi(driver, "divBrMobile", tinDang.DienThoaiLienHe);
-                strSteps++;
                 if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue)
                 {
                     var tuNgay = tinDang.TuNgay.ToString("dd/MM//yy");
@@ -109,15 +103,26 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 var error = getError(driver) ?? "Bạn nhập mã an toàn không hợp lệ";
                 while (error != null && error == "Bạn nhập mã an toàn không hợp lệ")
                 {
-                    string strResult = CommonMethods.ReadRecaptcha(driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
-                    driver.FindElement(By.Id("secode")).SendKeys(strResult);
-                    driver.FindElement(By.Name("ctl00$MainContent$_userPage$ctl00$btnSave")).Click();
-                    //Bắt lỗi error lần 
-                    error = getError(driver);
+                    try
+                    {
+                        string strResult = CommonMethods.ReadRecaptcha(driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
+                        driver.FindElement(By.Id("secode")).SendKeys(strResult);
+                        driver.FindElement(By.Name("ctl00$MainContent$_userPage$ctl00$btnSave")).Click();
+                        //Bắt lỗi error lần 
+                        error = getError(driver);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        driver.Close();
+                        throw new Exception($"ReadRecaptcha: {ex.Message}");
+                    }
+                    
+
                 }
                 if (!String.IsNullOrEmpty(error))
                 {
-                    throw new Exception("error - ProcessDangTin_BDS: " + error);
+                    driver.Close();
+                    throw new Exception(error);
 
                 }
 
@@ -125,7 +130,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             catch (Exception ex)
             {
                 driver.Close();
-                throw new Exception("errorCatch - ProcessDangTin_BDS: " + strSteps + ": " + ex.Message);
+                throw new Exception(ex.Message);
 
             }
             driver.Close();
