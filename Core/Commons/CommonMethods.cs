@@ -129,7 +129,7 @@ namespace DockerApi
             }
             catch (System.Exception ex)
             {
-                LogWriter.LogWrite($"BitmapToPix: {ex.Message}");
+                LogWriter.LogWrite($"BitmapToPix: {ex.InnerException.ToString()}");
                 throw new Exception($"BitmapToPix: {ex.Message}");
             }
 
