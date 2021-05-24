@@ -2,10 +2,10 @@ using System;
 using System.IO;
 using System.Reflection;
 
-public static class LogWriter
+public static class LogSystem
         {
             private static string m_exePath = string.Empty;
-            public static void LogWrite(string logMessage)
+            public static void Write(string logMessage)
             {
                 m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 if (!File.Exists(m_exePath + "\\" + "log.txt"))
@@ -29,8 +29,7 @@ public static class LogWriter
                 {
                     txtWriter.Write("\r\nLog Entry : ");
                     txtWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),DateTime.Now.ToLongDateString());
-                    txtWriter.WriteLine("  :");
-                    txtWriter.WriteLine("  :{0}", logMessage);
+                    txtWriter.WriteLine("{0}", logMessage);
                     txtWriter.WriteLine("-------------------------------");
                 }
                 catch (System.Exception ex)

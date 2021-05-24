@@ -49,7 +49,6 @@ namespace DockerApi
             }
             catch (Exception ex)
             {
-                LogWriter.LogWrite($"Không thể đọc được mã: {ex.Message}");
                 throw new Exception("Không thể đọc được mã: " + ex.Message);
 
             }

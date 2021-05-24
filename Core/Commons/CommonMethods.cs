@@ -73,9 +73,7 @@ namespace DockerApi
                     var pathFormatImageRecaptcha = Path.Combine(Directory.GetCurrentDirectory(), @"Images\FormatImageRecaptcha.png");
                     bn.Save(pathFormatImageRecaptcha);   
                     Pix img = ConvertBitmapToPix(bn);
-                    LogWriter.LogWrite($"LoadFromMemory");
                     strResult = OCR_Recaptcha.OCR(img);
-                    LogWriter.LogWrite($"strResult {strResult}");
                     strResult = strResult.Replace("\n", "");
                     if (String.IsNullOrEmpty(strResult) || strResult.Length == 0 || strResult.Length != 4 || strResult.Contains(" "))
                     {
@@ -115,7 +113,6 @@ namespace DockerApi
             }
             catch (System.Exception ex)
             {
-                LogWriter.LogWrite($"ImageToByteArray {ex.Message}");
                 throw new Exception($"ImageToByteArray: {ex.Message}");
             }
             
@@ -129,7 +126,6 @@ namespace DockerApi
             }
             catch (System.Exception ex)
             {
-                LogWriter.LogWrite($"BitmapToPix: {ex.InnerException.ToString()}");
                 throw new Exception($"BitmapToPix: {ex.Message}");
             }
 
@@ -351,7 +347,8 @@ namespace DockerApi
            .AddJsonFile($"appsettings.{Variables.EnvironmentName}.json", optional: true)
            .AddEnvironmentVariables();
             Variables.Configuration = builder.Build();
-            Variables.SELENIUM_PATH_UPLOADS = Variables.Configuration.GetSection("AppSettings")["SELENIUM_PATH_UPLOADS"] ?? "path";
+            Variables.SELENIUM_PATH_UPLOADS = Variables.Configuration.GetSection("AppSettings")["SELENIUM_PATH_UPLOADS"] ?? "C:\\Images";
+            LogSystem.Write($"AppSettings: ${JsonConvert.SerializeObject(Variables.Configuration.GetSection("AppSettings"))}" );    
         }
         #endregion
     }

@@ -46,12 +46,11 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             }
             catch (System.Exception ex)
             {
-                driver.Close();
+                driver.Quit();
                 throw new Exception(@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
             }
             try
             {
-
                 //B1 Login
                 login(driver, tinDang);
                 //B2 Đăng tin
@@ -113,7 +112,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                     }
                     catch (System.Exception ex)
                     {
-                        driver.Close();
+                        driver.Quit();
                         throw new Exception($"ReadRecaptcha: {ex.Message}");
                     }
                     
@@ -121,7 +120,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 }
                 if (!String.IsNullOrEmpty(error))
                 {
-                    driver.Close();
+                    driver.Quit();
                     throw new Exception(error);
 
                 }
@@ -129,11 +128,11 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             }
             catch (Exception ex)
             {
-                driver.Close();
+                driver.Quit();
                 throw new Exception(ex.Message);
 
             }
-            driver.Close();
+            driver.Quit();
 
 
         }
