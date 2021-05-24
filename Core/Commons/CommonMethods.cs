@@ -264,19 +264,30 @@ namespace DockerApi
 
         public static void UploadImages(IWebDriver driver, string nameInputUpload, string strIds)
         {
-            if (string.IsNullOrEmpty(strIds)) return;
-            strIds = strIds.Replace(" ", "");
-            List<int> lIds = strIds.Split(',').Select(int.Parse).ToList();
+            string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith('\\') ? Variables.SELENIUM_PATH_UPLOADS :  Variables.SELENIUM_PATH_UPLOADS + '\\';
+            string[] filePaths = Directory.GetFiles(path);
+            if(filePaths.Length == 0) return;
             List<string> lPath = new List<string>();
-            foreach (var id in lIds)
+            List<int> lIds = new List<int>();        
+            if (string.IsNullOrEmpty(strIds))
             {
-                string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith('\\')? Variables.SELENIUM_PATH_UPLOADS :  Variables.SELENIUM_PATH_UPLOADS + '\\';
-                path = string.Format(path + "{0}.jpg", id);
-                if (File.Exists(path))
-                {
-                    lPath.Add(path);
+                lPath = strIds.Length <= Variables.SELENIUM_MAX_RAND_UPLOADS ? filePaths.ToList() : filePaths.GetListRandom(Variables.SELENIUM_MAX_RAND_UPLOADS);
+            }
+            else
+            {
+                strIds = strIds.Replace(" ", "");
+                lIds = strIds.Split(',').Select(int.Parse).ToList();
+                foreach (var id in lIds)
+                 {
+                    path = string.Format(path + "{0}.jpg", id);
+                    if (File.Exists(path))
+                    {
+                        lPath.Add(path);
+                    }
                 }
             }
+         
+            
             if (lPath.Count > 0)
             {
                 IWebElement element = driver.FindElement(By.Name(nameInputUpload));
@@ -347,7 +358,9 @@ namespace DockerApi
            .AddJsonFile($"appsettings.{Variables.EnvironmentName}.json", optional: true)
            .AddEnvironmentVariables();
             Variables.Configuration = builder.Build();
-            Variables.SELENIUM_PATH_UPLOADS = Variables.Configuration.GetSection("AppSettings")["SELENIUM_PATH_UPLOADS"] ?? "C:\\Images";
+            var appSettings = Variables.Configuration.GetSection("AppSettings");
+            Variables.SELENIUM_PATH_UPLOADS = appSettings["SELENIUM_PATH_UPLOADS"] ?? "C:\\Images";
+            Variables.SELENIUM_MAX_RAND_UPLOADS = int.Parse(appSettings["SELENIUM_MAX_RAND_UPLOADS"] ?? "3");
             LogSystem.Write($"AppSettings: ${JsonConvert.SerializeObject(Variables.Configuration.GetSection("AppSettings"))}" );    
         }
         #endregion

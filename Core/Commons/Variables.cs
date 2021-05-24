@@ -27,6 +27,8 @@ namespace DockerApi
         public static IConfiguration Configuration;
 
         public static string SELENIUM_PATH_UPLOADS = "";
+        public static int SELENIUM_MAX_RAND_UPLOADS = 3;
+
         #endregion
 
     }
