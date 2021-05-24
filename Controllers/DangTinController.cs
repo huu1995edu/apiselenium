@@ -33,9 +33,10 @@ namespace DockerApi.Controllers
         public IActionResult Post([FromBody] ReqTinDang value)
         {
             CustomResult cusRes = new CustomResult();
+            
             try
             {
-                new ProcessDangTin().dangTin(value);
+                cusRes.StrResult = new ProcessDangTin().dangTin(value);
                 cusRes.Message = Messages.SCS_001;
 
             }

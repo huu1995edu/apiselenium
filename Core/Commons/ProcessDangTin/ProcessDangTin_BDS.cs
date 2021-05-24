@@ -20,17 +20,18 @@ namespace DockerApi.Core.Commons.ProcessDangTin
     {
         IWebDriver driver;
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
-        public void dangTin(TinDang tinDang)
+        public string dangTin(TinDang tinDang)
         {
-            var path = String.Empty;
+            string link = String.Empty;
             try
             {
+                var path = String.Empty;
                 var chromeOptions = new ChromeOptions();
                 List<string> lOptions = new List<string>();
                 lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                // lOptions.Add("--no-sandbox");
+                //lOptions.Add("--no-sandbox");
                 lOptions.Add("--start-maximized");
-                lOptions.Add("--window-size=1366,768");
+                //lOptions.Add("--window-size=1366,768");
                 // // lOptions.Add("--headless");
                 // lOptions.Add("--disable-gpu");
                 chromeOptions.AddArguments(lOptions);
@@ -38,8 +39,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 var chromeService = ChromeDriverService.CreateDefaultService(path);
                 driver = new ChromeDriver(chromeService, chromeOptions);
-                // var remoteUrl = "http://localhost:4444";
-                // driver = new RemoteWebDriver(new Uri(remoteUrl), chromeOptions);
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 driver.Manage().Window.Maximize();
 
@@ -47,7 +46,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             catch (System.Exception ex)
             {
                 driver.Quit();
-                throw new Exception(@"Error - ChromeDriver: " + ex.Message + " - Path: " + path);
+                throw new Exception(@"ChromeDriver: " + ex.Message);
             }
             try
             {
@@ -55,7 +54,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 login(driver, tinDang);
                 //B2 Đăng tin
                 driver.Navigate().GoToUrl(pathDangTin);
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
                 CommonMethods.SetInput(driver, "txtProductTitle20180807", tinDang.TieuDe);
                 Thread.Sleep(500);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
@@ -112,7 +111,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                     }
                     catch (System.Exception ex)
                     {
-                        driver.Quit();
                         throw new Exception($"ReadRecaptcha: {ex.Message}");
                     }
                     
@@ -120,10 +118,16 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 }
                 if (!String.IsNullOrEmpty(error))
                 {
-                    driver.Quit();
                     throw new Exception(error);
 
                 }
+
+                var eleItem = driver.FindElement(By.Id("MainContent__userPage_ctl00_rpItems_lnkEdit_0"));
+                if(eleItem!=null){
+                    link = eleItem.GetAttribute("href")?.ToString();
+                    link = link.IndexOf("https://batdongsan.com.vn")>=0 ? link : $"https://batdongsan.com.vn{link}";
+                }
+
 
             }
             catch (Exception ex)
@@ -133,7 +137,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin
 
             }
             driver.Quit();
-
+            
+            return link;   
 
         }
         public void login(IWebDriver driver, TinDang tinDang)
@@ -147,7 +152,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
             {
                 var login_err_msgs = driver.FindElements(By.ClassName("login-err-msg"));
                 var loginerror = driver.FindElement(By.ClassName("loginerror"));
-                if (loginerror != null && loginerror.Displayed)
+                if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0)
                 {
                     throw new Exception(loginerror.Text);
                 }
@@ -155,7 +160,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin
                 {
                     foreach (var item in login_err_msgs)
                     {
-                        if (item.Displayed)
+                        if (item.Displayed && item.Text.Length > 0)
                         {
                             throw new Exception(item.Text);
                         }
