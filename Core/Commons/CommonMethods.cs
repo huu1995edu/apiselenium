@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,6 +16,23 @@ using Tesseract;
 
 namespace DockerApi {
     public static class CommonMethods {
+
+
+        public static void notifycation_tele(string message)
+        {
+            string URL = $"https://api.telegram.org/bot1823763238:AAHc6-Dn80jdakWSbSIn938ElitKy2CpdsY/sendMessage";
+            string urlParameters = $"?chat_id=-563181299&text={message}";
+
+            try
+            {
+                WebClient webclient = new WebClient();
+                webclient.DownloadString(URL + urlParameters);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
 
         #region Xử lý IWebDriver
         public static Screenshot TakeScreenshot (IWebDriver driver) {

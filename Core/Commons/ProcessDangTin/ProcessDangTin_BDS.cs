@@ -1,219 +1,236 @@
-﻿using DockerApi.Core.Entitys;
-using GoogleMaps.LocationServices;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
-using OpenQA.Selenium.Support.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using DockerApi.Core.Entitys;
+using GoogleMaps.LocationServices;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Support.UI;
 using Tesseract;
 
-namespace DockerApi.Core.Commons.ProcessDangTin
-{
-    public class ProcessDangTin_BDS
-    {
-        IWebDriver driver;
+namespace DockerApi.Core.Commons.ProcessDangTin {
+    public class ProcessDangTin_BDS {
+        IWebDriver driver = new CommonSelenium ().Init ();
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
-        public string dangTin(TinDang tinDang)
-        {
+        public string dangTin (TinDang tinDang) {
             string link = String.Empty;
-            try
-            {
-                var path = String.Empty;
-                var chromeOptions = new ChromeOptions();
-                List<string> lOptions = new List<string>();
-                lOptions.Add("--incognito"); // chạy trong trình ẩn anh 
-                //lOptions.Add("--no-sandbox");
-                lOptions.Add("--start-maximized");
-                //lOptions.Add("--window-size=1366,768");
-                // // lOptions.Add("--headless");
-                // lOptions.Add("--disable-gpu");
-                chromeOptions.AddArguments(lOptions);
-                // chromeOptions.BinaryLocation = "/opt/google/chrome/chrome";
-                path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var chromeService = ChromeDriverService.CreateDefaultService(path);
-                driver = new ChromeDriver(chromeService, chromeOptions);
-                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-                driver.Manage().Window.Maximize();
-
-            }
-            catch (System.Exception ex)
-            {
-                driver.Quit();
-                throw new Exception(@"ChromeDriver: " + ex.Message);
-            }
-            try
-            {
+            try {
                 //B1 Login
-                login(driver, tinDang);
+                login (driver, tinDang);
                 //B2 Đăng tin
-                driver.Navigate().GoToUrl(pathDangTin);
-                Thread.Sleep(1000);
-                CommonMethods.SetInput(driver, "txtProductTitle20180807", tinDang.TieuDe);
-                Thread.Sleep(500);
+                driver.Navigate ().GoToUrl (pathDangTin);
+                Thread.Sleep (1000);
+                CommonMethods.SetInput (driver, "txtProductTitle20180807", tinDang.TieuDe);
+                Thread.Sleep (500);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
-                CommonMethods.SelectLi(driver, "divProductType", hinhThuc);
-                Thread.Sleep(100);
-                CommonMethods.SelectLi(driver, "divProductCate", loai);
-                Thread.Sleep(100);
-                CommonMethods.SelectLi(driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
-                Thread.Sleep(100);
-                CommonMethods.SelectLi(driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
-                Thread.Sleep(100);
-                CommonMethods.SelectLi(driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
-                CommonMethods.SetInput(driver, "txtArea", tinDang.DienTich);
-                CommonMethods.SetInput(driver, "txtPrice", tinDang.Gia);
-                CommonMethods.SelectOptions(driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1);//set đơn vị của giá               
-                CommonMethods.SetInput(driver, "txtDescription", tinDang.MoTa);
-                CommonMethods.SetInput(driver, "txtWidth", tinDang.MatTien);
-                CommonMethods.SetInput(driver, "txtLandWidth", tinDang.DuongVao);
-                CommonMethods.SelectOptions(driver, "ddlHomeDirection", tinDang.HuongNha);
-                CommonMethods.SelectOptions(driver, "ddlHomeDirection", tinDang.HuongNha);
-                CommonMethods.SetInput(driver, "txtLegality", tinDang.ThongTinPhapLy);
-                tinDang.DiaChi = String.IsNullOrEmpty(tinDang.DiaChi) ? driver.FindElement(By.Id("txtAddress")).GetAttribute("value") : tinDang.DiaChi;
-                CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
+                CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
+                Thread.Sleep (100);
+                CommonMethods.SelectLi (driver, "divProductCate", loai);
+                Thread.Sleep (100);
+                CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
+                Thread.Sleep (100);
+                CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
+                Thread.Sleep (100);
+                CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
+                CommonMethods.SetInput (driver, "txtArea", tinDang.DienTich);
+                CommonMethods.SetInput (driver, "txtPrice", tinDang.Gia);
+                CommonMethods.SelectOptions (driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1); //set đơn vị của giá               
+                CommonMethods.SetInput (driver, "txtDescription", tinDang.MoTa);
+                CommonMethods.SetInput (driver, "txtWidth", tinDang.MatTien);
+                CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
+                CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
+                CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
+                CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
+                tinDang.DiaChi = String.IsNullOrEmpty (tinDang.DiaChi) ? driver.FindElement (By.Id ("txtAddress")).GetAttribute ("value") : tinDang.DiaChi;
+                CommonMethods.SetInput (driver, "txtAddress", tinDang.DiaChi);
                 //B3: upload load hình
-                CommonMethods.UploadImages(driver, "file", tinDang.ListHinhAnh);
+                CommonMethods.UploadImages (driver, "file", tinDang.ListHinhAnh);
                 //B4: set maps
-                CommonMethods.SetInput(driver, "txtBrName", tinDang.TenLienHe);
-                CommonMethods.SetInput(driver, "txtBrAddress", tinDang.DiaChiLienHe);
-                CommonMethods.SetInput(driver, "txtBrEmail", tinDang.EmailLienHe);
-                CommonMethods.SelectLi(driver, "divBrMobile", tinDang.DienThoaiLienHe);
-                if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue)
-                {
-                    var tuNgay = tinDang.TuNgay.ToString("dd/MM//yy");
-                    CommonMethods.SetInput(driver, "txtStartDate", tinDang.TuNgay);
+                CommonMethods.SetInput (driver, "txtBrName", tinDang.TenLienHe);
+                CommonMethods.SetInput (driver, "txtBrAddress", tinDang.DiaChiLienHe);
+                CommonMethods.SetInput (driver, "txtBrEmail", tinDang.EmailLienHe);
+                CommonMethods.SelectLi (driver, "divBrMobile", tinDang.DienThoaiLienHe);
+                if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue) {
+                    var tuNgay = tinDang.TuNgay.ToString ("dd/MM//yy");
+                    CommonMethods.SetInput (driver, "txtStartDate", tinDang.TuNgay);
 
                 }
-                if (tinDang.DenNgay != null && tinDang.DenNgay != DateTime.MinValue)
-                {
-                    var tuNgay = tinDang.DenNgay.ToString("dd/MM//yy");
-                    CommonMethods.SetInput(driver, "txtEndDate", tinDang.DenNgay);
+                if (tinDang.DenNgay != null && tinDang.DenNgay != DateTime.MinValue) {
+                    var tuNgay = tinDang.DenNgay.ToString ("dd/MM//yy");
+                    CommonMethods.SetInput (driver, "txtEndDate", tinDang.DenNgay);
 
                 }
-                var error = getError(driver) ?? "Bạn nhập mã an toàn không hợp lệ";
-                while (error != null && error == "Bạn nhập mã an toàn không hợp lệ")
-                {
-                    try
-                    {
-                        string strResult = CommonMethods.ReadRecaptcha(driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
-                        driver.FindElement(By.Id("secode")).SendKeys(strResult);
-                        driver.FindElement(By.Name("ctl00$MainContent$_userPage$ctl00$btnSave")).Click();
+                var error = getError (driver) ?? "Bạn nhập mã an toàn không hợp lệ";
+                while (error != null && error == "Bạn nhập mã an toàn không hợp lệ") {
+                    try {
+                        string strResult = CommonMethods.ReadRecaptcha (driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
+                        driver.FindElement (By.Id ("secode")).SendKeys (strResult);
+                        driver.FindElement (By.Name ("ctl00$MainContent$_userPage$ctl00$btnSave")).Click ();
                         //Bắt lỗi error lần 
-                        error = getError(driver);
+                        error = getError (driver);
+                    } catch (System.Exception ex) {
+                        throw new Exception ($"ReadRecaptcha: {ex.Message}");
                     }
-                    catch (System.Exception ex)
-                    {
-                        throw new Exception($"ReadRecaptcha: {ex.Message}");
-                    }
-                    
 
                 }
-                if (!String.IsNullOrEmpty(error))
-                {
-                    throw new Exception(error);
+                if (!String.IsNullOrEmpty (error)) {
+                    throw new Exception (error);
 
                 }
 
-                var eleItem = driver.FindElement(By.Id("MainContent__userPage_ctl00_rpItems_lnkEdit_0"));
-                if(eleItem!=null){
-                    link = eleItem.GetAttribute("href")?.ToString();
-                    link = link.IndexOf("https://batdongsan.com.vn")>=0 ? link : $"https://batdongsan.com.vn{link}";
+                var eleItem = driver.FindElement (By.Id ("MainContent__userPage_ctl00_rpItems_lnkEdit_0"));
+                if (eleItem != null) {
+                    link = eleItem.GetAttribute ("href")?.ToString ();
+                    link = link.IndexOf ("https://batdongsan.com.vn") >= 0 ? link : $"https://batdongsan.com.vn{link}";
                 }
 
+            } catch (Exception ex) {
+                driver.Quit ();
+                throw new Exception (ex.Message);
 
             }
-            catch (Exception ex)
-            {
-                driver.Quit();
-                throw new Exception(ex.Message);
+            driver.Quit ();
 
-            }
-            driver.Quit();
-            
-            return link;   
+            return link;
 
         }
-        public void login(IWebDriver driver, TinDang tinDang)
-        {
+        public void login (IWebDriver driver, TinDang tinDang) {
             string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
             //Login
-            driver.Navigate().GoToUrl(pathLogin);
-            driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tinDang.TenDangNhap);
-            driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(tinDang.MatKhau + Keys.Enter);
-            if (driver.Url == pathLogin)
-            {
-                var login_err_msgs = driver.FindElements(By.ClassName("login-err-msg"));
-                var loginerror = driver.FindElement(By.ClassName("loginerror"));
-                if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0)
-                {
-                    throw new Exception(loginerror.Text);
+            driver.Navigate ().GoToUrl (pathLogin);
+            driver.FindElement (By.Id ("MainContent__login_LoginUser_UserName")).SendKeys (tinDang.TenDangNhap);
+            driver.FindElement (By.Id ("MainContent__login_LoginUser_Password")).SendKeys (tinDang.MatKhau + Keys.Enter);
+            if (driver.Url == pathLogin) {
+                var login_err_msgs = driver.FindElements (By.ClassName ("login-err-msg"));
+                var loginerror = driver.FindElement (By.ClassName ("loginerror"));
+                if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0) {
+                    throw new Exception (loginerror.Text);
                 }
-                if (login_err_msgs != null)
-                {
-                    foreach (var item in login_err_msgs)
-                    {
-                        if (item.Displayed && item.Text.Length > 0)
-                        {
-                            throw new Exception(item.Text);
+                if (login_err_msgs != null) {
+                    foreach (var item in login_err_msgs) {
+                        if (item.Displayed && item.Text.Length > 0) {
+                            throw new Exception (item.Text);
                         }
                     }
                 }
             }
 
-
-
         }
-        public static IWebElement GetParent(IWebElement e)
-        {
-            return e.FindElement(By.XPath(".."));
+        public static IWebElement GetParent (IWebElement e) {
+            return e.FindElement (By.XPath (".."));
         }
-        public string getError(IWebDriver driver)
-        {
-            try
-            {
-                if (driver.Url == pathDangTin)
-                {
-                    var login_err_msgs = driver.FindElements(By.ClassName("errorMessage"));
-                    foreach (var item in login_err_msgs)
-                    {
-                        if (item.Displayed)
-                        {
-                            try
-                            {
-                                var lbl = GetParent(GetParent(item)).FindElement(By.TagName("label"));
-                                if (lbl != null) return String.Format("{0} {1}", lbl.Text, item.Text);
-                            }
-                            catch (Exception)
-                            {
+        public string getError (IWebDriver driver) {
+            try {
+                if (driver.Url == pathDangTin) {
+                    var login_err_msgs = driver.FindElements (By.ClassName ("errorMessage"));
+                    foreach (var item in login_err_msgs) {
+                        if (item.Displayed) {
+                            try {
+                                var lbl = GetParent (GetParent (item)).FindElement (By.TagName ("label"));
+                                if (lbl != null) return String.Format ("{0} {1}", lbl.Text, item.Text);
+                            } catch (Exception) {
 
                             }
 
                             return item.Text;
                         }
                     }
-                    var login_err_msg = driver.FindElement(By.Id("MainContent__userPage_ctl00_lblServerErrorMsg"));
-                    if (login_err_msg.Displayed)
-                    {
+                    var login_err_msg = driver.FindElement (By.Id ("MainContent__userPage_ctl00_lblServerErrorMsg"));
+                    if (login_err_msg.Displayed) {
                         return login_err_msg.Text;
                     }
                 }
-            }
-            catch (Exception)
-            {
+            } catch (Exception) {
 
             }
-
 
             return null;
         }
 
+        public void checkLinks (List<String> links) {
+            JObject ob = new JObject ();
+            String mess = String.Empty;
+            mess += "DANH SÁCH SỐ LƯỢNG LINK CHƯA ĐỖ ĐẦY TIN ĐĂNG %0A";
+
+            try
+            {
+                foreach (var link in links)
+                {
+                    var countLink = 0;
+
+                    try
+                    {
+                        driver.Navigate().GoToUrl(link);
+                        Thread.Sleep(300);
+
+                        var ewrapplinks = driver.FindElements(By.ClassName("wrap-plink"));
+                        List<String> wrapplinks = ewrapplinks.Select(item => item.GetAttribute("href")).ToList();
+
+                        foreach (var wrapplink in wrapplinks)
+                        {
+                            try
+                            {
+                                driver.Navigate().GoToUrl(wrapplink);
+                                string linkmail = driver.FindElement(By.Id("email")).GetAttribute("href");
+                                string pattern = "mailto:(.+)\\?subject(.+)";
+                                var email = Regex.Replace(linkmail, pattern, "$1").ToLower();
+                                int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(email);
+                                if (indexEmail < 0)
+                                {
+                                    countLink++;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                countLink++;
+
+                            }
+
+                        }
+
+                        if (countLink > 0)
+                        {
+                            ob[link] = $"Còn {countLink} tin đăng nữa.";
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
+                        ob[link] = ex.Message;
+                    }
+
+
+                }
+
+            }
+            catch (System.Exception ex)
+            {
+               mess += ex.Message;
+               CommonMethods.notifycation_tele(mess);
+
+            }
+            driver.Quit();
+
+
+            if (ob.HasValues)
+            {
+                foreach (var item in ob)
+                {
+                    mess += $"{item.Key}: {item.Value}%0A";
+                }
+                CommonMethods.notifycation_tele(mess);
+
+            }
+        }
     }
 }
