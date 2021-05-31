@@ -160,47 +160,67 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         public void checkLinks (List<String> links) {
             JObject ob = new JObject ();
             String mess = String.Empty;
-            mess += "DANH SÁCH SỐ LƯỢNG LINK CHƯA ĐỖ ĐẦY TIN ĐĂNG %0A";
+            mess += "DANH SÁCH TIN MỚI %0A";
 
             try
             {
                 foreach (var link in links)
                 {
-                    var countLink = 0;
+                    var listInfo = new List<String>();
 
                     try
                     {
                         driver.Navigate().GoToUrl(link);
-                        Thread.Sleep(300);
-
                         var ewrapplinks = driver.FindElements(By.ClassName("wrap-plink"));
                         List<String> wrapplinks = ewrapplinks.Select(item => item.GetAttribute("href")).ToList();
-
+                        String tenNguoiDang = String.Empty;
+                        String tenDangNhap = String.Empty;
+                        String gia = String.Empty;
+                        String dienTich = String.Empty;
+                        int index = 1;
                         foreach (var wrapplink in wrapplinks)
                         {
                             try
                             {
-                                driver.Navigate().GoToUrl(wrapplink);
-                                string linkmail = driver.FindElement(By.Id("email")).GetAttribute("href");
+                                driver.Navigate().GoToUrl(wrapplink);                                
+                                var user = CommonMethods.FindElement(driver, By.ClassName("user"));
+                                var elEmail = CommonMethods.FindElement(user, By.Id("email"));
+                                string linkmail = CommonMethods.GetText(elEmail, "href");
                                 string pattern = "mailto:(.+)\\?subject(.+)";
-                                var email = Regex.Replace(linkmail, pattern, "$1").ToLower();
-                                int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(email);
+                                var email = string.IsNullOrEmpty(linkmail)? string.Empty: Regex.Replace(linkmail, pattern, "$1")?.ToLower();
+                                var elPhone = CommonMethods.FindElement(user, By.ClassName("phoneEvent"));
+                                var phone = CommonMethods.GetText(elPhone, "raw");
+                                tenNguoiDang = user == null?String.Empty : user.FindElement(By.ClassName("name"))?.Text;
+                                var detail= driver.FindElement(By.ClassName("short-detail-wrap"));
+                                var detailLi = detail.FindElements(By.TagName("li"));
+                                if(detailLi!=null && detailLi.Count >=2)
+                                {
+                                    var elGia = CommonMethods.FindElement(detailLi[0], By.ClassName("sp2"));
+                                    gia = elGia==null? string.Empty : elGia.Text;
+                                    var elDienTich = CommonMethods.FindElement(detailLi[1], By.ClassName("sp2"));
+                                    dienTich = elDienTich==null? string.Empty : elDienTich.Text;
+                                }
+                                
+                                tenDangNhap = email??phone;
+                                int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(tenDangNhap);
                                 if (indexEmail < 0)
                                 {
-                                    countLink++;
+
+                                    listInfo.Add($"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone}");
                                 }
                             }
+
                             catch (Exception)
                             {
-                                countLink++;
+                                listInfo.Add($"+ Chưa xác định: {wrapplink}");
 
                             }
 
                         }
 
-                        if (countLink > 0)
+                        if (listInfo.Count > 0)
                         {
-                            ob[link] = $"Còn {countLink} tin đăng nữa.";
+                            ob[link] = $"Có {listInfo.Count} tin đăng mới.%0A" + string.Join( "%0A", listInfo.ToArray() );
                         }
                     }
                     catch (Exception ex)
@@ -228,7 +248,12 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 {
                     mess += $"{item.Key}: {item.Value}%0A";
                 }
-                CommonMethods.notifycation_tele(mess);
+                List<string> lMessage = CommonMethods.Split(mess, 4000);
+                foreach (var m in lMessage)
+                {
+                    CommonMethods.notifycation_tele(m);
+
+                }
 
             }
         }

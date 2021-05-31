@@ -306,6 +306,41 @@ namespace DockerApi {
             Variables.SELENIUM_MAX_RAND_UPLOADS = int.Parse (appSettings["SELENIUM_MAX_RAND_UPLOADS"] ?? "3");
             LogSystem.Write ($"AppSettings: ${JsonConvert.SerializeObject(Variables.Configuration.GetSection("AppSettings"))}");
         }
+        public static List<string> Split(string str, int chunkSize)
+        {
+            if (str.Length <= chunkSize) return new List<string> { str };
+            return Enumerable.Range(0, str.Length / chunkSize)
+                .Select(i => str.Substring(i * chunkSize, chunkSize)).ToList<string>();
+        }
+
+        public static IWebElement FindElement(dynamic web , By by)
+        {
+            try
+            {
+                return web.FindElement(by);
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return null;
+        }
+
+        public static string GetText(dynamic web , string attributeName, string def = null)
+        {
+            def = def?? string.Empty;
+            try
+            {
+                return web.GetAttribute(attributeName);
+
+            }
+            catch (Exception)
+            {
+
+            }
+            return def;
+        }
         #endregion
     }
 
