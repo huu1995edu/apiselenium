@@ -35,22 +35,23 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
                 CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
-                Thread.Sleep (100);
+                Thread.Sleep(300);
                 CommonMethods.SelectLi (driver, "divProductCate", loai);
-                Thread.Sleep (100);
+                Thread.Sleep(300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
-                Thread.Sleep (100);
+                Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
-                Thread.Sleep (100);
+                Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
+                Thread.Sleep(300);
+
                 CommonMethods.SetInput (driver, "txtArea", tinDang.DienTich);
                 CommonMethods.SetInput (driver, "txtPrice", (tinDang.Gia/1000000));
                 CommonMethods.SelectOptions (driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1); //set đơn vị của giá               
                 CommonMethods.SetInput (driver, "txtDescription", tinDang.MoTa);
                 CommonMethods.SetInput (driver, "txtWidth", tinDang.MatTien);
                 CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
-                CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
-                CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
+                if(tinDang.HuongNha!=null && tinDang.HuongNha>0) CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
                 CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
                 tinDang.DiaChi = String.IsNullOrEmpty (tinDang.DiaChi) ? driver.FindElement (By.Id ("txtAddress")).GetAttribute ("value") : tinDang.DiaChi;
                 CommonMethods.SetInput (driver, "txtAddress", tinDang.DiaChi);

@@ -243,11 +243,13 @@ namespace DockerApi {
                         });
                     }
                     if (el != null) el.Click ();
+                    return;
 
                 }
             } catch (Exception) {
-                listLi[0].Click ();
             }
+            listLi[0].Click();
+
 
         }
         /// <summary>
