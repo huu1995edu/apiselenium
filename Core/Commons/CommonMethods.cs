@@ -17,7 +17,6 @@ using Tesseract;
 
 namespace DockerApi {
     public static class CommonMethods {
-        public static string STR_YESTERDAY = string.Empty;
         public static void notifycation_tele(string message)
         {
             string URL = $"https://api.telegram.org/bot1823763238:AAHc6-Dn80jdakWSbSIn938ElitKy2CpdsY/sendMessage";
@@ -25,6 +24,7 @@ namespace DockerApi {
 
             try
             {
+
                 WebClient webclient = new WebClient();
                 webclient.DownloadString(URL + urlParameters);
             }
@@ -130,6 +130,50 @@ namespace DockerApi {
             ele.Clear ();
             ele.SendKeys (Convert.ToString (value));
         }
+
+        public static void SetDateTime_BatDongSan(IWebDriver driver, string idInput, DateTime value)
+        {
+            try
+            {
+                var ele = driver.FindElement(By.Id(idInput));
+                var valueOld = ele.GetAttribute("value").Split('/').ToList();
+                var ddOld = int.Parse(valueOld[0]);
+                var mmOld = int.Parse(valueOld[1]);
+
+                if (ele.Text == value.ToString("dd/MM/yyyy")) return;
+                ele.Click();
+                if (mmOld != value.Month)
+                {
+                    var isPrev = mmOld > value.Month;
+                    var steps = Math.Abs(mmOld - value.Month);
+                    var element = driver.FindElement(By.ClassName(isPrev ? "ui-datepicker-prev" : "i-datepicker-next"));
+                    for (int i = 0; i < steps; i++)
+                    {
+                        element.Click();
+                    }
+                }
+                if (ddOld != value.Day)
+                {
+                    var listDate = driver.FindElements(By.ClassName("ui-state-default"));
+                    foreach (var item in listDate)
+                    {
+                        var day = int.Parse(item.Text);
+                        if (value.Day == day)
+                        {
+                            item.Click();
+                        }
+                    }
+
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+           
+            //ele.Clear();
+            //ele.SendKeys(Convert.ToString(value));
+        }
         /// <summary>
         /// SelectLiByText: chọn combobox thẻ li theo text
         /// </summary>
@@ -230,29 +274,43 @@ namespace DockerApi {
         /// <param name="strIds"></param>
 
         public static void UploadImages (IWebDriver driver, string nameInputUpload, string strIds) {
-            string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith ('\\') ? Variables.SELENIUM_PATH_UPLOADS : Variables.SELENIUM_PATH_UPLOADS + '\\';
-            string[] filePaths = Directory.GetFiles (path);
-            if (filePaths.Length == 0) return;
-            List<string> lPath = new List<string> ();
-            List<int> lIds = new List<int> ();
-            if (string.IsNullOrEmpty (strIds)) {
-                lPath = strIds.Length <= Variables.SELENIUM_MAX_RAND_UPLOADS ? filePaths.ToList () : filePaths.GetListRandom (Variables.SELENIUM_MAX_RAND_UPLOADS);
-            } else {
-                strIds = strIds.Replace (" ", "");
-                lIds = strIds.Split (',').Select (int.Parse).ToList ();
-                foreach (var id in lIds) {
-                    path = string.Format (path + "{0}.jpg", id);
-                    if (File.Exists (path)) {
-                        lPath.Add (path);
+            try
+            {
+                string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith('\\') ? Variables.SELENIUM_PATH_UPLOADS : Variables.SELENIUM_PATH_UPLOADS + '\\';
+                string[] filePaths = Directory.GetFiles(path);
+                if (filePaths.Length == 0) return;
+                List<string> lPath = new List<string>();
+                List<int> lIds = new List<int>();
+                if (string.IsNullOrEmpty(strIds))
+                {
+                    lPath = filePaths.Length <= Variables.SELENIUM_MAX_RAND_UPLOADS ? filePaths.ToList() : filePaths.GetListRandom(Variables.SELENIUM_MAX_RAND_UPLOADS);
+                }
+                else
+                {
+                    strIds = strIds.Replace(" ", "");
+                    lIds = strIds.Split(',').Select(int.Parse).ToList();
+                    foreach (var id in lIds)
+                    {
+                        path = string.Format(path + "{0}.jpg", id);
+                        if (File.Exists(path))
+                        {
+                            lPath.Add(path);
+                        }
                     }
                 }
-            }
 
-            if (lPath.Count > 0) {
-                IWebElement element = driver.FindElement (By.Name (nameInputUpload));
-                element.SendKeys (String.Join ("\n ", lPath));
-                //Thread.Sleep(300); // Ngừng lại 
+                if (lPath.Count > 0)
+                {
+                    IWebElement element = driver.FindElement(By.Name(nameInputUpload));
+                    element.SendKeys(String.Join("\n ", lPath));
+                    //Thread.Sleep(300); // Ngừng lại 
+                }
             }
+            catch (Exception)
+            {
+
+            }
+           
 
         }
 
@@ -345,10 +403,10 @@ namespace DockerApi {
         public static bool IsDayNow()
         {
             string strNow = DateTime.Now.ToString("dd/MM/yyyy");
-            var isDayNow = STR_YESTERDAY == strNow;
+            var isDayNow = Variables.SELENIUM_STR_YESTERDAY  == strNow;
            if (!isDayNow)
            {
-                CommonMethods.STR_YESTERDAY = strNow;
+               Variables.SELENIUM_STR_YESTERDAY = strNow;
            }
             return isDayNow;
         }

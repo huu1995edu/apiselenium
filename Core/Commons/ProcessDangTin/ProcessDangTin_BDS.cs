@@ -28,6 +28,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 login (driver, tinDang);
                 //B2 Đăng tin
                 driver.Navigate ().GoToUrl (pathDangTin);
+               
                 Thread.Sleep (1000);
                 CommonMethods.SetInput (driver, "txtProductTitle20180807", tinDang.TieuDe);
                 Thread.Sleep (500);
@@ -43,7 +44,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 Thread.Sleep (100);
                 CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
                 CommonMethods.SetInput (driver, "txtArea", tinDang.DienTich);
-                CommonMethods.SetInput (driver, "txtPrice", tinDang.Gia);
+                CommonMethods.SetInput (driver, "txtPrice", (tinDang.Gia/1000000));
                 CommonMethods.SelectOptions (driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1); //set đơn vị của giá               
                 CommonMethods.SetInput (driver, "txtDescription", tinDang.MoTa);
                 CommonMethods.SetInput (driver, "txtWidth", tinDang.MatTien);
@@ -60,14 +61,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SetInput (driver, "txtBrAddress", tinDang.DiaChiLienHe);
                 CommonMethods.SetInput (driver, "txtBrEmail", tinDang.EmailLienHe);
                 CommonMethods.SelectLi (driver, "divBrMobile", tinDang.DienThoaiLienHe);
-                if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue) {
-                    var tuNgay = tinDang.TuNgay.ToString ("dd/MM//yy");
-                    CommonMethods.SetInput (driver, "txtStartDate", tinDang.TuNgay);
+                if (tinDang.TuNgay != null && tinDang.TuNgay != DateTime.MinValue)
+                {
+                    CommonMethods.SetDateTime_BatDongSan(driver, "txtStartDate", tinDang.TuNgay);
 
                 }
-                if (tinDang.DenNgay != null && tinDang.DenNgay != DateTime.MinValue) {
-                    var tuNgay = tinDang.DenNgay.ToString ("dd/MM//yy");
-                    CommonMethods.SetInput (driver, "txtEndDate", tinDang.DenNgay);
+                if (tinDang.DenNgay != null && tinDang.DenNgay != DateTime.MinValue)
+                {
+                    CommonMethods.SetDateTime_BatDongSan(driver, "txtEndDate", tinDang.DenNgay);
 
                 }
                 var error = getError (driver) ?? "Bạn nhập mã an toàn không hợp lệ";
@@ -264,7 +265,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 List<string> lMessage = CommonMethods.Split(mess, 4000);
                 foreach (var m in lMessage)
                 {
-                    //CommonMethods.notifycation_tele(m);
+                    CommonMethods.notifycation_tele(m);
 
                 }
 

@@ -35,7 +35,7 @@ namespace DockerApi.Controllers {
 
             } catch (Exception ex) {
 
-                cusRes.SetException (ex);
+                cusRes.SetException (ex.Message);
 
             }
             return Ok (cusRes);
@@ -71,7 +71,7 @@ namespace DockerApi.Controllers {
 
             } catch (System.Exception ex) {
 
-                cusRes.SetException (ex);
+                cusRes.SetException (ex.InnerException.ToString());
             }
             return Ok (cusRes);
 

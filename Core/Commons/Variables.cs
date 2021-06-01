@@ -63,6 +63,7 @@ namespace DockerApi {
 
         public static List<string> SELENIUM_LINKS_CHECKED = new List<string>(); // chứa ds thông tin check link
 
+        public static string SELENIUM_STR_YESTERDAY = string.Empty;
 
         #endregion
 

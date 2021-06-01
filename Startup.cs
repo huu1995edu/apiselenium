@@ -18,6 +18,7 @@ namespace DockerApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            CommonMethods.LoadSettings();
         }
 
         public IConfiguration Configuration { get; }
