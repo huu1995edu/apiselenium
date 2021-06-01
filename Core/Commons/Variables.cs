@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace DockerApi {
     public class Variables {
@@ -59,6 +60,9 @@ namespace DockerApi {
             "annguyen.bds1202@gmail.com"
         };
         public static bool SELENIUM_ALLOW_ANY_ACCOUNT = false;
+
+        public static JObject SELENIUM_INFO_CHECKLINKS = new JObject(); // chứa ds thông tin check link
+
 
         #endregion
 

@@ -76,7 +76,7 @@ namespace DockerApi.Controllers {
             return Ok (cusRes);
 
         }
-         [HttpPost ("[action]")]
+        [HttpPost ("[action]")]
         public IActionResult CheckLinks ([FromBody] JObject value) {
             CustomResult cusRes = new CustomResult ();
 
@@ -91,6 +91,27 @@ namespace DockerApi.Controllers {
 
             }
             return Ok (cusRes);
+
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult ResetNotify()
+        {
+            CustomResult cusRes = new CustomResult();
+
+            try
+            {
+                CommonMethods.ResetNotify();
+                cusRes.StrResult = "Đã làm mới thông báo";
+                cusRes.IntResult = 1;
+            }
+            catch (Exception ex)
+            {
+
+                cusRes.SetException(ex);
+
+            }
+            return Ok(cusRes);
 
         }
 

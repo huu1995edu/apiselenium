@@ -161,12 +161,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             JObject ob = new JObject ();
             String mess = String.Empty;
             mess += "DANH SÁCH TIN MỚI %0A";
-
+            if(!CommonMethods.IsDayNow())
+            {
+                Variables.SELENIUM_INFO_CHECKLINKS = new JObject();
+            }
             try
             {
                 foreach (var link in links)
                 {
-                    var listInfo = new List<String>();
 
                     try
                     {
@@ -178,10 +180,15 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         String gia = String.Empty;
                         String dienTich = String.Empty;
                         int index = 1;
+                        var obWrappLink = new JObject();
                         foreach (var wrapplink in wrapplinks)
                         {
                             try
                             {
+                                if(Variables.SELENIUM_INFO_CHECKLINKS.HasValues && Variables.SELENIUM_INFO_CHECKLINKS[wrapplink]!=null)
+                                {
+                                    continue;
+                                }
                                 driver.Navigate().GoToUrl(wrapplink);                                
                                 var user = CommonMethods.FindElement(driver, By.ClassName("user"));
                                 var elEmail = CommonMethods.FindElement(user, By.Id("email"));
@@ -206,21 +213,22 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                 if (indexEmail < 0)
                                 {
 
-                                    listInfo.Add($"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone}");
+                                    obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
+                                    Variables.SELENIUM_INFO_CHECKLINKS[wrapplink] = obWrappLink[wrapplink];
                                 }
                             }
 
                             catch (Exception)
                             {
-                                listInfo.Add($"+ Chưa xác định: {wrapplink}");
+                                obWrappLink[wrapplink] = $"+ Chưa xác định: {wrapplink}";
 
                             }
-
                         }
 
-                        if (listInfo.Count > 0)
+                        if (obWrappLink.HasValues)
                         {
-                            ob[link] = $"Có {listInfo.Count} tin đăng mới.%0A" + string.Join( "%0A", listInfo.ToArray() );
+                           
+                            ob[link] = $"Có {obWrappLink.Keys().Count} tin đăng mới.%0A" + string.Join( "%0A", obWrappLink.Values().ToList());
                         }
                     }
                     catch (Exception ex)
@@ -244,6 +252,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
             if (ob.HasValues)
             {
+                
                 foreach (var item in ob)
                 {
                     mess += $"{item.Key}: {item.Value}%0A";

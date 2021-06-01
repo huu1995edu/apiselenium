@@ -10,14 +10,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Tesseract;
 
 namespace DockerApi {
     public static class CommonMethods {
-
-
+        public static string STR_YESTERDAY = string.Empty;
         public static void notifycation_tele(string message)
         {
             string URL = $"https://api.telegram.org/bot1823763238:AAHc6-Dn80jdakWSbSIn938ElitKy2CpdsY/sendMessage";
@@ -340,6 +340,22 @@ namespace DockerApi {
 
             }
             return def;
+        }
+
+        public static bool IsDayNow()
+        {
+            string strNow = DateTime.Now.ToString("dd/MM/yyyy");
+            var isDayNow = STR_YESTERDAY == strNow;
+           if (!isDayNow)
+           {
+                CommonMethods.STR_YESTERDAY = strNow;
+           }
+            return isDayNow;
+        }
+
+        public static void ResetNotify()
+        {
+            Variables.SELENIUM_INFO_CHECKLINKS = new JObject();
         }
         #endregion
     }

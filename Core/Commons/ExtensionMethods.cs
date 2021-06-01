@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace DockerApi {
     public static class ExtensionMethods {
@@ -41,5 +42,23 @@ namespace DockerApi {
             // Return the selected items.
             return results;
         }
+
+        public static List<string> Keys (this JObject ob) {
+            List<string> lKey = new List<string>();
+            foreach (var item in ob)
+            {
+                lKey.Add(item.Key);
+            }
+            return lKey;
+        }
+
+        //public static List<T> Values<T> (this JObject ob) {
+        //    List<T> lValue = new List<T>();
+        //    foreach (var item in ob)
+        //    {
+        //        lValue.Add(item.Value.ToObject<T>());
+        //    }
+        //    return lValue;
+        //}
     }
 }
