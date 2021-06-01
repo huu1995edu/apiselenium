@@ -94,3 +94,59 @@ AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 Log Entry : 2:42:18 AM Wednesday, June 2, 2021
 AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 -------------------------------
+
+Log Entry : 3:36:03 AM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 3:36:52 AM Wednesday, June 2, 2021
+divProductType: Nhà đất bán
+-------------------------------
+
+Log Entry : 3:36:53 AM Wednesday, June 2, 2021
+divProductCate: Bán đất
+-------------------------------
+
+Log Entry : 3:37:04 AM Wednesday, June 2, 2021
+divCity: Hồ Chí Minh
+-------------------------------
+
+Log Entry : 3:37:07 AM Wednesday, June 2, 2021
+divDistrict: Nhà Bè
+-------------------------------
+
+Log Entry : 3:37:10 AM Wednesday, June 2, 2021
+divWard: Xã Phước Kiển
+-------------------------------
+
+Log Entry : 3:37:15 AM Wednesday, June 2, 2021
+divBrMobile: 0379787904
+-------------------------------
+
+Log Entry : 3:38:42 AM Wednesday, June 2, 2021
+
+-------------------------------
+
+Log Entry : 3:41:09 AM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 3:41:38 AM Wednesday, June 2, 2021
+divProductType: Nhà đất bán
+-------------------------------
+
+Log Entry : 3:41:39 AM Wednesday, June 2, 2021
+divProductCate: Bán đất
+-------------------------------
+
+Log Entry : 3:41:40 AM Wednesday, June 2, 2021
+divCity: Hồ Chí Minh
+-------------------------------
+
+Log Entry : 3:41:42 AM Wednesday, June 2, 2021
+divDistrict: Nhà Bè
+-------------------------------
+
+Log Entry : 3:41:43 AM Wednesday, June 2, 2021
+divWard: Xã Phước Kiển
+-------------------------------

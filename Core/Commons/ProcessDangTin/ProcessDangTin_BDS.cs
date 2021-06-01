@@ -39,7 +39,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
-                Thread.Sleep (300);
+                Thread.Sleep (500);
                 CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
                 Thread.Sleep(300);
 

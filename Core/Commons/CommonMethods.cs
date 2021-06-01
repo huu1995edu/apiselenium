@@ -260,18 +260,18 @@ namespace DockerApi {
                 }
             } catch (Exception ex) {
                 LogSystem.Write($"{idDrop}: {ex.InnerException.ToString()}");
-                listLi[1].Click();
 
             }
             if (el != null)
             {
                 LogSystem.Write($"{idDrop}: {el.Text}");
                 Actions action = new Actions(driver);
-                action.MoveToElement(el).Click().perform();
+                action.MoveToElement(el).Click().Perform();
             }
             else
             {
                 LogSystem.Write($"{idDrop}: Không tìm thấy");
+                if(listLi.Count >=2)
                 listLi[1].Click();
             }
 
