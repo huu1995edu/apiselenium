@@ -243,10 +243,18 @@ namespace DockerApi {
                             .Replace ("phường ", "")
                             .Replace ("xã ", "").Trim ();
                         el = listLi.SingleOrDefault (item => {
-                            var itext = item.Text.ToLower ();
+                            var itext = item.Text.ToLower().Trim();
                             return itext == ntext;
 
                         });
+                        if(el==null)
+                        {
+                            el = listLi.SingleOrDefault(item => {
+                                var itext = item.Text.ToLower().Trim();
+                                return itext.IndexOf(ntext)>=0;
+
+                            });
+                        }
                     }
                     if (el != null) {el.Click ();}
                     else
