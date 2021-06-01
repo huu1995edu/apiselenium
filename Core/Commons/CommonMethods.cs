@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 using Tesseract;
 
 namespace DockerApi {
@@ -214,22 +215,18 @@ namespace DockerApi {
             eleDrop.Click ();
             var listDrop = driver.FindElement (By.Id (idListDrop));
             var listLi = listDrop.FindElements (By.TagName ("li"));
+            dynamic el = null;
             try {
                 if (value != null && ((value.GetType () == typeof (string) && !string.IsNullOrEmpty ((string) value)) || (value.GetType () == typeof (int) && (int) value > 0))) {
-                    var el = listLi.FirstOrDefault(item => {
+                    el = listLi.FirstOrDefault(item => {
                         var vl = item.GetAttribute ("vl");
                         return vl == Convert.ToString (value);
 
                     });
-                    if (el != null) {el.Click ();}
-                    else
-                    {
-                        listLi[1].Click();
-                    }
 
                 } else {
                     text = text.ToLower ();
-                    var el = listLi.FirstOrDefault(item => {
+                    el = listLi.FirstOrDefault(item => {
                         var itext = item.Text.ToLower ();
                         return itext == text;
 
@@ -258,19 +255,25 @@ namespace DockerApi {
                         }
                     }
 
-                    if (el != null) {
-                        el.Click ();}
-                    else
-                    {
-                        listLi[1].Click();
-                    }
+                   
 
                 }
             } catch (Exception ex) {
+                LogSystem.Write($"{idDrop}: {ex.InnerException.ToString()}");
                 listLi[1].Click();
 
             }
-
+            if (el != null)
+            {
+                LogSystem.Write($"{idDrop}: {el.Text}");
+                Actions action = new Actions(driver);
+                action.MoveToElement(el).Click().perform();
+            }
+            else
+            {
+                LogSystem.Write($"{idDrop}: Không tìm thấy");
+                listLi[1].Click();
+            }
 
         }
         /// <summary>

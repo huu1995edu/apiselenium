@@ -82,6 +82,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         driver.FindElement (By.Name ("ctl00$MainContent$_userPage$ctl00$btnSave")).Click ();
                         //Bắt lỗi error lần 
                         error = getError (driver);
+                        LogSystem.Write(error);
                     } catch (System.Exception ex) {
                         throw new Exception ($"ReadRecaptcha: {ex.Message}");
                     }
