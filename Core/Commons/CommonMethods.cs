@@ -25,8 +25,8 @@ namespace DockerApi {
             try
             {
 
-                //WebClient webclient = new WebClient();
-                //webclient.DownloadString(URL + urlParameters);  
+                WebClient webclient = new WebClient();
+                webclient.DownloadString(URL + urlParameters);
             }
             catch (Exception)
             {
@@ -209,7 +209,6 @@ namespace DockerApi {
         /// <param name="idDrop"></param>
         /// <param name="value"></param>
         public static void SelectLi (IWebDriver driver, string idDrop, object value, string text = null) {
-
             string idListDrop = idDrop + "Options";
             var eleDrop = driver.FindElement (By.Id (idDrop));
             eleDrop.Click ();
@@ -225,7 +224,7 @@ namespace DockerApi {
                     if (el != null) {el.Click ();}
                     else
                     {
-                        listLi[0].Click();
+                        listLi[1].Click();
                     }
 
                 } else {
@@ -252,12 +251,12 @@ namespace DockerApi {
                     if (el != null) {el.Click ();}
                     else
                     {
-                        listLi[0].Click();
+                        listLi[1].Click();
                     }
 
                 }
             } catch (Exception) {
-                listLi[0].Click();
+                listLi[1].Click();
 
             }
 

@@ -35,9 +35,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
                 CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
-                Thread.Sleep(300);
+                Thread.Sleep(500);
                 CommonMethods.SelectLi (driver, "divProductCate", loai);
-                Thread.Sleep(300);
+                Thread.Sleep(500);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
@@ -53,8 +53,12 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
                 if(tinDang.HuongNha!=null && tinDang.HuongNha>0) CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
                 CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
-                tinDang.DiaChi = String.IsNullOrEmpty (tinDang.DiaChi) ? driver.FindElement (By.Id ("txtAddress")).GetAttribute ("value") : tinDang.DiaChi;
-                CommonMethods.SetInput (driver, "txtAddress", tinDang.DiaChi);
+                if(!String.IsNullOrEmpty(tinDang.SoNha.Trim()))
+                {
+                    tinDang.DiaChi = tinDang.SoNha+", " + driver.FindElement(By.Id("txtAddress")).GetAttribute("value");
+                    CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
+                }
+               
                 //B3: upload load hình
                 CommonMethods.UploadImages (driver, "file", tinDang.ListHinhAnh);
                 //B4: set maps
