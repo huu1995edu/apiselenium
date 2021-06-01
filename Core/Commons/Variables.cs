@@ -22,7 +22,7 @@ namespace DockerApi {
         #region "app setting"
         public static string EnvironmentName = "Development";
         public static IConfiguration Configuration;
-        public static string SELENIUM_PATH_UPLOADS = "";
+        public static string SELENIUM_PATH_UPLOADS = "C:\\Images";
         public static int SELENIUM_MAX_RAND_UPLOADS = 3;
         public static List<String> SELENIUM_ACCOUNTS = new List<String> {
             "charlienguyen.bds@gmail.com",

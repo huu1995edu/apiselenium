@@ -51,7 +51,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
                 if(tinDang.HuongNha!=null && tinDang.HuongNha>0) CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
                 CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
-                if(!String.IsNullOrEmpty(tinDang.SoNha.Trim()))
+                if(!String.IsNullOrEmpty(tinDang.SoNha))
                 {
                     tinDang.DiaChi = tinDang.SoNha+", " + driver.FindElement(By.Id("txtAddress")).GetAttribute("value");
                     CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
