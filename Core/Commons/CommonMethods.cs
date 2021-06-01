@@ -25,8 +25,8 @@ namespace DockerApi {
             try
             {
 
-                WebClient webclient = new WebClient();
-                webclient.DownloadString(URL + urlParameters);
+                //WebClient webclient = new WebClient();
+                //webclient.DownloadString(URL + urlParameters);  
             }
             catch (Exception)
             {
@@ -150,6 +150,7 @@ namespace DockerApi {
                     for (int i = 0; i < steps; i++)
                     {
                         element.Click();
+
                     }
                 }
                 if (ddOld != value.Day)
@@ -160,7 +161,9 @@ namespace DockerApi {
                         var day = int.Parse(item.Text);
                         if (value.Day == day)
                         {
-                            item.Click();
+                            var parent = item.FindElement(By.XPath("./.."));
+                            if(parent!=null) parent.Click();
+
                         }
                     }
 
@@ -219,7 +222,11 @@ namespace DockerApi {
                         return vl == Convert.ToString (value);
 
                     });
-                    if (el != null) el.Click ();
+                    if (el != null) {el.Click ();}
+                    else
+                    {
+                        listLi[0].Click();
+                    }
 
                 } else {
                     text = text.ToLower ();
@@ -242,13 +249,17 @@ namespace DockerApi {
 
                         });
                     }
-                    if (el != null) el.Click ();
-                    return;
+                    if (el != null) {el.Click ();}
+                    else
+                    {
+                        listLi[0].Click();
+                    }
 
                 }
             } catch (Exception) {
+                listLi[0].Click();
+
             }
-            listLi[0].Click();
 
 
         }
