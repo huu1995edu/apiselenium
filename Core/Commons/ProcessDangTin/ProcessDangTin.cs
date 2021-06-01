@@ -31,8 +31,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
         }
 
-        public void checkLinks (List<String> links) {
-            new ProcessDangTin_BDS ().checkLinks (links);
+        public void checkLinks (List<String> links, int top) {
+            new ProcessDangTin_BDS ().checkLinks (links, top);
         }
 
     }

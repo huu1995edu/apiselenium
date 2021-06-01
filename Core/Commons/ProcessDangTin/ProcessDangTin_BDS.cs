@@ -157,10 +157,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             return null;
         }
 
-        public void checkLinks (List<String> links) {
+        public void checkLinks (List<String> links, int top) {
             JObject ob = new JObject ();
             String mess = String.Empty;
-            mess += "DANH SÁCH TIN MỚI %0A";
+            mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
             if(!CommonMethods.IsDayNow())
             {
                 Variables.SELENIUM_INFO_CHECKLINKS = new JObject();
@@ -181,34 +181,36 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         String dienTich = String.Empty;
                         int index = 1;
                         var obWrappLink = new JObject();
-                        foreach (var wrapplink in wrapplinks)
+                        top = top <= wrapplinks.Count ? top : wrapplinks.Count;
+                        for (int i = 0; i < top; i++)
                         {
+                            var wrapplink = wrapplinks[i];
                             try
                             {
-                                if(Variables.SELENIUM_INFO_CHECKLINKS.HasValues && Variables.SELENIUM_INFO_CHECKLINKS[wrapplink]!=null)
+                                if (Variables.SELENIUM_INFO_CHECKLINKS.HasValues && Variables.SELENIUM_INFO_CHECKLINKS[wrapplink] != null)
                                 {
                                     continue;
                                 }
-                                driver.Navigate().GoToUrl(wrapplink);                                
+                                driver.Navigate().GoToUrl(wrapplink);
                                 var user = CommonMethods.FindElement(driver, By.ClassName("user"));
                                 var elEmail = CommonMethods.FindElement(user, By.Id("email"));
                                 string linkmail = CommonMethods.GetText(elEmail, "href");
                                 string pattern = "mailto:(.+)\\?subject(.+)";
-                                var email = string.IsNullOrEmpty(linkmail)? string.Empty: Regex.Replace(linkmail, pattern, "$1")?.ToLower();
+                                var email = string.IsNullOrEmpty(linkmail) ? string.Empty : Regex.Replace(linkmail, pattern, "$1")?.ToLower();
                                 var elPhone = CommonMethods.FindElement(user, By.ClassName("phoneEvent"));
                                 var phone = CommonMethods.GetText(elPhone, "raw");
-                                tenNguoiDang = user == null?String.Empty : user.FindElement(By.ClassName("name"))?.Text;
-                                var detail= driver.FindElement(By.ClassName("short-detail-wrap"));
+                                tenNguoiDang = user == null ? String.Empty : user.FindElement(By.ClassName("name"))?.Text;
+                                var detail = driver.FindElement(By.ClassName("short-detail-wrap"));
                                 var detailLi = detail.FindElements(By.TagName("li"));
-                                if(detailLi!=null && detailLi.Count >=2)
+                                if (detailLi != null && detailLi.Count >= 2)
                                 {
                                     var elGia = CommonMethods.FindElement(detailLi[0], By.ClassName("sp2"));
-                                    gia = elGia==null? string.Empty : elGia.Text;
+                                    gia = elGia == null ? string.Empty : elGia.Text;
                                     var elDienTich = CommonMethods.FindElement(detailLi[1], By.ClassName("sp2"));
-                                    dienTich = elDienTich==null? string.Empty : elDienTich.Text;
+                                    dienTich = elDienTich == null ? string.Empty : elDienTich.Text;
                                 }
-                                
-                                tenDangNhap = email??phone;
+
+                                tenDangNhap = email ?? phone;
                                 int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(tenDangNhap);
                                 if (indexEmail < 0)
                                 {
@@ -224,6 +226,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                             }
                         }
+                        
 
                         if (obWrappLink.HasValues)
                         {
