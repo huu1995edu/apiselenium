@@ -163,7 +163,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
             if(!CommonMethods.IsDayNow())
             {
-                Variables.SELENIUM_INFO_CHECKLINKS = new JObject();
+                CommonMethods.ResetNotify();
             }
             try
             {
@@ -173,6 +173,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     try
                     {
                         driver.Navigate().GoToUrl(link);
+                        Thread.Sleep(500);
                         var ewrapplinks = driver.FindElements(By.ClassName("wrap-plink"));
                         List<String> wrapplinks = ewrapplinks.Select(item => item.GetAttribute("href")).ToList();
                         String tenNguoiDang = String.Empty;
@@ -187,7 +188,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                             var wrapplink = wrapplinks[i];
                             try
                             {
-                                if (Variables.SELENIUM_INFO_CHECKLINKS.HasValues && Variables.SELENIUM_INFO_CHECKLINKS[wrapplink] != null)
+                                if (Variables.SELENIUM_LINKS_CHECKED.IndexOf(wrapplink) >=0)
                                 {
                                     continue;
                                 }
@@ -216,7 +217,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                 {
 
                                     obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
-                                    Variables.SELENIUM_INFO_CHECKLINKS[wrapplink] = obWrappLink[wrapplink];
+                                    Variables.SELENIUM_LINKS_CHECKED.Add(wrapplink);
                                 }
                             }
 
@@ -237,7 +238,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     catch (Exception ex)
                     {
 
-                        ob[link] = ex.Message;
+                        ob[link] = ex.InnerException.ToString();
                     }
 
 
@@ -246,7 +247,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             }
             catch (System.Exception ex)
             {
-               mess += ex.Message;
+               mess += ex.InnerException.ToString();
                CommonMethods.notifycation_tele(mess);
 
             }
@@ -263,7 +264,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 List<string> lMessage = CommonMethods.Split(mess, 4000);
                 foreach (var m in lMessage)
                 {
-                    CommonMethods.notifycation_tele(m);
+                    //CommonMethods.notifycation_tele(m);
 
                 }
 

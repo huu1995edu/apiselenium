@@ -61,7 +61,7 @@ namespace DockerApi {
         };
         public static bool SELENIUM_ALLOW_ANY_ACCOUNT = false;
 
-        public static JObject SELENIUM_INFO_CHECKLINKS = new JObject(); // chứa ds thông tin check link
+        public static List<string> SELENIUM_LINKS_CHECKED = new List<string>(); // chứa ds thông tin check link
 
 
         #endregion

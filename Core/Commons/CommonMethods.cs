@@ -355,7 +355,7 @@ namespace DockerApi {
 
         public static void ResetNotify()
         {
-            Variables.SELENIUM_INFO_CHECKLINKS = new JObject();
+            Variables.SELENIUM_LINKS_CHECKED = new List<string>();
         }
         #endregion
     }
