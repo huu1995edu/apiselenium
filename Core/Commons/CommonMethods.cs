@@ -216,7 +216,7 @@ namespace DockerApi {
             var listLi = listDrop.FindElements (By.TagName ("li"));
             try {
                 if (value != null && ((value.GetType () == typeof (string) && !string.IsNullOrEmpty ((string) value)) || (value.GetType () == typeof (int) && (int) value > 0))) {
-                    var el = listLi.SingleOrDefault (item => {
+                    var el = listLi.FirstOrDefault(item => {
                         var vl = item.GetAttribute ("vl");
                         return vl == Convert.ToString (value);
 
@@ -229,7 +229,7 @@ namespace DockerApi {
 
                 } else {
                     text = text.ToLower ();
-                    var el = listLi.SingleOrDefault (item => {
+                    var el = listLi.FirstOrDefault(item => {
                         var itext = item.Text.ToLower ();
                         return itext == text;
 
@@ -242,28 +242,31 @@ namespace DockerApi {
                             .Replace ("huyện ", "")
                             .Replace ("phường ", "")
                             .Replace ("xã ", "").Trim ();
-                        el = listLi.SingleOrDefault (item => {
+
+                        el = listLi.FirstOrDefault(item => {
                             var itext = item.Text.ToLower().Trim();
                             return itext == ntext;
 
                         });
                         if(el==null)
                         {
-                            el = listLi.SingleOrDefault(item => {
+                            el = listLi.FirstOrDefault(item => {
                                 var itext = item.Text.ToLower().Trim();
                                 return itext.IndexOf(ntext)>=0;
 
                             });
                         }
                     }
-                    if (el != null) {el.Click ();}
+
+                    if (el != null) {
+                        el.Click ();}
                     else
                     {
                         listLi[1].Click();
                     }
 
                 }
-            } catch (Exception) {
+            } catch (Exception ex) {
                 listLi[1].Click();
 
             }

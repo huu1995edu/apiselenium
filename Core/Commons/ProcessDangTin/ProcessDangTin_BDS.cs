@@ -28,16 +28,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 login (driver, tinDang);
                 //B2 Đăng tin
                 driver.Navigate ().GoToUrl (pathDangTin);
-               
-                Thread.Sleep (1000);
+                Thread.Sleep (1500);
                 CommonMethods.SetInput (driver, "txtProductTitle20180807", tinDang.TieuDe);
-                Thread.Sleep (500);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
                 CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
-                Thread.Sleep(500);
+                Thread.Sleep(300);
                 CommonMethods.SelectLi (driver, "divProductCate", loai);
-                Thread.Sleep(500);
+                Thread.Sleep(300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);

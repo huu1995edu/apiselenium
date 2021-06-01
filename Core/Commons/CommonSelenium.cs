@@ -22,7 +22,7 @@ namespace DockerApi
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var chromeService = ChromeDriverService.CreateDefaultService(path);
             driver = new ChromeDriver(chromeService, chromeOptions);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
             driver.Manage().Window.Maximize();
             return driver;
         }
