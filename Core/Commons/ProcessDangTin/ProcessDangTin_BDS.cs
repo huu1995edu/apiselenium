@@ -170,10 +170,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             JObject ob = new JObject ();
             String mess = String.Empty;
             mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
-            if(!CommonMethods.IsDayNow())
-            {
-                CommonMethods.ResetNotify();
-            }
+            // if(!CommonMethods.IsDayNow())
+            // {
+            //     CommonMethods.ResetNotify();
+            // }
             try
             {
                 foreach (var link in links)
