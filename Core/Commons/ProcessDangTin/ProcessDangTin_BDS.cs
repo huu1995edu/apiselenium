@@ -217,7 +217,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         var obWrappLink = new JObject();
                         top = top <= wrapplinks.Count ? top : wrapplinks.Count;
                         LogSystem.Write($"Variables.SELENIUM_LINKS_CHECKED: {string.Join(",", Variables.SELENIUM_LINKS_CHECKED)}");
-
                         for (int i = 0; i < top; i++)
                         {
                             var wrapplink = wrapplinks[i];
@@ -260,7 +259,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                 tenDangNhap = string.IsNullOrEmpty(email) ? phone : email;
                                 tenDangNhap = string.IsNullOrEmpty(tenDangNhap) ? String.Empty : tenDangNhap.ToLower();
                                 int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(tenDangNhap);
-                                LogSystem.Write($"error - wrapplink: {isExist} - {wrapplink}");
                                 if (string.IsNullOrEmpty(tenDangNhap)  || indexEmail <0)
                                 {
                                     obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
