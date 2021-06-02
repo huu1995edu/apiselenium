@@ -24,7 +24,7 @@ namespace DockerApi
             driver = new ChromeDriver(chromeService, chromeOptions);
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
             driver.Manage().Window.Maximize();
-            ((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768);");
+            
             return driver;
         }
     }
