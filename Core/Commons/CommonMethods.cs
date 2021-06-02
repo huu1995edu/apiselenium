@@ -47,6 +47,22 @@ namespace DockerApi {
 
             }
         }
+        public static void RemovePopupChat(IWebDriver driver)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+
+            try
+            {
+                Thread.Sleep(300);
+                js.ExecuteScript("const elements = document.getElementsByClassName('zopim'); while (elements.length > 0) elements[0].remove(); window.$zopim.livechat.window.hide(); return true;");
+            }
+            catch (System.Exception ex)
+            {
+                LogSystem.Write($"ReadRecaptcha: {ex.Message}");
+
+            }
+        }
+       
         /// <summary>
         /// ReadRecaptcha: Xử lý đọc recaptcha
         /// </summary>
@@ -55,16 +71,9 @@ namespace DockerApi {
         /// <param name="idReload">Id của Reload Recaptcha</param>
         /// <returns></returns>
         public static string ReadRecaptcha (IWebDriver driver, string idRecaptcha, string idReload) {
+            RemovePopupChat(driver);
             IJavaScriptExecutor js = (IJavaScriptExecutor) driver;
-
-            try {
-                js.ExecuteScript ("return document.getElementsByClassName('meshim_widget_components_chatButton_ButtonBar')[0].remove();");
-                js.ExecuteScript ("const elements = document.getElementsByClassName('zopim')[0].remove(); while (elements.length > 0) elements[0].remove(); return true  ");
-
-            } catch (System.Exception ex) {
-                LogSystem.Write($"ReadRecaptcha: {ex.InnerException.ToString() ?? ex.Message}");
-
-            }
+            
             var strResult = "";
             Boolean horzscrollStatus = (Boolean) js.ExecuteScript ("return document.documentElement.scrollWidth>document.documentElement.clientWidth;");
 
@@ -267,9 +276,28 @@ namespace DockerApi {
             }
             if (el != null)
             {
-                LogSystem.Write($"{idDrop}: {el.Text}");
-                Actions action = new Actions(driver);
-                action.MoveToElement(el).Click();
+                try
+                {
+                    LogSystem.Write($"{idDrop}: {el.Text}");
+                    try
+                    {
+                        el.Click();
+                    }
+                    catch (Exception)
+                    {
+                        Actions action = new Actions(driver);
+                        action.MoveToElement(el).Click().Perform();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    LogSystem.Write($"{idDrop}: Không tìm thấy");
+                    if (listLi.Count >= 2)
+                        listLi[1].Click();
+                }
+                
+
             }
             else
             {

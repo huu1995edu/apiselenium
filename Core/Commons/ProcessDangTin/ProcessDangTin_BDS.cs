@@ -22,22 +22,26 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         IWebDriver driver = new CommonSelenium ().Init ();
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
         public string dangTin (TinDang tinDang) {
+            
             string link = String.Empty;
             try {
                 //B1 Login
                 login (driver, tinDang);
                 //B2 Đăng tin
                 driver.Navigate ().GoToUrl (pathDangTin);
-                Thread.Sleep (1500);
+                Thread.Sleep (2000);
+                
                 CommonMethods.SetInput (driver, "txtProductTitle20180807", tinDang.TieuDe);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
                 var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
                 CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
                 Thread.Sleep(300);
+                CommonMethods.RemovePopupChat(driver);
                 CommonMethods.SelectLi (driver, "divProductCate", loai);
                 Thread.Sleep(300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
                 Thread.Sleep (300);
+                CommonMethods.RemovePopupChat(driver);
                 CommonMethods.SelectLi (driver, "divDistrict", tinDang.QuanHuyen, tinDang.TenQuanHuyen);
                 Thread.Sleep (500);
                 CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
