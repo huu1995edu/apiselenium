@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DockerApi.Core.Entitys;
+using Newtonsoft.Json.Linq;
 
 namespace DockerApi.Core.Commons.ProcessDangTin {
     public class ProcessDangTin {
@@ -33,6 +34,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
         public void checkLinks (List<String> links, int top) {
             new ProcessDangTin_BDS ().checkLinks (links, top);
+        }
+
+        public JObject getBalanceInfo (Account ac) {
+            return new ProcessDangTin_BDS ().getBalanceInfo(ac);
         }
 
     }

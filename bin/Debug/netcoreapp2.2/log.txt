@@ -479,3 +479,71 @@ divWard: Xã Phước Kiển
 Log Entry : 11:33:08 AM Wednesday, June 2, 2021
 divBrMobile: 0379787904
 -------------------------------
+
+Log Entry : 4:23:25 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:27:27 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:10:19 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:13:55 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:14:48 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:15:30 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:15:53 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:16:56 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:18:17 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:19:20 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:24:40 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:25:09 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:42:31 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:47:14 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:51:55 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:53:32 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:55:15 PM Wednesday, June 2, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------

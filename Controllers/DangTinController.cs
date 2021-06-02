@@ -117,5 +117,36 @@ namespace DockerApi.Controllers {
 
         }
 
+        [HttpPost("[action]")]
+        public IActionResult GetBalanceInfo([FromBody] JObject value)
+        {
+            CustomResult cusRes = new CustomResult();
+
+            try
+            {
+                Account ac = new Account();
+                ac.TenDangNhap = value.GetValue("TenDangNhap").ToString();
+                ac.MatKhau = value.GetValue("MatKhau").ToString();
+                if(String.IsNullOrEmpty(ac.TenDangNhap) || String.IsNullOrEmpty(ac.MatKhau))
+                {
+                    cusRes.SetException(new Exception("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
+                }
+                else
+                {
+                    cusRes.DataResult = new List<Object>{new ProcessDangTin ().getBalanceInfo(ac)};
+                    cusRes.IntResult = 1;
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+                cusRes.SetException(ex);
+
+            }
+            return Ok(cusRes);
+
+        }
+
     }
 }

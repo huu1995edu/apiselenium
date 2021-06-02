@@ -26,7 +26,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             string link = String.Empty;
             try {
                 //B1 Login
-                login (driver, tinDang);
+                login (driver, tinDang.TenDangNhap, tinDang.MatKhau);
                 //B2 Đăng tin
                 driver.Navigate ().GoToUrl (pathDangTin);
                 Thread.Sleep (2000);
@@ -113,26 +113,50 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             return link;
 
         }
-        public void login (IWebDriver driver, TinDang tinDang) {
-            string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
-            //Login
-            driver.Navigate ().GoToUrl (pathLogin);
-            driver.FindElement (By.Id ("MainContent__login_LoginUser_UserName")).SendKeys (tinDang.TenDangNhap);
-            driver.FindElement (By.Id ("MainContent__login_LoginUser_Password")).SendKeys (tinDang.MatKhau + Keys.Enter);
-            if (driver.Url == pathLogin) {
-                var login_err_msgs = driver.FindElements (By.ClassName ("login-err-msg"));
-                var loginerror = driver.FindElement (By.ClassName ("loginerror"));
-                if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0) {
-                    throw new Exception (loginerror.Text);
-                }
-                if (login_err_msgs != null) {
-                    foreach (var item in login_err_msgs) {
-                        if (item.Displayed && item.Text.Length > 0) {
-                            throw new Exception (item.Text);
+        public void login (IWebDriver driver, string tenDangNhap, string matKhau) {
+            try
+            {
+                string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
+                //Login
+                driver.Navigate().GoToUrl(pathLogin);
+                driver.FindElement(By.Id("MainContent__login_LoginUser_UserName")).SendKeys(tenDangNhap);
+                driver.FindElement(By.Id("MainContent__login_LoginUser_Password")).SendKeys(matKhau + Keys.Enter);
+                if (driver.Url == pathLogin)
+                {
+                    var loginerror = driver.FindElement(By.ClassName("loginerror"));
+                    if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0)
+                    {
+                        if (loginerror.Text == "Bạn đang sử dụng 2 tài khoản có thông tin giống nhau, vì vậy hãy chọn 1 tài khoản để tiếp tục đăng nhập.")
+                        {
+                            var etknv = driver.FindElement(By.Id("MainContent__login_lnkEmployee"));
+                            if (etknv != null)
+                            {
+                                etknv.Click();
+                                return;
+                            }
+
+                        }
+                        throw new Exception(loginerror.Text);
+                    }
+                    var login_err_msgs = driver.FindElements(By.ClassName("login-err-msg"));
+                    if (login_err_msgs != null)
+                    {
+                        foreach (var item in login_err_msgs)
+                        {
+                            if (item.Displayed && item.Text.Length > 0)
+                            {
+                                throw new Exception(item.Text);
+                            }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
 
         }
         public static IWebElement GetParent (IWebElement e) {
@@ -170,10 +194,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             JObject ob = new JObject ();
             String mess = String.Empty;
             mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
-            // if(!CommonMethods.IsDayNow())
-            // {
-            //     CommonMethods.ResetNotify();
-            // }
+            if(!CommonMethods.IsDayNow())
+            {
+                CommonMethods.ResetNotify();
+            }
             try
             {
                 foreach (var link in links)
@@ -182,7 +206,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     try
                     {
                         driver.Navigate().GoToUrl(link);
-                        Thread.Sleep(500);
+                        Thread.Sleep(300);
                         var ewrapplinks = driver.FindElements(By.ClassName("wrap-plink"));
                         List<String> wrapplinks = ewrapplinks.Select(item => item.GetAttribute("href")).ToList();
                         String tenNguoiDang = String.Empty;
@@ -192,21 +216,34 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         int index = 1;
                         var obWrappLink = new JObject();
                         top = top <= wrapplinks.Count ? top : wrapplinks.Count;
+                        LogSystem.Write($"Variables.SELENIUM_LINKS_CHECKED: {string.Join(",", Variables.SELENIUM_LINKS_CHECKED)}");
+
                         for (int i = 0; i < top; i++)
                         {
                             var wrapplink = wrapplinks[i];
+                            var isExist = Variables.SELENIUM_LINKS_CHECKED.IndexOf(wrapplink) >= 0;
+                            if (isExist)
+                            {
+                                continue;
+                            }
                             try
                             {
-                                if (Variables.SELENIUM_LINKS_CHECKED.IndexOf(wrapplink) >=0)
-                                {
-                                    continue;
-                                }
+                                
                                 driver.Navigate().GoToUrl(wrapplink);
                                 var user = CommonMethods.FindElement(driver, By.ClassName("user"));
-                                var elEmail = CommonMethods.FindElement(user, By.Id("email"));
-                                string linkmail = CommonMethods.GetText(elEmail, "href");
-                                string pattern = "mailto:(.+)\\?subject(.+)";
-                                var email = string.IsNullOrEmpty(linkmail) ? string.Empty : Regex.Replace(linkmail, pattern, "$1")?.ToLower();
+                                var email = String.Empty;
+                                try
+                                {
+                                    var elEmail = CommonMethods.FindElement(user, By.Id("email"));
+                                    string linkmail = CommonMethods.GetText(elEmail, "href");
+                                    string pattern = "mailto:(.+)\\?subject(.+)";
+                                    email = string.IsNullOrEmpty(linkmail) ? string.Empty : Regex.Replace(linkmail, pattern, "$1")?.ToLower();
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                              
                                 var elPhone = CommonMethods.FindElement(user, By.ClassName("phoneEvent"));
                                 var phone = CommonMethods.GetText(elPhone, "raw");
                                 tenNguoiDang = user == null ? String.Empty : user.FindElement(By.ClassName("name"))?.Text;
@@ -220,11 +257,12 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                     dienTich = elDienTich == null ? string.Empty : elDienTich.Text;
                                 }
 
-                                tenDangNhap = email ?? phone;
+                                tenDangNhap = string.IsNullOrEmpty(email) ? phone : email;
+                                tenDangNhap = string.IsNullOrEmpty(tenDangNhap) ? String.Empty : tenDangNhap.ToLower();
                                 int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf(tenDangNhap);
-                                if (indexEmail < 0)
+                                LogSystem.Write($"error - wrapplink: {isExist} - {wrapplink}");
+                                if (string.IsNullOrEmpty(tenDangNhap)  || indexEmail <0)
                                 {
-
                                     obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
                                     Variables.SELENIUM_LINKS_CHECKED.Add(wrapplink);
                                 }
@@ -252,32 +290,63 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
 
                 }
+                
+                if (ob.HasValues)
+                {
 
+                    foreach (var item in ob)
+                    {
+                        mess += $"{item.Key}: {item.Value}%0A";
+                    }
+                    List<string> lMessage = CommonMethods.Split(mess, 4000);
+                    foreach (var m in lMessage)
+                    {
+                        CommonMethods.notifycation_tele(m);
+
+                    }
+
+                }
             }
             catch (System.Exception ex)
             {
                mess += ex.InnerException.ToString();
+               LogSystem.Write($"checkLinks: {mess}");
                CommonMethods.notifycation_tele(mess);
 
             }
             driver.Quit();
 
 
-            if (ob.HasValues)
+          
+        }
+   
+        public JObject getBalanceInfo(Account ac)
+        {
+            JObject balanceinfo = new JObject();
+            try
             {
-                
-                foreach (var item in ob)
+                login(driver, ac.TenDangNhap, ac.MatKhau);
+                driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan/uspg-balanceinfo");
+                var ltd = driver.FindElements(By.XPath("//div[@class='balanceinfo']/table/tbody/tr/td"));
+                if(ltd != null && ltd.Count > 2)
                 {
-                    mess += $"{item.Key}: {item.Value}%0A";
+                    for (int i = 0; i < ltd.Count; i= i+2)
+                    {
+                        var key = CommonMethods.convertToUnSign(ltd[i].Text.ToLower());
+                        var value = CommonMethods.convertToUnSign(ltd[i+1].Text);
+                        balanceinfo[key] = value;
+                      
+                    }
                 }
-                List<string> lMessage = CommonMethods.Split(mess, 4000);
-                foreach (var m in lMessage)
-                {
-                    CommonMethods.notifycation_tele(m);
-
-                }
-
             }
+            catch (System.Exception)
+            {
+                throw new Exception("Không thể lấy được thông tin số dư tài khoản");
+            }
+            driver.Quit();
+            return balanceinfo;
+
+
         }
     }
 }

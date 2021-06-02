@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace DockerApi.Core.Entitys
 {
+    public class Account
+    {
+        public string TenDangNhap { get; set; }
+        public string MatKhau { get; set; }
+    }
+
     public class ReqTinDang
     {
         public Variables.NguonTinDang Sources { get; set; }
