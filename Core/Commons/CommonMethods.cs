@@ -59,8 +59,7 @@ namespace DockerApi {
 
             try {
                 js.ExecuteScript ("return document.getElementsByClassName('meshim_widget_components_chatButton_ButtonBar')[0].remove();");
-
-                js.ExecuteScript ("return document.getElementsByClassName('zopim')[0].remove();");
+                js.ExecuteScript ("const elements = document.getElementsByClassName('zopim')[0].remove(); while (elements.length > 0) elements[0].remove(); return true  ");
 
             } catch (System.Exception) {
 
