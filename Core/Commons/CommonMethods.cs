@@ -470,6 +470,7 @@ namespace DockerApi {
 
         public static void ResetNotify()
         {
+            LogSystem.Write($"ResetNotify: {Variables.SELENIUM_LINKS_CHECKED.Count} link");
             Variables.SELENIUM_LINKS_CHECKED = new List<string>();
         }
         #endregion
