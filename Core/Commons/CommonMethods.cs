@@ -252,12 +252,11 @@ namespace DockerApi {
 
                 }
             } catch (Exception ex) {
-                LogSystem.Write ($"{idDrop}: {ex.InnerException.ToString()}");
+                LogSystem.Write ($"SelectLi - {idDrop}: {ex.InnerException.ToString()}");
 
             }
             if (el != null) {
                 try {
-                    LogSystem.Write ($"{idDrop}: {el.Text}");
                     try {
                         el.Click ();
                     } catch (Exception) {
@@ -265,14 +264,13 @@ namespace DockerApi {
                         action.MoveToElement (el).Click ().Perform ();
                     }
                 } catch (Exception) {
-
-                    LogSystem.Write ($"{idDrop}: Không tìm thấy");
+                    LogSystem.Write ($"SelectLi-{idDrop}: Không tìm thấy");
                     if (listLi.Count >= 2)
                         listLi[1].Click ();
                 }
 
             } else {
-                LogSystem.Write ($"{idDrop}: Không tìm thấy");
+                    LogSystem.Write ($"SelectLi-{idDrop}: Không tìm thấy");
                 if (listLi.Count >= 2)
                     listLi[1].Click ();
             }
