@@ -339,9 +339,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     }
                 }
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
-                throw new Exception("Không thể lấy được thông tin số dư tài khoản");
+                driver.Quit();
+                throw ex;
             }
             driver.Quit();
             return balanceinfo;
