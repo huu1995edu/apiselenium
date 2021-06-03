@@ -13,7 +13,10 @@ namespace DockerApi
         /// <returns></returns>
         public static object GetValue(string key)
         {
-            return MemoryCache.Default.Get(key);
+           var value = MemoryCache.Default.Get(key);
+            LogSystem.Write($"Get key:{key} -value: {value}");
+
+            return value;
         }
 
         /// <summary>
@@ -27,6 +30,7 @@ namespace DockerApi
         {
             Delete(key);
             var absExpiration = DateTimeOffset.UtcNow.AddHours(24);
+            LogSystem.Write($"Add key:{key} -value: {string.Join(",", value)}");
             return MemoryCache.Default.Add(key, value, absExpiration);
         }
 

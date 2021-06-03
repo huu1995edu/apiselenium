@@ -183,7 +183,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             }
             var key = "SELENIUM_LINKS_CHECKED";
             List<string> SELENIUM_LINKS_CHECKED = MemoryCacheHelper.GetValue(key) as List<string>;
-            if(SELENIUM_LINKS_CHECKED!=null)
+            if(SELENIUM_LINKS_CHECKED==null)
             {
                 SELENIUM_LINKS_CHECKED = new List<string>();
             }

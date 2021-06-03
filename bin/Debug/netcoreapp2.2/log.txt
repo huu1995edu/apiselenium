@@ -707,3 +707,23 @@ SELENIUM_LINKS_CHECKED:
 Log Entry : 2:21:16 PM Thursday, June 3, 2021
 SELENIUM_LINKS_CHECKED: 
 -------------------------------
+
+Log Entry : 3:07:32 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 3:08:58 PM Thursday, June 3, 2021
+Add key:SELENIUM_LINKS_CHECKED -value: System.Collections.Generic.List`1[System.String]
+-------------------------------
+
+Log Entry : 3:08:58 PM Thursday, June 3, 2021
+Get key:SELENIUM_LINKS_CHECKED -value: System.Collections.Generic.List`1[System.String]
+-------------------------------
+
+Log Entry : 3:10:23 PM Thursday, June 3, 2021
+Add key:SELENIUM_LINKS_CHECKED -value: System.Collections.Generic.List`1[System.String]
+-------------------------------
+
+Log Entry : 3:10:34 PM Thursday, June 3, 2021
+Get key:SELENIUM_LINKS_CHECKED -value: System.Collections.Generic.List`1[System.String]
+-------------------------------
