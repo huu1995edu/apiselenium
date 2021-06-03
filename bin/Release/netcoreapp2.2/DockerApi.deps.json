@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "0a5b364c0d587bb05c8ab16c0b47b3859ce0eff8"
+    "signature": "51da39073c8c03c718c1aa0e906c391997f98845"
   },
   "compilationOptions": {
     "defines": [
@@ -35,6 +35,7 @@
           "Selenium.WebDriver": "3.141.0",
           "Selenium.WebDriver.ChromeDriver": "90.0.4430.2400",
           "System.Drawing.Common": "5.0.2",
+          "System.Runtime.Caching": "5.0.0",
           "Tesseract": "4.1.1"
         },
         "runtime": {
@@ -328,6 +329,18 @@
         }
       },
       "Selenium.WebDriver.ChromeDriver/90.0.4430.2400": {},
+      "System.Configuration.ConfigurationManager/5.0.0": {
+        "dependencies": {
+          "System.Security.Cryptography.ProtectedData": "5.0.0",
+          "System.Security.Permissions": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        }
+      },
       "System.Drawing.Common/5.0.2": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "5.0.1",
@@ -358,6 +371,109 @@
         }
       },
       "System.Reflection.Emit/4.7.0": {},
+      "System.Runtime.Caching/5.0.0": {
+        "dependencies": {
+          "System.Configuration.ConfigurationManager": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Runtime.Caching.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netstandard2.0/System.Runtime.Caching.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Runtime.Caching.dll": {}
+        }
+      },
+      "System.Security.AccessControl/5.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "5.0.1",
+          "System.Security.Principal.Windows": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Security.AccessControl.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/5.0.0": {
+        "runtime": {
+          "lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netstandard2.0/System.Security.Cryptography.ProtectedData.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        }
+      },
+      "System.Security.Permissions/5.0.0": {
+        "dependencies": {
+          "System.Security.AccessControl": "5.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Security.Permissions.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Security.Permissions.dll": {}
+        }
+      },
+      "System.Security.Principal.Windows/5.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "5.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.0/System.Security.Principal.Windows.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          },
+          "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.0.20.51904"
+          }
+        },
+        "compile": {
+          "ref/netstandard2.0/System.Security.Principal.Windows.dll": {}
+        }
+      },
       "Tesseract/4.1.1": {
         "dependencies": {
           "System.Reflection.Emit": "4.7.0"
@@ -778,7 +894,7 @@
           "Microsoft.Extensions.Options": "2.2.0",
           "Microsoft.Win32.Registry": "4.5.0",
           "System.Security.Cryptography.Xml": "4.5.0",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.DataProtection.dll": {}
@@ -941,7 +1057,7 @@
           "Microsoft.AspNetCore.Routing": "2.2.0",
           "Microsoft.AspNetCore.WebSockets": "2.2.0",
           "Newtonsoft.Json": "11.0.2",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "lib/netcoreapp2.2/Microsoft.AspNetCore.Http.Connections.dll": {}
@@ -1397,7 +1513,7 @@
           "Microsoft.AspNetCore.Hosting": "2.2.0",
           "Microsoft.Net.Http.Headers": "2.2.0",
           "Microsoft.Win32.Registry": "4.5.0",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.HttpSys.dll": {}
@@ -1410,7 +1526,7 @@
           "Microsoft.AspNetCore.Connections.Abstractions": "2.2.0",
           "Microsoft.AspNetCore.Hosting.Abstractions": "2.2.0",
           "System.IO.Pipelines": "4.5.2",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.IIS.dll": {}
@@ -1431,7 +1547,7 @@
           "System.Memory": "4.5.1",
           "System.Numerics.Vectors": "4.5.0",
           "System.Runtime.CompilerServices.Unsafe": "4.5.1",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Server.IISIntegration.dll": {}
@@ -2331,8 +2447,8 @@
       },
       "Microsoft.Win32.Registry/4.5.0": {
         "dependencies": {
-          "System.Security.AccessControl": "4.5.0",
-          "System.Security.Principal.Windows": "4.5.0"
+          "System.Security.AccessControl": "5.0.0",
+          "System.Security.Principal.Windows": "5.0.0"
         },
         "compile": {
           "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
@@ -2540,7 +2656,7 @@
       "System.Data.SqlClient/4.6.0": {
         "dependencies": {
           "Microsoft.Win32.Registry": "4.5.0",
-          "System.Security.Principal.Windows": "4.5.0",
+          "System.Security.Principal.Windows": "5.0.0",
           "System.Text.Encoding.CodePages": "4.5.0",
           "runtime.native.System.Data.SqlClient.sni": "4.5.0"
         },
@@ -3004,16 +3120,6 @@
         },
         "compileOnly": true
       },
-      "System.Security.AccessControl/4.5.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "5.0.1",
-          "System.Security.Principal.Windows": "4.5.0"
-        },
-        "compile": {
-          "ref/netstandard2.0/System.Security.AccessControl.dll": {}
-        },
-        "compileOnly": true
-      },
       "System.Security.Claims/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -3155,34 +3261,16 @@
       "System.Security.Cryptography.Xml/4.5.0": {
         "dependencies": {
           "System.Security.Cryptography.Pkcs": "4.5.0",
-          "System.Security.Permissions": "4.5.0"
+          "System.Security.Permissions": "5.0.0"
         },
         "compile": {
           "ref/netstandard2.0/System.Security.Cryptography.Xml.dll": {}
         },
         "compileOnly": true
       },
-      "System.Security.Permissions/4.5.0": {
-        "dependencies": {
-          "System.Security.AccessControl": "4.5.0"
-        },
-        "compile": {
-          "ref/netstandard2.0/System.Security.Permissions.dll": {}
-        },
-        "compileOnly": true
-      },
       "System.Security.Principal/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
-        },
-        "compileOnly": true
-      },
-      "System.Security.Principal.Windows/4.5.0": {
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "5.0.1"
-        },
-        "compile": {
-          "ref/netstandard2.0/System.Security.Principal.Windows.dll": {}
         },
         "compileOnly": true
       },
@@ -3495,6 +3583,13 @@
       "path": "selenium.webdriver.chromedriver/90.0.4430.2400",
       "hashPath": "selenium.webdriver.chromedriver.90.0.4430.2400.nupkg.sha512"
     },
+    "System.Configuration.ConfigurationManager/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aM7cbfEfVNlEEOj3DsZP+2g9NRwbkyiAv2isQEzw7pnkDg9ekCU2m1cdJLM02Uq691OaCS91tooaxcEn8d0q5w==",
+      "path": "system.configuration.configurationmanager/5.0.0",
+      "hashPath": "system.configuration.configurationmanager.5.0.0.nupkg.sha512"
+    },
     "System.Drawing.Common/5.0.2": {
       "type": "package",
       "serviceable": true,
@@ -3508,6 +3603,41 @@
       "sha512": "sha512-VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ==",
       "path": "system.reflection.emit/4.7.0",
       "hashPath": "system.reflection.emit.4.7.0.nupkg.sha512"
+    },
+    "System.Runtime.Caching/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-30D6MkO8WF9jVGWZIP0hmCN8l9BTY4LCsAzLIe4xFSXzs+AjDotR7DpSmj27pFskDURzUvqYYY0ikModgBTxWw==",
+      "path": "system.runtime.caching/5.0.0",
+      "hashPath": "system.runtime.caching.5.0.0.nupkg.sha512"
+    },
+    "System.Security.AccessControl/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dagJ1mHZO3Ani8GH0PHpPEe/oYO+rVdbQjvjJkBRNQkX4t0r1iaeGn8+/ybkSLEan3/slM0t59SVdHzuHf2jmw==",
+      "path": "system.security.accesscontrol/5.0.0",
+      "hashPath": "system.security.accesscontrol.5.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HGxMSAFAPLNoxBvSfW08vHde0F9uh7BjASwu6JF9JnXuEPhCY3YUqURn0+bQV/4UWeaqymmrHWV+Aw9riQCtCA==",
+      "path": "system.security.cryptography.protecteddata/5.0.0",
+      "hashPath": "system.security.cryptography.protecteddata.5.0.0.nupkg.sha512"
+    },
+    "System.Security.Permissions/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uE8juAhEkp7KDBCdjDIE3H9R1HJuEHqeqX8nLX9gmYKWwsqk3T5qZlPx8qle5DPKimC/Fy3AFTdV7HamgCh9qQ==",
+      "path": "system.security.permissions/5.0.0",
+      "hashPath": "system.security.permissions.5.0.0.nupkg.sha512"
+    },
+    "System.Security.Principal.Windows/5.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-t0MGLukB5WAVU9bO3MGzvlGnyJPgUlcwerXn1kzBRjwLKixT96XV0Uza41W49gVd8zEMFu9vQEFlv0IOrytICA==",
+      "path": "system.security.principal.windows/5.0.0",
+      "hashPath": "system.security.principal.windows.5.0.0.nupkg.sha512"
     },
     "Tesseract/4.1.1": {
       "type": "package",
@@ -5217,13 +5347,6 @@
       "path": "system.runtime.serialization.xml/4.3.0",
       "hashPath": "system.runtime.serialization.xml.4.3.0.nupkg.sha512"
     },
-    "System.Security.AccessControl/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-6RQtcT+TyDgLUFsAnmmdfRRGdLYKxSZGkSPOd052tvYFxOTMaQb6ANlwhGqZtNO52PosaCoXu7uatFneujAxmA==",
-      "path": "system.security.accesscontrol/4.5.0",
-      "hashPath": "system.security.accesscontrol.4.5.0.nupkg.sha512"
-    },
     "System.Security.Claims/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -5294,26 +5417,12 @@
       "path": "system.security.cryptography.xml/4.5.0",
       "hashPath": "system.security.cryptography.xml.4.5.0.nupkg.sha512"
     },
-    "System.Security.Permissions/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-O+e9qamSTJ4YOJCpnLgsf9FTGfsxJv2On1OdYkhmd/XA5AYRvUatkz7Rp3dS9XR7rhVuklnjST1dRoMK7N4cGw==",
-      "path": "system.security.permissions/4.5.0",
-      "hashPath": "system.security.permissions.4.5.0.nupkg.sha512"
-    },
     "System.Security.Principal/4.3.0": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-I1tkfQlAoMM2URscUtpcRo/hX0jinXx6a/KUtEQoz3owaYwl3qwsO8cbzYVVnjxrzxjHo3nJC+62uolgeGIS9A==",
       "path": "system.security.principal/4.3.0",
       "hashPath": "system.security.principal.4.3.0.nupkg.sha512"
-    },
-    "System.Security.Principal.Windows/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-WA9ETb/pY3BjnxKjBUHEgO59B7d/nnmjHFsqjJ2eDT780nD769CT1/bw2ia0Z6W7NqlcqokE6sKGKa6uw88XGA==",
-      "path": "system.security.principal.windows/4.5.0",
-      "hashPath": "system.security.principal.windows.4.5.0.nupkg.sha512"
     },
     "System.Text.Encoding/4.3.0": {
       "type": "package",

@@ -547,3 +547,163 @@ AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 Log Entry : 10:55:15 PM Wednesday, June 2, 2021
 AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 -------------------------------
+
+Log Entry : 12:54:50 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:56:42 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:57:14 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:58:41 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:58:54 PM Thursday, June 3, 2021
+Variables.SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 12:58:54 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/chu-ket-tien-can-ban-day-tro-goc-2-mat-tien-kien-1622m-co-300-tho-cu-gia-65-ty-pr29766603
+-------------------------------
+
+Log Entry : 12:58:57 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/can-ban-gap-lo-mat-tien-gia-28tr-m2-dt-7x-43-pr26679863
+-------------------------------
+
+Log Entry : 12:58:59 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/ban-hem-3-ap-4-nha-be-dt-ngang-9x-12-5-gia-5-5-ty-tl-pr29493703
+-------------------------------
+
+Log Entry : 12:59:02 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng-prj-dao-su-tich-residence/chu-dang-can-ban-nen-gia-54tr-m2-16m-kdc-nha-be-lh-0901852572-pr29831549
+-------------------------------
+
+Log Entry : 12:59:04 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/can-ban-gap-lo-mat-tien-gia-28tr-m2-dt-7x43m-lh-0901852572-pr29869471
+-------------------------------
+
+Log Entry : 12:59:07 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/ban-mat-tien-hem-10m-kien-gia-34-5-tr-m2-pr27384706
+-------------------------------
+
+Log Entry : 12:59:09 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/gia-tot-mt-nha-b-gia-30tr-m2-dt-2286m2-lo-goc-mua-lam-xuong-rat-hop-ly-pr30091050
+-------------------------------
+
+Log Entry : 12:59:11 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/-goc-2-mt-kien-ngay-truong-le-thanh-cong-dt-19m-85m-1622m2-gia-70ty-pr30090620
+-------------------------------
+
+Log Entry : 12:59:13 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/can-ban-lo-mt-gan-ttyt-137m2-tho-cu-gia-6-8-ty-pr29412229
+-------------------------------
+
+Log Entry : 12:59:16 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/can-ban-mat-tien-90m2-huyen-nha-be-pr29726262
+-------------------------------
+
+Log Entry : 12:59:18 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/ban-mt-trung-tam-nha-be-gia-re-nhat-thi-truong-pr28140381
+-------------------------------
+
+Log Entry : 1:00:01 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/lo-duy-nhat-hxh-dt-5-4x15m-nha-dep-vi-tri-dac-dia-gia-tot-nhat-thi-truong-hien-na-pr29559183
+-------------------------------
+
+Log Entry : 1:00:03 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/-dep-mat-tien-kien-dt-10x20m-vuong-vuc-khong-lo-gioi-ngay-cau-moi-dang-xay-pr25335238
+-------------------------------
+
+Log Entry : 1:00:05 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/ban-gap-ngay-lo-mt-nha-be-gia-50trieu-m2-pr30066175
+-------------------------------
+
+Log Entry : 1:00:07 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-76/ban-kdc-phuoc-kien-lo-goc-16m-95m2-pr26980052
+-------------------------------
+
+Log Entry : 1:00:10 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/ban-lo-goc-gia-40tr-090909-70-38-pr28088951
+-------------------------------
+
+Log Entry : 1:00:13 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/gia-dau-tu-mat-tien-gan-truong-dh-pham-tdtt-dh-tai-nguyen-moi-truong-pr29068276
+-------------------------------
+
+Log Entry : 1:00:16 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/can-ban-goc-mat-tien-kien-1622m-co-300m-tho-cu-gia-63-ty-pr30055439
+-------------------------------
+
+Log Entry : 1:00:18 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-loc-3/can-ban-mt-nha-be-gia-52tr-m2-pr30046403
+-------------------------------
+
+Log Entry : 1:00:20 PM Thursday, June 3, 2021
+isExist: False - wrapplink: https://batdongsan.com.vn/ban-dat-duong-dao-su-tich-xa-phuoc-kieng/ban-lon-tho-cu-mat-tien-kien-gia-45tr-m2-lh-0911199399-pr29334478
+-------------------------------
+
+Log Entry : 1:55:51 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:56:15 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:57:15 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 1:57:58 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:00:14 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:07:26 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 2:09:18 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 2:09:38 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:15:19 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 2:16:34 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 2:16:59 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:18:26 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:20:25 PM Thursday, June 3, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 2:20:40 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------
+
+Log Entry : 2:21:16 PM Thursday, June 3, 2021
+SELENIUM_LINKS_CHECKED: 
+-------------------------------

@@ -90,6 +90,10 @@
               "target": "Package",
               "version": "[5.0.2, )"
             },
+            "System.Runtime.Caching": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Tesseract": {
               "target": "Package",
               "version": "[4.1.1, )"

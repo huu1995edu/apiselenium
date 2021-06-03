@@ -417,8 +417,7 @@ namespace DockerApi {
         }
 
         public static void ResetNotify () {
-            LogSystem.Write ($"ResetNotify: {Variables.SELENIUM_LINKS_CHECKED.Count} link");
-            Variables.SELENIUM_LINKS_CHECKED = new List<string> ();
+            MemoryCacheHelper.Add("SELENIUM_LINKS_CHECKED", new List<string>() { "A", "B", "C" });
         }
 
         public static string convertToUnSign(string s) {

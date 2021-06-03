@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace DockerApi {
+    
     public static class Variables {
         public enum NguonTinDang : int {
             BatDongSan = 1,
@@ -60,8 +61,6 @@ namespace DockerApi {
             "annguyen.bds1202@gmail.com"
         };
         public static bool SELENIUM_ALLOW_ANY_ACCOUNT = false;
-        public static List<string> SELENIUM_LINKS_CHECKED = new List<string>(); // chứa ds thông tin check link
-
         public static string SELENIUM_STR_YESTERDAY = string.Empty;
 
         #endregion
