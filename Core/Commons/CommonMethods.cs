@@ -417,7 +417,7 @@ namespace DockerApi {
         }
 
         public static void ResetNotify () {
-            MemoryCacheHelper.Add("SELENIUM_LINKS_CHECKED", new List<string>() { "A", "B", "C" });
+            DataMasterHelper.setLinkChecked(new List<string>());
         }
 
         public static string convertToUnSign(string s) {

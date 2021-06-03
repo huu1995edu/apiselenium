@@ -63,8 +63,8 @@ namespace DockerApi.Controllers {
                 }
                 else
                 {
-                    Variables.SELENIUM_ACCOUNTS = accounts ?? Variables.SELENIUM_ACCOUNTS;
-                    Variables.SELENIUM_ACCOUNTS = Variables.SELENIUM_ACCOUNTS.Select(x => x.ToLower()).ToList();
+                    var acc = DataMasterHelper.getAccounts();
+                    DataMasterHelper.setAccounts(accounts ?? acc);
                     Variables.SELENIUM_ALLOW_ANY_ACCOUNT = str_allow_any!=null? bool.Parse(str_allow_any) : Variables.SELENIUM_ALLOW_ANY_ACCOUNT;
                     cusRes.IntResult = 1;
                 }                

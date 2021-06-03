@@ -177,15 +177,16 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         }
 
         public void checkLinks (List<String> links, int top) {
-            if (!CommonMethods.IsDayNow())
+            //if (!CommonMethods.IsDayNow())
+            //{
+            //    CommonMethods.ResetNotify();
+            //}
+            List<string> listLinkChecked = DataMasterHelper.getLinkChecked();
+            List<string> listAccounts = DataMasterHelper.getAccounts();
+
+            if (listLinkChecked==null)
             {
-                CommonMethods.ResetNotify();
-            }
-            var key = "SELENIUM_LINKS_CHECKED";
-            List<string> SELENIUM_LINKS_CHECKED = MemoryCacheHelper.GetValue(key) as List<string>;
-            if(SELENIUM_LINKS_CHECKED==null)
-            {
-                SELENIUM_LINKS_CHECKED = new List<string>();
+                listLinkChecked = new List<string>();
             }
             JObject ob = new JObject ();
             String mess = String.Empty;
@@ -208,14 +209,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         top = top <= wrapplinks.Count ? top : wrapplinks.Count;
                         for (int i = 0; i < top; i++) {
                             var wrapplink = wrapplinks[i];
-                            var isExist = SELENIUM_LINKS_CHECKED.IndexOf (wrapplink) >= 0;
+                            var isExist = listLinkChecked.IndexOf (wrapplink) >= 0;
                             if (!isExist) {
                                 try {
                                     driver.Navigate ().GoToUrl (wrapplink);
                                     var user = CommonMethods.FindElement (driver, By.ClassName ("user"));
-                                    var email = String.Empty;
+                                    var elEmail = CommonMethods.FindElement(user, By.XPath("//div[contains(@class,'mail')]/a[@id='email']"));
+                                    var email = string.Empty;
                                     try {
-                                        var elEmail = CommonMethods.FindElement (user, By.Id ("email"));
                                         string linkmail = CommonMethods.GetText (elEmail, "href");
                                         string pattern = "mailto:(.+)\\?subject(.+)";
                                         email = string.IsNullOrEmpty (linkmail) ? string.Empty : Regex.Replace (linkmail, pattern, "$1")?.ToLower ();
@@ -223,7 +224,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                                     }
 
-                                    var elPhone = CommonMethods.FindElement (user, By.ClassName ("phoneEvent"));
+                                    var elPhone = CommonMethods.FindElement (user, By.XPath("//div[contains(@class,'phone')]/span[@class='phoneEvent']"));
                                     var phone = CommonMethods.GetText (elPhone, "raw");
                                     tenNguoiDang = user == null ? String.Empty : user.FindElement (By.ClassName ("name"))?.Text;
                                     var detail = driver.FindElement (By.ClassName ("short-detail-wrap"));
@@ -237,10 +238,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                                     tenDangNhap = string.IsNullOrEmpty (email) ? phone : email;
                                     tenDangNhap = string.IsNullOrEmpty (tenDangNhap) ? String.Empty : tenDangNhap.ToLower ();
-                                    int indexEmail = Variables.SELENIUM_ACCOUNTS.IndexOf (tenDangNhap);
+                                    int indexEmail = listAccounts.IndexOf (tenDangNhap);
                                     if (string.IsNullOrEmpty (tenDangNhap) || indexEmail < 0) {
                                         obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
-                                        SELENIUM_LINKS_CHECKED.Add (wrapplink);
+                                        listLinkChecked.Add (wrapplink);
                                     }
                                 } catch (Exception) {
                                     obWrappLink[wrapplink] = $"+ Chưa xác định: {wrapplink}";
@@ -261,8 +262,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 }
 
                 if (ob.HasValues) {
-                    MemoryCacheHelper.Add(key, SELENIUM_LINKS_CHECKED.ToList<string>());
-                    
+                    DataMasterHelper.setLinkChecked(listLinkChecked);
                     foreach (var item in ob) {
                         mess += $"{item.Key}: {item.Value}%0A";
                     }

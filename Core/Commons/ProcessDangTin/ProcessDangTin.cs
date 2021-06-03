@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 namespace DockerApi.Core.Commons.ProcessDangTin {
     public class ProcessDangTin {
         public string dangTin (ReqTinDang reqTinDang) {
-            var indexaccount = Variables.SELENIUM_ACCOUNTS.IndexOf(reqTinDang.Data.TenDangNhap.ToLower());
+            var indexaccount = DataMasterHelper.getAccounts().IndexOf(reqTinDang.Data.TenDangNhap.ToLower());
             if (indexaccount < 0) {
                 if (!Variables.SELENIUM_ALLOW_ANY_ACCOUNT) {
                     string er = $"Tài khoản {reqTinDang.Data.TenDangNhap} không thể đăng tin do không nằm trong danh sách tài khoản cho phép";

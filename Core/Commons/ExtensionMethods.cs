@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace DockerApi {
@@ -52,13 +53,10 @@ namespace DockerApi {
             return lKey;
         }
 
-        //public static List<T> Values<T> (this JObject ob) {
-        //    List<T> lValue = new List<T>();
-        //    foreach (var item in ob)
-        //    {
-        //        lValue.Add(item.Value.ToObject<T>());
-        //    }
-        //    return lValue;
-        //}
+        public static string ToStrJson(this object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
     }
 }

@@ -25,7 +25,7 @@ namespace DockerApi {
         public static IConfiguration Configuration;
         public static string SELENIUM_PATH_UPLOADS = "C:\\Images";
         public static int SELENIUM_MAX_RAND_UPLOADS = 3;
-        public static List<String> SELENIUM_ACCOUNTS = new List<String> {
+        public static List<String> SELENIUM_ACCOUNTS_DEFAULT = new List<String> {
             "charlienguyen.bds@gmail.com",
             "jackiehoang.bds@gmail.com",
             "johnnynguyen.bds@gmail.com",
