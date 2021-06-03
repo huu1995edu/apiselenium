@@ -268,7 +268,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     }
                     List<string> lMessage = CommonMethods.Split (mess, 4000);
                     foreach (var m in lMessage) {
-                        //CommonMethods.notifycation_tele(m);
+                        CommonMethods.notifycation_tele(m);
 
                     }
 
