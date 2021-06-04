@@ -181,17 +181,16 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             //{
             //    CommonMethods.ResetNotify();
             //}
-            List<string> listLinkChecked = DataMasterHelper.getLinkChecked();
-            List<string> listAccounts = DataMasterHelper.getAccounts();
+            List<string> listLinkChecked = DataMasterHelper.getLinkChecked ();
+            List<string> listAccounts = DataMasterHelper.getAccounts ();
 
-            if (listLinkChecked==null)
-            {
-                listLinkChecked = new List<string>();
+            if (listLinkChecked == null) {
+                listLinkChecked = new List<string> ();
             }
             JObject ob = new JObject ();
             String mess = String.Empty;
             mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
-            
+
             try {
                 foreach (var link in links) {
 
@@ -204,6 +203,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         String tenDangNhap = String.Empty;
                         String gia = String.Empty;
                         String dienTich = String.Empty;
+                        String email = string.Empty;
+                        String phone = string.Empty;
                         int index = 1;
                         var obWrappLink = new JObject ();
                         top = top <= wrapplinks.Count ? top : wrapplinks.Count;
@@ -213,20 +214,23 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                             if (!isExist) {
                                 try {
                                     driver.Navigate ().GoToUrl (wrapplink);
-                                    var user = CommonMethods.FindElement (driver, By.ClassName ("user"));
-                                    var elEmail = CommonMethods.FindElement(user, By.XPath("//div[contains(@class,'mail')]/a[@id='email']"));
-                                    var email = string.Empty;
-                                    try {
-                                        string linkmail = CommonMethods.GetText (elEmail, "href");
-                                        string pattern = "mailto:(.+)\\?subject(.+)";
-                                        email = string.IsNullOrEmpty (linkmail) ? string.Empty : Regex.Replace (linkmail, pattern, "$1")?.ToLower ();
-                                    } catch (Exception) {
+                                    var user = driver.FindElements (By.XPath ("//div[@class = 'user']/div"));
+                                    foreach (var elDiv in user) {
+                                        var cl = elDiv.GetAttribute ("class");
 
+                                        switch (cl) {
+                                            case "mail":
+                                                string pattern = "mailto:(.+)\\?subject(.+)";
+                                                email = Regex.Replace (CommonMethods.FindElement (elDiv, By.TagName ("a"))?.GetAttribute ("href"), pattern, "$1")?.ToLower ();
+                                                break;
+                                            case "phone text-center":
+                                                phone = CommonMethods.FindElement (elDiv, By.TagName ("span"))?.GetAttribute ("raw");
+                                                break;
+                                            case "name":
+                                                tenNguoiDang = elDiv.GetAttribute ("title");
+                                                break;
+                                        }
                                     }
-
-                                    var elPhone = CommonMethods.FindElement (user, By.XPath("//div[contains(@class,'phone')]/span[@class='phoneEvent']"));
-                                    var phone = CommonMethods.GetText (elPhone, "raw");
-                                    tenNguoiDang = user == null ? String.Empty : user.FindElement (By.ClassName ("name"))?.Text;
                                     var detail = driver.FindElement (By.ClassName ("short-detail-wrap"));
                                     var detailLi = detail.FindElements (By.TagName ("li"));
                                     if (detailLi != null && detailLi.Count >= 2) {
@@ -237,20 +241,19 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                     }
 
                                     tenDangNhap = string.IsNullOrEmpty (email) ? phone : email;
-                                    tenDangNhap = string.IsNullOrEmpty (tenDangNhap) ? String.Empty : tenDangNhap.ToLower ();
                                     int indexEmail = listAccounts.IndexOf (tenDangNhap);
                                     if (string.IsNullOrEmpty (tenDangNhap) || indexEmail < 0) {
                                         obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
                                         listLinkChecked.Add (wrapplink);
                                     }
-                                } catch (Exception) {
+                                } catch (Exception ex) {
                                     obWrappLink[wrapplink] = $"+ Chưa xác định: {wrapplink}";
 
                                 }
                             }
 
                         }
-                        
+
                         if (obWrappLink.HasValues) {
                             ob[link] = $"Có {obWrappLink.Keys().Count} tin đăng mới.%0A" + string.Join ("%0A", obWrappLink.Values ().ToList ());
                         }
@@ -262,13 +265,13 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 }
 
                 if (ob.HasValues) {
-                    DataMasterHelper.setLinkChecked(listLinkChecked);
+                    DataMasterHelper.setLinkChecked (listLinkChecked);
                     foreach (var item in ob) {
                         mess += $"{item.Key}: {item.Value}%0A";
                     }
                     List<string> lMessage = CommonMethods.Split (mess, 4000);
                     foreach (var m in lMessage) {
-                        CommonMethods.notifycation_tele(m);
+                        //CommonMethods.notifycation_tele(m);
 
                     }
 
@@ -303,6 +306,58 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             }
             driver.Quit ();
             return balanceinfo;
+
+        }
+
+        public JObject getStatusLink (Account ac, String id) {
+            JObject info = new JObject ();
+            try {
+                login (driver, ac.TenDangNhap, ac.MatKhau);
+                driver.Navigate ().GoToUrl ("https://batdongsan.com.vn/trang-ca-nhan");
+                var ltr = driver.FindElements (By.XPath ("//table[@class='tbl']/tbody/tr"));
+                string status = String.Empty;
+                string linkXem = String.Empty;
+
+                if (ltr != null && ltr.Count > 2) {
+
+                    for (int i = 1; i < ltr.Count; ++i) {
+                        var tr = ltr[i];
+                        var ltd = tr.FindElements (By.TagName ("td"));
+                        if (ltd != null && ltd.Count > 3) {
+                            var elMa = ltd[1];
+                            var textMa = elMa.GetAttribute("innerText");
+                            var elTieuDe = ltd[2];
+                            var t = elTieuDe.GetAttribute("innerText");
+                            var maTin = elMa.FindElement (By.TagName ("div"))?.Text;
+                            if (maTin == id) {
+                                status = textMa.Replace (maTin, "").Trim ();
+                                var tagas = elTieuDe.FindElement(By.TagName("div"))?.FindElements(By.TagName("a"));
+                                for (int y = 0; y < tagas.Count; ++y) {
+                                    var txt = CommonMethods.convertToUnSign(tagas[y]?.Text);
+                                    switch (txt) {
+                                        case "Xem":
+                                            linkXem = tagas[y].GetAttribute ("href");
+                                            break;                                       
+                                    }
+                                }
+                                continue;
+                            }
+
+                        }
+                        if(!string.IsNullOrEmpty(status))
+                        {
+                            info["id"] = id;
+                            info["trang-thai"] = status;
+                            info["linh-xem"] = linkXem;
+                        }
+                    }
+                }
+            } catch (System.Exception ex) {
+                driver.Quit ();
+                throw ex;
+            }
+            driver.Quit ();
+            return info;
 
         }
     }

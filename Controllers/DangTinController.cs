@@ -54,35 +54,33 @@ namespace DockerApi.Controllers {
         public IActionResult Settings ([FromBody] JObject value) {
             CustomResult cusRes = new CustomResult ();
             try {
-                List<string> accounts = value.GetValue("accounts")?.Values<string>()?.ToList<String>();
-                string str_allow_any = value.GetValue("allow_any")?.ToString();
-                if (accounts == null && str_allow_any == null)
-                {
-                    cusRes.SetException(new Exception($"Bạn chưa nhập thông tin: List<string> accounts || bool allow_any"));
+                List<string> accounts = value.GetValue ("accounts")?.Values<string> ()?.ToList<String> ();
+                string str_allow_any = value.GetValue ("allow_any")?.ToString ();
+                if (accounts == null && str_allow_any == null) {
+                    cusRes.SetException (new Exception ($"Bạn chưa nhập thông tin: List<string> accounts || bool allow_any"));
 
-                }
-                else
-                {
-                    var acc = DataMasterHelper.getAccounts();
-                    DataMasterHelper.setAccounts(accounts ?? acc);
-                    Variables.SELENIUM_ALLOW_ANY_ACCOUNT = str_allow_any!=null? bool.Parse(str_allow_any) : Variables.SELENIUM_ALLOW_ANY_ACCOUNT;
+                } else {
+                    var acc = DataMasterHelper.getAccounts ();
+                    DataMasterHelper.setAccounts (accounts ?? acc);
+                    Variables.SELENIUM_ALLOW_ANY_ACCOUNT = str_allow_any != null? bool.Parse (str_allow_any) : Variables.SELENIUM_ALLOW_ANY_ACCOUNT;
                     cusRes.IntResult = 1;
-                }                
+                }
 
             } catch (System.Exception ex) {
 
-                cusRes.SetException (ex.InnerException.ToString());
+                cusRes.SetException (ex.InnerException.ToString ());
             }
             return Ok (cusRes);
 
         }
+
         [HttpPost ("[action]")]
         public IActionResult CheckLinks ([FromBody] JObject value) {
             CustomResult cusRes = new CustomResult ();
 
             try {
-                List<string> links = value.GetValue("links")?.Values<string>()?.ToList<String>();
-                int top = value.GetValue("top")!=null ? int.Parse(value.GetValue("top").ToString()): 20;
+                List<string> links = value.GetValue ("links")?.Values<string> ()?.ToList<String> ();
+                int top = value.GetValue ("top") != null ? int.Parse (value.GetValue ("top").ToString ()) : 20;
 
                 new ProcessDangTin ().checkLinks (links, top);
                 cusRes.StrResult = "Vui lòng chờ thông báo ở Telegram";
@@ -96,55 +94,74 @@ namespace DockerApi.Controllers {
 
         }
 
-        [HttpPost("[action]")]
-        public IActionResult ResetNotify()
-        {
-            CustomResult cusRes = new CustomResult();
+        [HttpPost ("[action]")]
+        public IActionResult ResetNotify () {
+            CustomResult cusRes = new CustomResult ();
 
-            try
-            {
-                CommonMethods.ResetNotify();
+            try {
+                CommonMethods.ResetNotify ();
                 cusRes.StrResult = "Đã làm mới thông báo";
                 cusRes.IntResult = 1;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
 
-                cusRes.SetException(ex);
+                cusRes.SetException (ex);
 
             }
-            return Ok(cusRes);
+            return Ok (cusRes);
 
         }
 
-        [HttpPost("[action]")]
-        public IActionResult GetBalanceInfo([FromBody] JObject value)
-        {
-            CustomResult cusRes = new CustomResult();
+        [HttpPost ("[action]")]
+        public IActionResult GetBalanceInfo ([FromBody] JObject value) {
+            CustomResult cusRes = new CustomResult ();
 
-            try
-            {
-                Account ac = new Account();
-                ac.TenDangNhap = value.GetValue("TenDangNhap").ToString();
-                ac.MatKhau = value.GetValue("MatKhau").ToString();
-                if(String.IsNullOrEmpty(ac.TenDangNhap) || String.IsNullOrEmpty(ac.MatKhau))
-                {
-                    cusRes.SetException(new Exception("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
-                }
-                else
-                {
-                    cusRes.DataResult = new List<Object>{new ProcessDangTin ().getBalanceInfo(ac)};
+            try {
+                Account ac = new Account ();
+                ac.TenDangNhap = value.GetValue ("TenDangNhap").ToString ();
+                ac.MatKhau = value.GetValue ("MatKhau").ToString ();
+                if (String.IsNullOrEmpty (ac.TenDangNhap) || String.IsNullOrEmpty (ac.MatKhau)) {
+                    cusRes.SetException (new Exception ("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
+                } else {
+                    cusRes.DataResult = new List<Object> { new ProcessDangTin ().getBalanceInfo (ac) };
                     cusRes.IntResult = 1;
                 }
-                
-            }
-            catch (Exception ex)
-            {
 
-                cusRes.SetException(ex);
+            } catch (Exception ex) {
+
+                cusRes.SetException (ex);
 
             }
-            return Ok(cusRes);
+            return Ok (cusRes);
+
+        }
+
+        [HttpPost ("[action]")]
+        public IActionResult GetStatusLink ([FromBody] JObject value) {
+            CustomResult cusRes = new CustomResult ();
+
+            try {
+                Account ac = new Account ();
+                ac.TenDangNhap = value.GetValue ("TenDangNhap").ToString ();
+                ac.MatKhau = value.GetValue ("MatKhau").ToString ();
+                String id = value.GetValue ("Id").ToString ();
+                if (String.IsNullOrEmpty (ac.TenDangNhap) || String.IsNullOrEmpty (ac.MatKhau)) {
+                    cusRes.SetException (new Exception ("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
+                } else {
+                    if (String.IsNullOrEmpty (id)) {
+                        cusRes.SetException (new Exception ("Id tin đăng không hợp lệ"));
+                    } else {
+                        cusRes.DataResult = new List<Object> { new ProcessDangTin ().getStatusLink (ac, id) };
+                        cusRes.IntResult = 1;
+                    }
+
+                }
+
+            } catch (Exception ex) {
+
+                cusRes.SetException (ex);
+
+            }
+            return Ok (cusRes);
 
         }
 

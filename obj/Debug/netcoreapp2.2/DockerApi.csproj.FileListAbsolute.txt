@@ -43,7 +43,6 @@ D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Debug\netco
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Debug\netcoreapp2.2\DockerApi.runtimeconfig.dev.json
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Debug\netcoreapp2.2\DockerApi.dll
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Debug\netcoreapp2.2\DockerApi.pdb
-D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.csprojAssemblyReference.cache
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.csproj.CoreCompileInputs.cache
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.RazorAssemblyInfo.cache
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.RazorAssemblyInfo.cs
@@ -52,3 +51,4 @@ D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netco
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.RazorTargetAssemblyInfo.cache
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.dll
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.pdb
+D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\obj\Debug\netcoreapp2.2\DockerApi.csprojAssemblyReference.cache

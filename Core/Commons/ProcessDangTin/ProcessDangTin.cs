@@ -40,5 +40,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             return new ProcessDangTin_BDS ().getBalanceInfo(ac);
         }
 
+        public JObject getStatusLink (Account ac, string id) {
+            return new ProcessDangTin_BDS ().getStatusLink(ac, id);
+        }
+
     }
 }
