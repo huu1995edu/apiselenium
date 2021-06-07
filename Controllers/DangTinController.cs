@@ -32,7 +32,7 @@ namespace DockerApi.Controllers {
             try {
                 cusRes.StrResult = new ProcessDangTin ().dangTin (value);
                 cusRes.Message = Messages.SCS_001;
-
+                cusRes.IntResult = 1;
             } catch (Exception ex) {
 
                 cusRes.SetException (ex.Message);

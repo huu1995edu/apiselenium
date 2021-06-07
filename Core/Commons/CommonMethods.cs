@@ -25,8 +25,8 @@ namespace DockerApi {
 
             try {
 
-                WebClient webclient = new WebClient ();
-                webclient.DownloadString (URL + urlParameters);
+                WebClient webclient = new WebClient();
+                webclient.DownloadString(URL + urlParameters);
             } catch (Exception) {
 
             }

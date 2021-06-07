@@ -911,3 +911,264 @@ AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 Log Entry : 12:28:11 PM Friday, June 4, 2021
 AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 -------------------------------
+
+Log Entry : 1:48:18 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:50:17 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:51:17 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:52:13 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:53:19 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:53:28 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:53:34 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:53:38 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:53:43 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:53:49 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:55:30 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 1:56:27 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:56:41 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:56:49 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:56:54 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 1:57:01 PM Friday, June 4, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 2:07:25 PM Friday, June 4, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:11:42 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:13:23 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:14:20 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:14:41 PM Sunday, June 6, 2021
+SelectLi-divProductType: Không tìm thấy
+-------------------------------
+
+Log Entry : 4:14:41 PM Sunday, June 6, 2021
+ReadRecaptcha: javascript error: Cannot read property 'livechat' of undefined
+  (Session info: chrome=91.0.4472.77)
+-------------------------------
+
+Log Entry : 4:14:42 PM Sunday, June 6, 2021
+SelectLi-divProductCate: Không tìm thấy
+-------------------------------
+
+Log Entry : 4:17:07 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:17:48 PM Sunday, June 6, 2021
+SelectLi-divStreet: Không tìm thấy
+-------------------------------
+
+Log Entry : 4:25:13 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:31:05 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:36:55 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:38:54 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:44:43 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:45:24 PM Sunday, June 6, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 5:13:41 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:15:09 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:16:17 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:16:37 PM Sunday, June 6, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:14:08 AM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 4:14:34 AM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:32:19 AM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:33:41 AM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:54:59 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:59:39 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:01:58 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:10:51 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:11:55 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:13:31 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:17:44 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:18:54 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:19:59 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:20:43 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:21:39 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:23:43 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:26:56 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:27:42 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:28:58 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:30:34 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:32:25 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:33:47 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:39:28 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:41:23 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:45:17 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:47:17 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 11:54:25 PM Monday, June 7, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:02:10 AM Tuesday, June 8, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:05:25 AM Tuesday, June 8, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 12:09:01 AM Tuesday, June 8, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------

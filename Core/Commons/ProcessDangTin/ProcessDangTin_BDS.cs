@@ -46,7 +46,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 Thread.Sleep (500);
                 CommonMethods.SelectLi (driver, "divWard", tinDang.PhuongXa, tinDang.TenPhuongXa);
                 Thread.Sleep (300);
-
+                var regex = new Regex(@"(.+)đường(.+)");
+                string duongPho = Regex.Replace(tinDang.SoNha.ToLower(), "(.+)đường(.+)", "đường$2") ?? Regex.Replace(tinDang.SoNha.ToLower(), "(.+)phố(.+)", "phố$2");
+               
+                if (!String.IsNullOrEmpty(duongPho))
+                {
+                    CommonMethods.SelectLi(driver, "divStreet", null, duongPho);
+                }
+                Thread.Sleep(300);
                 CommonMethods.SetInput (driver, "txtArea", tinDang.DienTich);
                 CommonMethods.SetInput (driver, "txtPrice", (tinDang.Gia / 1000000));
                 CommonMethods.SelectOptions (driver, "ddlPriceType", tinDang.DonViTinh == 1 ? 7 : 1); //set đơn vị của giá               
@@ -55,10 +62,17 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
                 if (tinDang.HuongNha != null && tinDang.HuongNha > 0) CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
                 CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
-                if (!String.IsNullOrEmpty (tinDang.SoNha)) {
-                    tinDang.DiaChi = tinDang.SoNha + ", " + driver.FindElement (By.Id ("txtAddress")).GetAttribute ("value");
-                    CommonMethods.SetInput (driver, "txtAddress", tinDang.DiaChi);
+                if (!String.IsNullOrEmpty (duongPho)) {
+                    tinDang.SoNha = tinDang.SoNha.ToLower().Replace(duongPho, "").Trim();
+                    tinDang.DiaChi = tinDang.SoNha + " " + driver.FindElement (By.Id ("txtAddress")).GetAttribute ("value");
                 }
+                else
+                {
+                    tinDang.DiaChi = tinDang.SoNha +", " + driver.FindElement(By.Id("txtAddress")).GetAttribute("value");
+
+                }
+                CommonMethods.SetInput(driver, "txtAddress", tinDang.DiaChi);
+
 
                 //B3: upload load hình
                 CommonMethods.UploadImages (driver, "file", tinDang.ListHinhAnh);
@@ -81,8 +95,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         string strResult = CommonMethods.ReadRecaptcha (driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
                         driver.FindElement (By.Id ("secode")).SendKeys (strResult);
                         driver.FindElement (By.Name ("ctl00$MainContent$_userPage$ctl00$btnSave")).Click ();
+
                         //Bắt lỗi error lần 
                         error = getError (driver);
+                        if(!string.IsNullOrEmpty(error))
                         LogSystem.Write (error);
                     } catch (System.Exception ex) {
                         throw new Exception ($"ReadRecaptcha: {ex.Message}");
@@ -110,13 +126,22 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             return link;
 
         }
-        public void login (IWebDriver driver, string tenDangNhap, string matKhau) {
+        public void login (IWebDriver driver, string tenDangNhap, string matKhau, int loop = 3) {
+
             try {
+                if(String.IsNullOrEmpty(tenDangNhap) || String.IsNullOrEmpty(matKhau))
+                {
+                    throw new Exception("Tài khoản và mật khẩu không được bỏ trống");
+
+                }
                 string pathLogin = "https://batdongsan.com.vn/trang-dang-nhap";
                 //Login
                 driver.Navigate ().GoToUrl (pathLogin);
+                
                 driver.FindElement (By.Id ("MainContent__login_LoginUser_UserName")).SendKeys (tenDangNhap);
-                driver.FindElement (By.Id ("MainContent__login_LoginUser_Password")).SendKeys (matKhau + Keys.Enter);
+                driver.FindElement (By.Id ("MainContent__login_LoginUser_Password")).SendKeys (matKhau);
+                Thread.Sleep(300);
+                driver.FindElement(By.Name("ctl00$MainContent$_login$LoginUser$LoginButton")).Click();
                 if (driver.Url == pathLogin) {
                     var loginerror = driver.FindElement (By.ClassName ("loginerror"));
                     if (loginerror != null && loginerror.Displayed && loginerror.Text.Length > 0) {
@@ -134,7 +159,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     if (login_err_msgs != null) {
                         foreach (var item in login_err_msgs) {
                             if (item.Displayed && item.Text.Length > 0) {
-                                throw new Exception (item.Text);
+                                if(loop > 0 && item.Text.IndexOf("Mật khẩu không được để trống")>=0)
+                                {
+                                    login(driver, tenDangNhap, matKhau, --loop);
+                                }
+                                else
+                                {
+                                    throw new Exception(item.Text);
+                                }
                             }
                         }
                     }
@@ -271,7 +303,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     }
                     List<string> lMessage = CommonMethods.Split (mess, 4000);
                     foreach (var m in lMessage) {
-                        //CommonMethods.notifycation_tele(m);
+                        CommonMethods.notifycation_tele(m);
 
                     }
 
@@ -315,9 +347,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 login (driver, ac.TenDangNhap, ac.MatKhau);
                 driver.Navigate ().GoToUrl ("https://batdongsan.com.vn/trang-ca-nhan");
                 var ltr = driver.FindElements (By.XPath ("//table[@class='tbl']/tbody/tr"));
+                Thread.Sleep(300);
                 string status = String.Empty;
                 string linkXem = String.Empty;
-
+                string ghiChu = String.Empty;
                 if (ltr != null && ltr.Count > 2) {
 
                     for (int i = 1; i < ltr.Count; ++i) {
@@ -330,7 +363,22 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                             var t = elTieuDe.GetAttribute("innerText");
                             var maTin = elMa.FindElement (By.TagName ("div"))?.Text;
                             if (maTin == id) {
-                                status = textMa.Replace (maTin, "").Trim ();
+
+                              
+                                status = textMa.Replace(maTin, "").Trim();
+                                if(status.IndexOf("Không duyệt") >=0)
+                                {
+                                    var idex = ltd.Count - 1;
+                                    var endtd = ltd[idex].FindElement(By.TagName("a"));
+                                    if (endtd != null)
+                                    {
+                                        IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
+                                        js.ExecuteScript($"GetAllNote('{id}')");
+                                        ghiChu = CommonMethods.FindElement(driver, By.XPath("//div[@class='fancybox-outer']/div/table/tbody/tr/td[@class='header']"))?.GetAttribute("innerText")?.Trim() ?? String.Empty;
+                                      
+                                    }
+                                }
+                                
                                 var tagas = elTieuDe.FindElement(By.TagName("div"))?.FindElements(By.TagName("a"));
                                 for (int y = 0; y < tagas.Count; ++y) {
                                     var txt = CommonMethods.convertToUnSign(tagas[y]?.Text);
@@ -349,6 +397,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                             info["id"] = id;
                             info["trang-thai"] = status;
                             info["linh-xem"] = linkXem;
+                            info["ghi-chu"] = ghiChu;
+
                         }
                     }
                 }
