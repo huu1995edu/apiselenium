@@ -236,6 +236,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         String phone = string.Empty;
                         int index = 1;
                         var obWrappLink = new JObject ();
+                        JObject obItemRes = new JObject ();    
                         top = top <= wrapplinks.Count ? top : wrapplinks.Count;
                         for (int i = 0; i < top; i++) {
                             var wrapplink = wrapplinks[i];
@@ -273,7 +274,14 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                                     int indexEmail = listAccounts.IndexOf (tenDangNhap);
                                     if (string.IsNullOrEmpty (tenDangNhap) || indexEmail < 0) {
                                         obWrappLink[wrapplink] = $"{index++}. {tenNguoiDang} - {gia} - {dienTich} - {phone} ";
+                                        dynamic jsonObject = new JObject();
+                                        jsonObject.TenNguoiDang = tenNguoiDang;
+                                        jsonObject.Gia = gia;
+                                        jsonObject.DienTich = dienTich;
+                                        jsonObject.DienThoai = phone;
+                                        obItemRes[wrapplink] = jsonObject;
                                         listLinkChecked.Add (wrapplink);
+
                                     }
                                 } catch (Exception ex) {
                                     obWrappLink[wrapplink] = $"+ Chưa xác định: {wrapplink}";
@@ -285,7 +293,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                         if (obWrappLink.HasValues) {
                             ob[link] = $"Có {obWrappLink.Keys().Count} tin đăng mới.%0A" + string.Join ("%0A", obWrappLink.Values ().ToList ());
-                            obRes[link] = obWrappLink;    
+                            obRes[link] = obItemRes;    
                         }
                     } catch (Exception ex) {
 
@@ -309,7 +317,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             } catch (System.Exception ex) {
                 mess += ex.InnerException.ToString ();
                 LogSystem.Write ($"checkLinks: {mess}");
-                CommonMethods.notifycation_tele (mess);
+                CommonMethods.notifycation_tele(mess);
 
             }
             driver.Quit ();
