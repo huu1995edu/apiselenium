@@ -32,8 +32,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
         }
 
-        public void checkLinks (List<String> links, int top) {
-            new ProcessDangTin_BDS ().checkLinks (links, top);
+        public JObject checkLinks (List<String> links, int top) {
+            return new ProcessDangTin_BDS ().checkLinks (links, top);
         }
 
         public JObject getBalanceInfo (Account ac) {

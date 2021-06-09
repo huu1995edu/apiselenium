@@ -208,11 +208,8 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             return null;
         }
 
-        public void checkLinks (List<String> links, int top) {
-            //if (!CommonMethods.IsDayNow())
-            //{
-            //    CommonMethods.ResetNotify();
-            //}
+        public JObject checkLinks (List<String> links, int top) {
+          
             List<string> listLinkChecked = DataMasterHelper.getLinkChecked ();
             List<string> listAccounts = DataMasterHelper.getAccounts ();
 
@@ -222,10 +219,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
             JObject ob = new JObject ();
             String mess = String.Empty;
             mess += $"DANH SÁCH TIN MỚI - TOP {top}%0A";
-
+            JObject obRes = new JObject ();    
             try {
                 foreach (var link in links) {
-
+                    
                     try {
                         driver.Navigate ().GoToUrl (link);
                         Thread.Sleep (300);
@@ -288,6 +285,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                         if (obWrappLink.HasValues) {
                             ob[link] = $"Có {obWrappLink.Keys().Count} tin đăng mới.%0A" + string.Join ("%0A", obWrappLink.Values ().ToList ());
+                            obRes[link] = obWrappLink;    
                         }
                     } catch (Exception ex) {
 
@@ -315,7 +313,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
             }
             driver.Quit ();
-
+            return obRes;
         }
 
         public JObject getBalanceInfo (Account ac) {

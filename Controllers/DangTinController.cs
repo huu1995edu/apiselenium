@@ -81,8 +81,7 @@ namespace DockerApi.Controllers {
             try {
                 List<string> links = value.GetValue ("links")?.Values<string> ()?.ToList<String> ();
                 int top = value.GetValue ("top") != null ? int.Parse (value.GetValue ("top").ToString ()) : 20;
-
-                new ProcessDangTin ().checkLinks (links, top);
+                cusRes.DataResult = new List<Object> { new ProcessDangTin ().checkLinks (links, top) };
                 cusRes.StrResult = "Vui lòng chờ thông báo ở Telegram";
                 cusRes.IntResult = 1;
             } catch (Exception ex) {
