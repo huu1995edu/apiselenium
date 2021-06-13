@@ -49,6 +49,10 @@
               "target": "Package",
               "version": "[2.2.5, )"
             },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[5.6.4, )"
+            },
             "GoogleMaps.LocationServices": {
               "target": "Package",
               "version": "[1.2.0.5, )"
@@ -85,6 +89,10 @@
             "Selenium.WebDriver.ChromeDriver": {
               "target": "Package",
               "version": "[90.0.4430.2400, )"
+            },
+            "SevenZipExtractor": {
+              "target": "Package",
+              "version": "[1.0.15, )"
             },
             "System.Drawing.Common": {
               "target": "Package",

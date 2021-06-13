@@ -43,6 +43,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         public JObject getStatusLink (Account ac, string id) {
             return new ProcessDangTin_BDS ().getStatusLink(ac, id);
         }
+        public JObject recharge (Account ac, List<List<object>> data) {
+            return new ProcessDangTin_BDS ().recharge(ac, data);
+        }
 
     }
 }

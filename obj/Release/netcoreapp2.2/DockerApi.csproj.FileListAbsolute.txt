@@ -34,3 +34,5 @@ D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\net
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x86\tesseract41.dll
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x64\leptonica-1.80.0.dll
 D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x64\tesseract41.dll
+D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x64\7z.dll
+D:\01_MyWork\01_Sources\9998_OutSource\01_DangTinBDS\apiselenium\bin\Release\netcoreapp2.2\x86\7z.dll

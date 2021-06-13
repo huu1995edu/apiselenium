@@ -1,33 +1,29 @@
-﻿
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Caching;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 
-namespace DockerApi
-{
-    public class FileHelper
-    {
+namespace DockerApi {
+    public class FileHelper {
         public static JObject data;
-        public static string pathDataJson = Path.Combine(Directory.GetCurrentDirectory(), @"data.txt");
+        public static string pathDataJson = Path.Combine (Directory.GetCurrentDirectory (), @"data.txt");
 
         /// <summary>
         /// Get cache value by key
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public static JToken GetValue(string key)
-        {
-             if(data == null)
-            {
-                if (!File.Exists(pathDataJson))
-                {
+        public static JToken GetValue (string key) {
+            if (data == null) {
+                if (!File.Exists (pathDataJson)) {
                     return null;
                 }
-                string json = File.ReadAllText(pathDataJson);
-                data = JsonConvert.DeserializeObject<JObject>(json);
+                string json = File.ReadAllText (pathDataJson);
+                data = JsonConvert.DeserializeObject<JObject> (json);
 
             }
             return data[key];
@@ -40,28 +36,23 @@ namespace DockerApi
         /// <param name="value"></param>
         /// <param name="absExpiration"></param>
         /// <returns></returns>
-        public async static void Add(string key, object value)
-        {
+        public async static void Add (string key, object value) {
 
-            if (data == null)
-            {
-                data = new JObject();
+            if (data == null) {
+                data = new JObject ();
             }
-            data[key] = JToken.FromObject(value);
+            data[key] = JToken.FromObject (value);
             //convert object to json string.
-            string json = data.ToStrJson();
-           
-            if (!File.Exists(pathDataJson))
-                File.Create(pathDataJson);
+            string json = data.ToStrJson ();
 
-            try
-            {
-                File.WriteAllText(pathDataJson, json);
+            if (!File.Exists (pathDataJson))
+                File.Create (pathDataJson);
 
-            }
-            catch (System.Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+            try {
+                File.WriteAllText (pathDataJson, json);
+
+            } catch (System.Exception ex) {
+                Console.WriteLine (ex.Message);
             }
 
         }
@@ -70,21 +61,38 @@ namespace DockerApi
         /// Delete cache value from key
         /// </summary>
         /// <param name="key"></param>
-        public static void Delete(string key)
-        {
-            if (data != null)
-            {
-                data.Remove(key);
+        public static void Delete (string key) {
+            if (data != null) {
+                data.Remove (key);
                 //convert object to json string.
-                string json = data.ToStrJson();
+                string json = data.ToStrJson ();
 
                 //export data to json file. 
-                using (TextWriter tw = new StreamWriter(pathDataJson))
-                {
-                    tw.WriteLine(json);
+                using (TextWriter tw = new StreamWriter (pathDataJson)) {
+                    tw.WriteLine (json);
                 };
             }
-            
+
+        }
+
+        public static void CreateExcel (string nameFile, List<List<object>> data) {
+            if (File.Exists(nameFile)) File.Delete(nameFile);
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+            using (ExcelPackage excel = new ExcelPackage ()) {
+                excel.Workbook.Worksheets.Add ("Mẫu file");
+                int indexRow = 1;
+                var worksheet = excel.Workbook.Worksheets["Mẫu file"];
+                foreach (var row in data)
+                {
+                    var values = new List<object[]> () {row.ToArray()};
+                    string rowRange = $"A{indexRow}:" + Char.ConvertFromUtf32 (row.Count + 64) + indexRow;
+                    worksheet.Cells[rowRange].LoadFromArrays (values);
+                    indexRow++;
+                }
+                FileInfo excelFile = new FileInfo (nameFile);
+                excel.SaveAs (excelFile);
+            }
         }
     }
 }

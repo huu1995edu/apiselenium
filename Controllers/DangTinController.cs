@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using DockerApi.Core.Commons.ProcessDangTin;
@@ -8,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Response;
+using SevenZipExtractor;
 
 namespace DockerApi.Controllers {
     [Route ("api/[controller]")]
@@ -162,6 +165,85 @@ namespace DockerApi.Controllers {
             }
             return Ok (cusRes);
 
+        }
+
+        [HttpPost ("[action]")]
+        public IActionResult Recharge ([FromBody] JObject value) {
+            CustomResult cusRes = new CustomResult ();
+
+            try {
+                Account ac = new Account ();
+                ac.TenDangNhap = value.GetValue ("TenDangNhap").ToString ();
+                ac.MatKhau = value.GetValue ("MatKhau").ToString ();
+                List<List<object>> data = value.GetValue ("Data").ToObject<List<List<object>>> ();
+
+                if (String.IsNullOrEmpty (ac.TenDangNhap) || String.IsNullOrEmpty (ac.MatKhau)) {
+                    cusRes.SetException (new Exception ("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
+                } else {
+                    if (data.Count == 0) {
+                        cusRes.SetException (new Exception ("data nạp tiền không hợp lệ"));
+                    } else {
+                        cusRes.DataResult = new List<Object> { new ProcessDangTin ().recharge (ac, data) };
+                        cusRes.IntResult = 1;
+                    }
+
+                }
+
+            } catch (Exception ex) {
+
+                cusRes.SetException (ex);
+
+            }
+            return Ok (cusRes);
+
+        }
+
+        [HttpPost ("[action]")]
+        public IActionResult FileDownloaderDrive ([FromBody] JObject value) {
+            CustomResult cusRes = new CustomResult ();
+            string url = value.GetValue ("Url")?.ToString ();
+            string diaChi = value.GetValue ("DiaChi")?.ToString ();
+            string tenLoai = value.GetValue ("TenLoai")?.ToString ();
+            try {
+
+                bool isRemove = bool.Parse (value.GetValue ("IsRemove")?.ToString () ?? "true");
+                if (String.IsNullOrEmpty (url) || String.IsNullOrEmpty (diaChi)) {
+                    cusRes.SetException (new Exception ("Dữ liệu Url - DiaChi - TenLoai không hợp lệ"));
+                } else {
+                    var fileName = diaChi + " " + tenLoai;
+                    fileName = CommonMethods.convertToNameFolder (fileName);
+                    string zipPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}.7z";
+                    string extractPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}";
+                    if (isRemove) {
+                        if (Directory.Exists (extractPath)) {
+                            Directory.Delete (extractPath);
+                        }
+                    }
+                    var infoFile = FileDownloader.DownloadFileFromURLToPath (url, zipPath);
+                    if (infoFile != null) {
+                        if (!Directory.Exists (extractPath)) {
+                            Directory.CreateDirectory (extractPath);
+                        }
+                        using (ArchiveFile archiveFile = new ArchiveFile (zipPath)) {
+                            archiveFile.Extract (extractPath); // extract all
+                        }
+
+                        if (System.IO.File.Exists (zipPath)) {
+                            System.IO.File.Delete (zipPath);
+                        }
+                        CommonMethods.notifycation_tele ($"Đã tải ảnh thành công :)): %0A Loại: {tenLoai} %0A Dự án: {diaChi}");
+
+                    }
+                    cusRes.IntResult = 1;
+                }
+
+            } catch (Exception ex) {
+                CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T: %0A Loại: {tenLoai} %0A Dự án: {diaChi}");
+
+                cusRes.SetException (ex);
+
+            }
+            return Ok (cusRes);
         }
 
     }

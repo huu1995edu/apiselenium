@@ -27,7 +27,9 @@ namespace DockerApi.Core.Entitys
     {
         public string TieuDe { get; set; }
         public int HinhThuc { get; set; }
+        public string TenHinhThuc { get; set; }
         public int Loai { get; set; }
+        public string TenLoai { get; set; }
         public string TinhThanh { get; set; }
         public string TenTinhThanh { get; set; }
         public int QuanHuyen { get; set; }
@@ -44,12 +46,14 @@ namespace DockerApi.Core.Entitys
         public string ListHinhAnh { get; set; }
         public int MatTien { get; set; }
         public int DuongVao { get; set; }
-        public int HuongNha { get; set; }
-        public int SoTang { get; set; }
-        public int SoPhongNgu { get; set; }
+        public int? HuongNha { get; set; }
+        public int? SoTang { get; set; }
+        public int? SoPhongNgu { get; set; }
         public int DonViTinh { get; set; }
-        public string SoToilet { get; set; }
+        public int? SoToilet { get; set; }
         public string NoiThat { get; set; }
+        public string KieuNha { get; set; }
+
         public string ThongTinPhapLy { get; set; }
         public string TenLienHe { get; set; }
         public string DienThoaiLienHe { get; set; }

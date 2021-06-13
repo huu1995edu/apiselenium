@@ -62,6 +62,8 @@ namespace DockerApi {
         };
         public static bool SELENIUM_ALLOW_ANY_ACCOUNT = false;
         public static string SELENIUM_STR_YESTERDAY = string.Empty;
+        public static string SELENIUM_USER_ROOT = string.Empty;
+        public static string SELENIUM_PASSWORD_ROOT = string.Empty;
 
         #endregion
 

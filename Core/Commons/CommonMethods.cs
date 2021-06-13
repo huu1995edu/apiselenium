@@ -25,8 +25,8 @@ namespace DockerApi {
 
             try {
 
-                WebClient webclient = new WebClient();
-                webclient.DownloadString(URL + urlParameters);
+                //WebClient webclient = new WebClient ();
+                //webclient.DownloadString (URL + urlParameters);
             } catch (Exception) {
 
             }
@@ -76,12 +76,21 @@ namespace DockerApi {
                 int loop = 1000; // tronghuu95 20210325150000 xử lý an toàn nên chuyển từ while sang for
                 for (int i = 0; i < loop; i++) {
                     eleReCaptcha.Click ();
+                    if (eleReCaptcha.Size.Width < 100) {
+                        // set the display with style.display method
+                        js.ExecuteScript ($"document.getElementById('{idRecaptcha}').style.width='200px';document.getElementById('{idRecaptcha}').style.height='50px';");
+                        eleReCaptcha = driver.FindElement (By.Id (idRecaptcha));
+                    }
                     Screenshot ss = TakeScreenshot (driver);
                     var arrScreen = ss.AsByteArray;
                     var msScreen = new MemoryStream (arrScreen);
                     Bitmap bitmap = new Bitmap (msScreen);
-                    Point location = new Point (eleReCaptcha.Location.X, bitmap.Size.Height - eleReCaptcha.Size.Height - (horzscrollStatus ? 15 : 0)); // 15 la thanh cuon
-                    Bitmap bn = bitmap.Clone (new Rectangle (location, new Size (eleReCaptcha.Size.Width - 20, eleReCaptcha.Size.Height)), bitmap.PixelFormat);
+                    var Y = bitmap.Size.Height - eleReCaptcha.Size.Height - (horzscrollStatus ? 15 : 0);
+                    Y = Y > eleReCaptcha.Location.Y ? eleReCaptcha.Location.Y : Y;
+                    Point location = new Point (eleReCaptcha.Location.X, Y); // 15 la thanh cuon
+                    var size = eleReCaptcha.Size;
+                    size.Width = size.Width > 100 ? size.Width - 20 : size.Width;
+                    Bitmap bn = bitmap.Clone (new Rectangle (location, size), bitmap.PixelFormat);
                     bn = OCR_Recaptcha.FormatImageRecaptcha (bn);
                     var pathFormatImageRecaptcha = Path.Combine (Directory.GetCurrentDirectory (), @"Images\FormatImageRecaptcha.png");
                     bn.Save (pathFormatImageRecaptcha);
@@ -270,7 +279,7 @@ namespace DockerApi {
                 }
 
             } else {
-                    LogSystem.Write ($"SelectLi-{idDrop}: Không tìm thấy");
+                LogSystem.Write ($"SelectLi-{idDrop}: Không tìm thấy");
                 if (listLi.Count >= 2)
                     listLi[1].Click ();
             }
@@ -293,15 +302,16 @@ namespace DockerApi {
         }
 
         /// <summary>
-        /// UploadImages upload image
+        /// .c upload image
         /// </summary>
         /// <param name="driver"></param>
         /// <param name="nameInputUpload"></param>
         /// <param name="strIds"></param>
 
-        public static void UploadImages (IWebDriver driver, string nameInputUpload, string strIds) {
+        public static void UploadImages (IWebDriver driver, string nameInputUpload, string strIds, string pathImages) {
             try {
                 string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith ('\\') ? Variables.SELENIUM_PATH_UPLOADS : Variables.SELENIUM_PATH_UPLOADS + '\\';
+                path += pathImages;
                 string[] filePaths = Directory.GetFiles (path);
                 if (filePaths.Length == 0) return;
                 List<string> lPath = new List<string> ();
@@ -378,6 +388,9 @@ namespace DockerApi {
             var appSettings = Variables.Configuration.GetSection ("AppSettings");
             Variables.SELENIUM_PATH_UPLOADS = appSettings["SELENIUM_PATH_UPLOADS"] ?? "C:\\Images";
             Variables.SELENIUM_MAX_RAND_UPLOADS = int.Parse (appSettings["SELENIUM_MAX_RAND_UPLOADS"] ?? "3");
+            Variables.SELENIUM_USER_ROOT = appSettings["SELENIUM_USER_ROOT"] ?? "ryanle.bds@gmail.com";
+            Variables.SELENIUM_PASSWORD_ROOT = appSettings["SELENIUM_PASSWORD_ROOT"] ?? "@iI321321";
+
             LogSystem.Write ($"AppSettings: ${JsonConvert.SerializeObject(Variables.Configuration.GetSection("AppSettings"))}");
         }
         public static List<string> Split (string str, int chunkSize) {
@@ -417,13 +430,40 @@ namespace DockerApi {
         }
 
         public static void ResetNotify () {
-            DataMasterHelper.setLinkChecked(new List<string>());
+            DataMasterHelper.setLinkChecked (new List<string> ());
         }
-
-        public static string convertToUnSign(string s) {
+        public static string convertToAscii (string s) {
             Regex regex = new Regex ("\\p{IsCombiningDiacriticalMarks}+");
-            string temp = s.Normalize (NormalizationForm.FormD).ToString();
-            return regex.Replace (temp, String.Empty).Replace ('\u0111', 'd').Replace ('\u0110', 'D').Replace(" ", "-");
+            string temp = s.Normalize (NormalizationForm.FormD).ToString ();
+            return regex.Replace (temp, String.Empty).Replace ('\u0111', 'd').Replace ('\u0110', 'D');
+        }
+        public static string convertToUnSign (string s) {
+            return convertToAscii(s).Replace (" ", "-");
+        }
+        public static string convertToNameFolder (string name) {
+            // first trim the raw string
+            string safe = name.Trim ().ToLower();
+            safe = convertToAscii(safe);
+            // trim out illegal characters
+            safe = Regex.Replace(safe, "[^a-z0-9\\-]", "-");
+            // replace spaces with hyphens
+            safe = safe.Replace (" ", "-").ToLower ();
+
+            // replace any 'double spaces' with singles
+            if (safe.IndexOf ("--") > -1)
+                while (safe.IndexOf ("--") > -1)
+                    safe = safe.Replace ("--", "-");            
+
+            // trim the length
+            if (safe.Length > 255)
+                safe = safe.Substring (0, 254);
+
+            // clean the beginning and end of the filename
+            char[] replace = { '-', '.' };
+            safe = safe.TrimStart (replace);
+            safe = safe.TrimEnd (replace);
+
+            return safe;
         }
         #endregion
     }

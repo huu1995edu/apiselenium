@@ -22,7 +22,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         IWebDriver driver = new CommonSelenium ().Init ();
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
         public string dangTin (TinDang tinDang) {
-
+            string nameFolderImages = string.Empty;
             string link = String.Empty;
             try {
                 //B1 Login
@@ -30,14 +30,18 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 //B2 Đăng tin
                 driver.Navigate ().GoToUrl (pathDangTin);
                 Thread.Sleep (2000);
-
                 CommonMethods.SetInput (driver, "txtProductTitle20180807", tinDang.TieuDe);
                 var hinhThuc = tinDang.HinhThuc > 0 ? tinDang.HinhThuc : 38;
-                var loai = tinDang.Loai > 0 ? tinDang.HinhThuc : 283;
-                CommonMethods.SelectLi (driver, "divProductType", hinhThuc);
+                CommonMethods.SelectLi (driver, "divProductType", hinhThuc,  tinDang.TenHinhThuc);
                 Thread.Sleep (300);
                 CommonMethods.RemovePopupChat (driver);
-                CommonMethods.SelectLi (driver, "divProductCate", loai);
+                tinDang.TenLoai = String.IsNullOrEmpty(tinDang.TenLoai) ? "Bán đất" : tinDang.TenLoai;
+                CommonMethods.SelectLi (driver, "divProductCate", tinDang.Loai, tinDang.TenLoai);
+                nameFolderImages = CommonMethods.convertToNameFolder(tinDang.DiaChi + " " + tinDang.TenLoai);
+                if(tinDang.TenLoai!="Bán đât")
+                {
+                    nameFolderImages+=("\\"+CommonMethods.convertToNameFolder(tinDang.KieuNha));
+                }
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
                 Thread.Sleep (300);
@@ -60,6 +64,11 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SetInput (driver, "txtDescription", tinDang.MoTa);
                 CommonMethods.SetInput (driver, "txtWidth", tinDang.MatTien);
                 CommonMethods.SetInput (driver, "txtLandWidth", tinDang.DuongVao);
+                if(tinDang.TenLoai!="Bán đât")
+                {
+                    if(tinDang.SoPhongNgu!=null && tinDang.SoPhongNgu > 0) CommonMethods.SetInput (driver, "txtRoomNumber", tinDang.SoPhongNgu);
+                    if(tinDang.SoToilet!=null && tinDang.SoToilet > 0) CommonMethods.SetInput (driver, "txtToiletNumber", tinDang.SoToilet);
+                }
                 if (tinDang.HuongNha != null && tinDang.HuongNha > 0) CommonMethods.SelectOptions (driver, "ddlHomeDirection", tinDang.HuongNha);
                 CommonMethods.SetInput (driver, "txtLegality", tinDang.ThongTinPhapLy);
                 if (!String.IsNullOrEmpty (duongPho)) {
@@ -75,8 +84,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
 
                 //B3: upload load hình
-                CommonMethods.UploadImages (driver, "file", tinDang.ListHinhAnh);
+                CommonMethods.UploadImages (driver, "file", tinDang.ListHinhAnh, nameFolderImages);
                 //B4: set maps
+
                 CommonMethods.SetInput (driver, "txtBrName", tinDang.TenLienHe);
                 CommonMethods.SetInput (driver, "txtBrAddress", tinDang.DiaChiLienHe);
                 CommonMethods.SetInput (driver, "txtBrEmail", tinDang.EmailLienHe);
@@ -409,6 +419,44 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     }
                 }
             } catch (System.Exception ex) {
+                driver.Quit ();
+                throw ex;
+            }
+            driver.Quit ();
+            return info;
+
+        }
+
+        public JObject recharge (Account ac, List<List<object>> data) {
+            JObject info = new JObject ();
+            var pathFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+"\\QLTKDN_Mau-chuyen-tien-cho-tai-khoan-nhan-vien.xlsx";
+
+            try {
+                FileHelper.CreateExcel(pathFile, data);
+                login (driver, ac.TenDangNhap, ac.MatKhau);
+                driver.Navigate ().GoToUrl ("https://batdongsan.com.vn/trang-ca-nhan/uspg-enterpriseaccount");
+                Thread.Sleep(1000);
+
+                driver.FindElement(By.Id("btn_up_excel")).Click();
+                IWebElement element = driver.FindElement(By.Id("select_excel_file"));
+                element.SendKeys(pathFile);
+                var error = "Mã bảo vệ không đúng";
+                while(error == "Mã bảo vệ không đúng")
+                {
+                     driver.FindElement(By.Id("reloadCaptcha")).Click();
+                    string strResult = CommonMethods.ReadRecaptcha(driver, "img_CAPTCHA_RESULT", "reloadCaptcha");
+                    CommonMethods.SetInput(driver, "txtSeCode", strResult);
+                    driver.FindElement(By.Id("btnUpload")).Click();
+                    error = driver.FindElement(By.Id("lblError"))?.GetAttribute("innerText")?? driver.FindElement(By.Id("excel_error_form"))?.GetAttribute("innerText");
+                }
+                if(!string.IsNullOrEmpty(error))
+                {
+                    throw new Exception(error);
+
+                }
+
+            }
+            catch (System.Exception ex) {
                 driver.Quit ();
                 throw ex;
             }
