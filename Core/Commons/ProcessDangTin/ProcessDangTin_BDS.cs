@@ -105,7 +105,6 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                         string strResult = CommonMethods.ReadRecaptcha (driver, "img_CAPTCHA_RESULT_314", "reloadCaptcha");
                         driver.FindElement (By.Id ("secode")).SendKeys (strResult);
                         driver.FindElement (By.Name ("ctl00$MainContent$_userPage$ctl00$btnSave")).Click ();
-
                         //Bắt lỗi error lần 
                         error = getError (driver);
                         if(!string.IsNullOrEmpty(error))
@@ -119,7 +118,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     throw new Exception (error);
 
                 }
-
+                driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan");
                 var eleItem = driver.FindElement (By.Id ("MainContent__userPage_ctl00_rpItems_lnkEdit_0"));
                 if (eleItem != null) {
                     link = eleItem.GetAttribute ("href")?.ToString ();

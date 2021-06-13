@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,7 +23,7 @@ namespace DockerApi
             var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var chromeService = ChromeDriverService.CreateDefaultService(path);
             driver = new ChromeDriver(chromeService, chromeOptions);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(40);
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
             driver.Manage().Window.Maximize();
             
             return driver;

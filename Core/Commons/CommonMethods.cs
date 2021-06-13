@@ -22,11 +22,10 @@ namespace DockerApi {
         public static void notifycation_tele (string message) {
             string URL = $"https://api.telegram.org/bot1823763238:AAHc6-Dn80jdakWSbSIn938ElitKy2CpdsY/sendMessage";
             string urlParameters = $"?chat_id=-563181299&text={message}";
-
             try {
 
-                //WebClient webclient = new WebClient ();
-                //webclient.DownloadString (URL + urlParameters);
+                // WebClient webclient = new WebClient ();
+                // webclient.DownloadString (URL + urlParameters);
             } catch (Exception) {
 
             }
