@@ -22,7 +22,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
         IWebDriver driver = new CommonSelenium ().Init ();
         string pathDangTin = "https://batdongsan.com.vn/dang-tin-rao-vat-ban-nha-dat";
         public string dangTin (TinDang tinDang) {
-            string nameFolderImages = string.Empty;
+            string nameFolderImages = tinDang.Ma;
             string link = String.Empty;
             try {
                 //B1 Login
@@ -37,10 +37,9 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.RemovePopupChat (driver);
                 tinDang.TenLoai = String.IsNullOrEmpty(tinDang.TenLoai) ? "Bán đất" : tinDang.TenLoai;
                 CommonMethods.SelectLi (driver, "divProductCate", tinDang.Loai, tinDang.TenLoai);
-                nameFolderImages = CommonMethods.convertToNameFolder(tinDang.Ma);
                 if(tinDang.TenLoai!="Bán đât")
                 {
-                    nameFolderImages+=("\\"+CommonMethods.convertToNameFolder(tinDang.KieuNha));
+                    nameFolderImages+=("\\"+tinDang.KieuNha);
                 }
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);

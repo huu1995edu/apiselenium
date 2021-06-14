@@ -305,11 +305,18 @@ namespace DockerApi {
         /// <param name="driver"></param>
         /// <param name="nameInputUpload"></param>
         /// <param name="strIds"></param>
+        public static string getPathImages (string pathImages) {
+            string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith ('\\') ? Variables.SELENIUM_PATH_UPLOADS : Variables.SELENIUM_PATH_UPLOADS + '\\';
+            path += convertToNameFolder(pathImages);
+            if (Directory.Exists (path)) {
+                return path;
+            }
+            return string.Empty;
 
+        }
         public static void UploadImages (IWebDriver driver, string nameInputUpload, string strIds, string pathImages) {
             try {
-                string path = Variables.SELENIUM_PATH_UPLOADS.EndsWith ('\\') ? Variables.SELENIUM_PATH_UPLOADS : Variables.SELENIUM_PATH_UPLOADS + '\\';
-                path += pathImages;
+                string path = getPathImages(pathImages);
                 string[] filePaths = Directory.GetFiles (path);
                 if (filePaths.Length == 0) return;
                 List<string> lPath = new List<string> ();
@@ -436,21 +443,21 @@ namespace DockerApi {
             return regex.Replace (temp, String.Empty).Replace ('\u0111', 'd').Replace ('\u0110', 'D');
         }
         public static string convertToUnSign (string s) {
-            return convertToAscii(s).Replace (" ", "-");
+            return convertToAscii (s).Replace (" ", "-");
         }
         public static string convertToNameFolder (string name) {
             // first trim the raw string
-            string safe = name.Trim ().ToLower();
-            safe = convertToAscii(safe);
+            string safe = name.Trim ().ToLower ();
+            safe = convertToAscii (safe);
             // trim out illegal characters
-            safe = Regex.Replace(safe, "[^a-z0-9\\-]", "-");
+            safe = Regex.Replace (safe, "[^a-z0-9\\-]", "-");
             // replace spaces with hyphens
             safe = safe.Replace (" ", "-").ToLower ();
 
             // replace any 'double spaces' with singles
             if (safe.IndexOf ("--") > -1)
                 while (safe.IndexOf ("--") > -1)
-                    safe = safe.Replace ("--", "-");            
+                    safe = safe.Replace ("--", "-");
 
             // trim the length
             if (safe.Length > 255)

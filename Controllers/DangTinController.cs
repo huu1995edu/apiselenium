@@ -33,9 +33,22 @@ namespace DockerApi.Controllers {
             CustomResult cusRes = new CustomResult ();
 
             try {
-                cusRes.StrResult = new ProcessDangTin ().dangTin (value);
-                cusRes.Message = Messages.SCS_001;
-                cusRes.IntResult = 1;
+                if (string.IsNullOrEmpty (value.Data.Ma) || string.IsNullOrEmpty (value.Data.DiaChi) || string.IsNullOrEmpty (value.Data.TenLoai)) {
+                    cusRes.SetException ("Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin dự án");
+                
+                } else {
+                    string path = CommonMethods.getPathImages (value.Data.Ma);
+                    if (path == string.Empty) {
+                        cusRes.SetException ("Dự án không tồn tại thư mục ảnh");
+
+                    } else {
+                        cusRes.StrResult = new ProcessDangTin ().dangTin (value);
+                        cusRes.Message = Messages.SCS_001;
+                        cusRes.IntResult = 1;
+                    }
+
+                }
+
             } catch (Exception ex) {
 
                 cusRes.SetException (ex.Message);
@@ -203,21 +216,20 @@ namespace DockerApi.Controllers {
             CustomResult cusRes = new CustomResult ();
             try {
 
-                if (String.IsNullOrEmpty (duAn.UrlDrive) || String.IsNullOrEmpty (duAn.Ma)) {
-                    cusRes.SetException (new Exception ("Dữ liệu Url - Ma không hợp lệ"));
+                if (String.IsNullOrEmpty (duAn.UrlDrive) || String.IsNullOrEmpty (duAn.DiaChi) || String.IsNullOrEmpty (duAn.TenLoai) || String.IsNullOrEmpty (duAn.Ma)) {
+                    cusRes.SetException (new Exception ("Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin dự án"));
+                    CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T:%0ADự án: {duAn.Name ?? duAn.Ma}%0ALỗi: Vui lòng kiểm tra lại thông tin dự án.");
                 } else {
                     var fileName = duAn.Ma;
                     fileName = CommonMethods.convertToNameFolder (fileName);
                     string zipPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}.7z";
                     string extractPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}";
-                    if (Directory.Exists(extractPath))
-                    {
-                        Directory.Delete(extractPath, true);
+                    if (Directory.Exists (extractPath)) {
+                        Directory.Delete (extractPath, true);
 
                     }
-                    if (!Directory.Exists(extractPath))
-                    {
-                        Directory.CreateDirectory(extractPath);
+                    if (!Directory.Exists (extractPath)) {
+                        Directory.CreateDirectory (extractPath);
                     }
 
                     var infoFile = FileDownloader.DownloadFileFromURLToPath (duAn.UrlDrive, zipPath);
