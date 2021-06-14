@@ -37,7 +37,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.RemovePopupChat (driver);
                 tinDang.TenLoai = String.IsNullOrEmpty(tinDang.TenLoai) ? "Bán đất" : tinDang.TenLoai;
                 CommonMethods.SelectLi (driver, "divProductCate", tinDang.Loai, tinDang.TenLoai);
-                nameFolderImages = CommonMethods.convertToNameFolder(tinDang.DiaChi + " " + tinDang.TenLoai);
+                nameFolderImages = CommonMethods.convertToNameFolder(tinDang.Ma);
                 if(tinDang.TenLoai!="Bán đât")
                 {
                     nameFolderImages+=("\\"+CommonMethods.convertToNameFolder(tinDang.KieuNha));

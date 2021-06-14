@@ -25,6 +25,7 @@ namespace DockerApi.Core.Entitys
     }
     public class TinDang
     {
+        public string Ma { get; set; }
         public string TieuDe { get; set; }
         public int HinhThuc { get; set; }
         public string TenHinhThuc { get; set; }

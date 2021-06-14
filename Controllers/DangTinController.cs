@@ -199,31 +199,29 @@ namespace DockerApi.Controllers {
         }
 
         [HttpPost ("[action]")]
-        public IActionResult FileDownloaderDrive ([FromBody] JObject value) {
+        public IActionResult FileDownloaderDrive ([FromBody] DuAn duAn) {
             CustomResult cusRes = new CustomResult ();
-            string url = value.GetValue ("Url")?.ToString ();
-            string diaChi = value.GetValue ("DiaChi")?.ToString ();
-            string tenLoai = value.GetValue ("TenLoai")?.ToString ();
             try {
 
-                bool isRemove = bool.Parse (value.GetValue ("IsRemove")?.ToString () ?? "true");
-                if (String.IsNullOrEmpty (url) || String.IsNullOrEmpty (diaChi)) {
-                    cusRes.SetException (new Exception ("Dữ liệu Url - DiaChi - TenLoai không hợp lệ"));
+                if (String.IsNullOrEmpty (duAn.UrlDrive) || String.IsNullOrEmpty (duAn.Ma)) {
+                    cusRes.SetException (new Exception ("Dữ liệu Url - Ma không hợp lệ"));
                 } else {
-                    var fileName = diaChi + " " + tenLoai;
+                    var fileName = duAn.Ma;
                     fileName = CommonMethods.convertToNameFolder (fileName);
                     string zipPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}.7z";
                     string extractPath = Variables.SELENIUM_PATH_UPLOADS + $"\\{fileName}";
-                    if (isRemove) {
-                        if (Directory.Exists (extractPath)) {
-                            Directory.Delete (extractPath);
-                        }
+                    if (Directory.Exists(extractPath))
+                    {
+                        Directory.Delete(extractPath, true);
+
                     }
-                    var infoFile = FileDownloader.DownloadFileFromURLToPath (url, zipPath);
+                    if (!Directory.Exists(extractPath))
+                    {
+                        Directory.CreateDirectory(extractPath);
+                    }
+
+                    var infoFile = FileDownloader.DownloadFileFromURLToPath (duAn.UrlDrive, zipPath);
                     if (infoFile != null) {
-                        if (!Directory.Exists (extractPath)) {
-                            Directory.CreateDirectory (extractPath);
-                        }
                         using (ArchiveFile archiveFile = new ArchiveFile (zipPath)) {
                             archiveFile.Extract (extractPath); // extract all
                         }
@@ -231,15 +229,14 @@ namespace DockerApi.Controllers {
                         if (System.IO.File.Exists (zipPath)) {
                             System.IO.File.Delete (zipPath);
                         }
-                        CommonMethods.notifycation_tele ($"Đã tải ảnh thành công :)): %0A Loại: {tenLoai} %0A Dự án: {diaChi}");
+                        CommonMethods.notifycation_tele ($"Đã tải ảnh thành công :))%0ADự án: {duAn.Name ?? duAn.Ma}");
 
                     }
                     cusRes.IntResult = 1;
                 }
 
             } catch (Exception ex) {
-                CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T: %0A Loại: {tenLoai} %0A Dự án: {diaChi}");
-
+                CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T:%0ADự án: {duAn.Name ?? duAn.Ma}%0ALỗi: {ex.Message} ");
                 cusRes.SetException (ex);
 
             }
