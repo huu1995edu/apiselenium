@@ -39,7 +39,7 @@ namespace DockerApi.Controllers {
                 } else {
                     string path = CommonMethods.getPathImages (value.Data.Ma);
                     if (path == string.Empty) {
-                        cusRes.SetException ("Dự án không tồn tại thư mục ảnh");
+                        cusRes.SetException ("Dự án không tồn tại thư mục ảnh. Vui lòng tải ảnh lên để thực hiện tiếp.");
 
                     } else {
                         cusRes.StrResult = new ProcessDangTin ().dangTin (value);
@@ -188,17 +188,21 @@ namespace DockerApi.Controllers {
                 Account ac = new Account ();
                 ac.TenDangNhap = value.GetValue ("TenDangNhap").ToString ();
                 ac.MatKhau = value.GetValue ("MatKhau").ToString ();
-                List<List<object>> data = value.GetValue ("Data").ToObject<List<List<object>>> ();
+                JObject data = value.GetValue ("Data").ToObject<JObject> ();
 
                 if (String.IsNullOrEmpty (ac.TenDangNhap) || String.IsNullOrEmpty (ac.MatKhau)) {
                     cusRes.SetException (new Exception ("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
                 } else {
-                    if (data.Count == 0) {
-                        cusRes.SetException (new Exception ("data nạp tiền không hợp lệ"));
-                    } else {
-                        cusRes.DataResult = new List<Object> { new ProcessDangTin ().recharge (ac, data) };
+                    if (!data.HasValues)
+                    {
+                        cusRes.SetException(new Exception("Dữ liệu không hợp lệ"));
+                    }
+                    else
+                    {
+                        cusRes.DataResult = new List<Object> { new ProcessDangTin().recharge(ac, data) };
                         cusRes.IntResult = 1;
                     }
+
 
                 }
 
@@ -241,14 +245,14 @@ namespace DockerApi.Controllers {
                         if (System.IO.File.Exists (zipPath)) {
                             System.IO.File.Delete (zipPath);
                         }
-                        CommonMethods.notifycation_tele ($"Đã tải ảnh thành công :))%0ADự án: {duAn.Name ?? duAn.Ma}");
+                        CommonMethods.notifycation_tele ($"Đã tải ảnh thành công :))%0ATên dự án: {duAn.Name ?? "Không xác định"}%0AMã dự án: {duAn.Ma}%0AĐịa chỉ: {duAn.DiaChi}");
 
                     }
                     cusRes.IntResult = 1;
                 }
 
             } catch (Exception ex) {
-                CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T:%0ADự án: {duAn.Name ?? duAn.Ma}%0ALỗi: {ex.Message} ");
+                CommonMethods.notifycation_tele ($"Đã tải ảnh thất bại T.T:%0A%0ATên dự án: {duAn.Name ?? "Không xác định"}%0AMã dự án: {duAn.Ma}%0AĐịa chỉ: {duAn.DiaChi}%0ALỗi: {ex.Message} ");
                 cusRes.SetException (ex);
 
             }

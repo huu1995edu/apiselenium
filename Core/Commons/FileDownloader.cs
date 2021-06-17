@@ -15,7 +15,7 @@ public static class FileDownloader
         return null;
     }
 
-    private static FileInfo DownloadFile(string url, string path)
+    public static FileInfo DownloadFile(string url, string path)
     {
         try
         {

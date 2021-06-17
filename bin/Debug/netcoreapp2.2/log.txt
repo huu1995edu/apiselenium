@@ -1453,3 +1453,136 @@ AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 Log Entry : 5:32:13 PM Sunday, June 13, 2021
 AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
 -------------------------------
+
+Log Entry : 5:17:39 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:24:05 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:27:45 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:31:56 AM Tuesday, June 15, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 5:34:58 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:38:17 AM Tuesday, June 15, 2021
+Bạn nhập mã an toàn không hợp lệ
+-------------------------------
+
+Log Entry : 5:38:29 AM Tuesday, June 15, 2021
+ReadRecaptcha: chrome not reachable
+  (Session info: chrome=91.0.4472.101)
+-------------------------------
+
+Log Entry : 5:38:41 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:44:01 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:50:11 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:54:10 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 5:56:02 AM Tuesday, June 15, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:06:04 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:09:51 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:10:33 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:13:04 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:20:51 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:27:05 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:27:52 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:43:25 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:44:21 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:47:43 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:49:39 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:58:41 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 9:58:55 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:01:55 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:09:25 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:33:03 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:35:05 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:36:40 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:39:40 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:43:49 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------
+
+Log Entry : 10:46:16 PM Thursday, June 17, 2021
+AppSettings: ${"Path":"AppSettings","Key":"AppSettings","Value":null}
+-------------------------------

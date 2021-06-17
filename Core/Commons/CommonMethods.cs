@@ -450,7 +450,7 @@ namespace DockerApi {
             string safe = name.Trim ().ToLower ();
             safe = convertToAscii (safe);
             // trim out illegal characters
-            safe = Regex.Replace (safe, "[^a-z0-9\\-]", "-");
+            safe = Regex.Replace (safe, @"[^a-z0-9\\-]", "-");
             // replace spaces with hyphens
             safe = safe.Replace (" ", "-").ToLower ();
 

@@ -11,6 +11,7 @@ using DockerApi.Core.Entitys;
 using GoogleMaps.LocationServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OfficeOpenXml;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
@@ -39,7 +40,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                 CommonMethods.SelectLi (driver, "divProductCate", tinDang.Loai, tinDang.TenLoai);
                 if(tinDang.TenLoai!="Bán đât")
                 {
-                    nameFolderImages+=("\\"+tinDang.KieuNha);
+                    nameFolderImages+=($"\\{tinDang.KieuNha}");
                 }
                 Thread.Sleep (300);
                 CommonMethods.SelectLi (driver, "divCity", tinDang.TinhThanh, tinDang.TenTinhThanh);
@@ -425,16 +426,96 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
         }
 
-        public JObject recharge (Account ac, List<List<object>> data) {
+        public JObject recharge (Account ac, JObject data) {
             JObject info = new JObject ();
-            var pathFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)+"\\QLTKDN_Mau-chuyen-tien-cho-tai-khoan-nhan-vien.xlsx";
+            JObject balanceinfo = new JObject();
+            string pathFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\QLTKDN_Mau-chuyen-tien-cho-tai-khoan-nhan-vien.xlsx";
+            int tongTienNap = 0;
+            int maGiaoDich = 0;
+            int tkChinh = 0;
+            int tkKM1 = 0;
+            int tkKM2 = 0;
+            try
+            {
+                login(driver, ac.TenDangNhap, ac.MatKhau);
+                driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan/uspg-balanceinfo");
+                var textDetail = driver.FindElement(By.XPath("//div[@class='balanceinfo']/div/div/table/tbody/tr/th")).GetAttribute("innerText");
+                var groups = Regex.Match(textDetail, @"\[(\d+)\]").Groups;
+                maGiaoDich = int.Parse(groups[1].Value);
+                var ltd = driver.FindElements(By.XPath("//div[@class='balanceinfo']/table/tbody/tr/td"));
+                if (ltd != null && ltd.Count > 2)
+                {
+                    for (int i = 0; i < ltd.Count; i = i + 2)
+                    {
+                        var key = CommonMethods.convertToUnSign(ltd[i].Text.ToLower());
+                        var value = int.Parse(ltd[i + 1].Text.Replace(".", ""));
+                        balanceinfo[key] = value;
+                        if(key == "tong-so-du")
+                        {
+                            tkChinh = value;
 
-            try {
-                FileHelper.CreateExcel(pathFile, data);
-                login (driver, ac.TenDangNhap, ac.MatKhau);
-                driver.Navigate ().GoToUrl ("https://batdongsan.com.vn/trang-ca-nhan/uspg-enterpriseaccount");
-                Thread.Sleep(1000);
+                        }
+                        if (key == "tai-khoan-khuyen-mai-1")
+                        {
+                            tkKM1 = value;
 
+                        }
+                        if (key == "tai-khoan-khuyen-mai-2")
+                        {
+                            tkKM2 = value;
+
+                        }
+                    }
+                }
+                driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan/uspg-enterpriseaccount");
+                Thread.Sleep(3000);
+                if (File.Exists(pathFile))
+                {
+                    File.Delete(pathFile);
+                }
+                driver.FindElement(By.Id("btn_down_excel")).Click();
+                //Xử lý binding dữ liệu
+                Thread.Sleep(3000);
+
+                var existingFile = new FileInfo(pathFile);
+                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+
+                using (var pck = new ExcelPackage(existingFile))
+                {
+                    ExcelWorkbook WorkBook = pck.Workbook;
+                    ExcelWorksheet worksheet = WorkBook.Worksheets.First();
+                    var lastCell = worksheet.Cells.End;
+                    int rowNum = worksheet.Dimension.End.Row;
+                    int colNum = worksheet.Dimension.End.Column;
+                    worksheet.Cells[1, 3].Value = maGiaoDich;
+                    worksheet.Cells[2, 3].Value = tkChinh;
+                    worksheet.Cells[3, 3].Value = tkKM1;
+                    worksheet.Cells[4, 3].Value = tkKM2;
+                    for (int i = 9; i <= rowNum; i++)
+                    {
+                        var cell = worksheet.Cells[i, 3].Value?.ToString()?.Split("\n");
+                        if(cell!=null)
+                        {
+                            var username = cell[0].Trim().ToLower();
+                            var email = cell[1].Trim().ToLower();
+                            var value = data.GetValue(username)?.ToString() ?? data.GetValue(email)?.ToString();
+                            if (!string.IsNullOrEmpty(value))
+                            {
+                                int soTien = int.Parse(value);
+                                tongTienNap += soTien;
+                                worksheet.Cells[i, 5].Value = int.Parse(value);
+                            }
+                        }                       
+                    }
+                  
+                    pck.Save();
+                }
+                
+                if(tongTienNap > tkChinh)
+                {
+                    throw new Exception($"Tổng số tiền nạp {tongTienNap.ToString("N")} VNĐ vượt quá số tiền cảu tài chính {tkChinh.ToString("N")} VNĐ");
+
+                }
                 driver.FindElement(By.Id("btn_up_excel")).Click();
                 IWebElement element = driver.FindElement(By.Id("select_excel_file"));
                 element.SendKeys(pathFile);
