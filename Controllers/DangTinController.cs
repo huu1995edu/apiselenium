@@ -189,6 +189,9 @@ namespace DockerApi.Controllers {
                 ac.TenDangNhap = value.GetValue ("TenDangNhap").ToString ();
                 ac.MatKhau = value.GetValue ("MatKhau").ToString ();
                 JObject data = value.GetValue ("Data").ToObject<JObject> ();
+                int kind = value.GetValue("Kind")?.ToObject<int>() ?? 0; // 0: tài khoản 9, 1: KM1: 2: KM3
+                if (kind < 0 || kind > 2) kind = 0;
+
 
                 if (String.IsNullOrEmpty (ac.TenDangNhap) || String.IsNullOrEmpty (ac.MatKhau)) {
                     cusRes.SetException (new Exception ("Tên đăng nhập hoặc mật khẩu không hợp lệ"));
@@ -199,7 +202,7 @@ namespace DockerApi.Controllers {
                     }
                     else
                     {
-                        cusRes.DataResult = new List<Object> { new ProcessDangTin().recharge(ac, data) };
+                        cusRes.DataResult = new List<Object> { new ProcessDangTin().recharge(ac, data, kind) };
                         cusRes.IntResult = 1;
                     }
 

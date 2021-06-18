@@ -426,22 +426,36 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
         }
 
-        public JObject recharge (Account ac, JObject data) {
-            JObject info = new JObject ();
+        public JObject recharge (Account ac, JObject dataAccount, int kind) {
+            JObject dataRecharge = new JObject();
+            dataRecharge["tong-tien-nap"] = 0;
+            dataRecharge["data"] = new JObject();
+            JObject data = new JObject ();
             JObject balanceinfo = new JObject();
             string pathFile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\QLTKDN_Mau-chuyen-tien-cho-tai-khoan-nhan-vien.xlsx";
+            JObject objkind = new JObject();
+            objkind["0"] = "Chính";
+            objkind["1"] = "KM 1";
+            objkind["2"] = "KM 2";
             int tongTienNap = 0;
-            int maGiaoDich = 0;
-            int tkChinh = 0;
-            int tkKM1 = 0;
-            int tkKM2 = 0;
+
             try
             {
                 login(driver, ac.TenDangNhap, ac.MatKhau);
                 driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan/uspg-balanceinfo");
+                foreach (var item in dataAccount)
+                {
+                    var key = item.Key.Trim().ToLower();
+                    if (string.IsNullOrEmpty(item.Value.ToString())) continue;
+                    var value = int.Parse(item.Value?.ToString() ?? "0");
+                    if(value > 0)
+                    {
+                        data[key] = item.Value;
+                    }
+                }
                 var textDetail = driver.FindElement(By.XPath("//div[@class='balanceinfo']/div/div/table/tbody/tr/th")).GetAttribute("innerText");
                 var groups = Regex.Match(textDetail, @"\[(\d+)\]").Groups;
-                maGiaoDich = int.Parse(groups[1].Value);
+                balanceinfo["ma-giao-dich"] = int.Parse(groups[1].Value);
                 var ltd = driver.FindElements(By.XPath("//div[@class='balanceinfo']/table/tbody/tr/td"));
                 if (ltd != null && ltd.Count > 2)
                 {
@@ -449,22 +463,7 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     {
                         var key = CommonMethods.convertToUnSign(ltd[i].Text.ToLower());
                         var value = int.Parse(ltd[i + 1].Text.Replace(".", ""));
-                        balanceinfo[key] = value;
-                        if(key == "tong-so-du")
-                        {
-                            tkChinh = value;
-
-                        }
-                        if (key == "tai-khoan-khuyen-mai-1")
-                        {
-                            tkKM1 = value;
-
-                        }
-                        if (key == "tai-khoan-khuyen-mai-2")
-                        {
-                            tkKM2 = value;
-
-                        }
+                        balanceinfo[key] = value;                 
                     }
                 }
                 driver.Navigate().GoToUrl("https://batdongsan.com.vn/trang-ca-nhan/uspg-enterpriseaccount");
@@ -479,7 +478,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
 
                 var existingFile = new FileInfo(pathFile);
                 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
+                var tk9 = balanceinfo["tai-khoan-tin-rao"].ToObject<int>();
+                var tkkm1 = balanceinfo["tai-khoan-khuyen-mai-1"].ToObject<int>();
+                var tkkm2 = balanceinfo["tai-khoan-khuyen-mai-2"].ToObject<int>();
+                var mgd = balanceinfo["ma-giao-dich"].ToObject<int>();
                 using (var pck = new ExcelPackage(existingFile))
                 {
                     ExcelWorkbook WorkBook = pck.Workbook;
@@ -487,10 +489,10 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                     var lastCell = worksheet.Cells.End;
                     int rowNum = worksheet.Dimension.End.Row;
                     int colNum = worksheet.Dimension.End.Column;
-                    worksheet.Cells[1, 3].Value = maGiaoDich;
-                    worksheet.Cells[2, 3].Value = tkChinh;
-                    worksheet.Cells[3, 3].Value = tkKM1;
-                    worksheet.Cells[4, 3].Value = tkKM2;
+                    worksheet.Cells[1, 3].Value = mgd;
+                    worksheet.Cells[2, 3].Value = tk9;
+                    worksheet.Cells[3, 3].Value = tkkm1;
+                    worksheet.Cells[4, 3].Value = tkkm2;
                     for (int i = 9; i <= rowNum; i++)
                     {
                         var cell = worksheet.Cells[i, 3].Value?.ToString()?.Split("\n");
@@ -503,44 +505,54 @@ namespace DockerApi.Core.Commons.ProcessDangTin {
                             {
                                 int soTien = int.Parse(value);
                                 tongTienNap += soTien;
-                                worksheet.Cells[i, 5].Value = int.Parse(value);
+                                worksheet.Cells[i, 4+kind].Value = soTien;
+                                dataRecharge["data"][email] = soTien;
                             }
                         }                       
                     }
-                  
                     pck.Save();
                 }
-                
-                if(tongTienNap > tkChinh)
+                var maxTienNap = kind == 0 ? tk9 : kind == 1 ? tkkm1 : tkkm2;
+                if (tongTienNap > maxTienNap)
                 {
-                    throw new Exception($"Tổng số tiền nạp {tongTienNap.ToString("N")} VNĐ vượt quá số tiền cảu tài chính {tkChinh.ToString("N")} VNĐ");
+                    throw new Exception($"Tổng số tiền nạp {tongTienNap.ToString("N")} VNĐ cho tài khoản {objkind.GetValue(kind.ToString())} vượt quá số tiền của tài chính {maxTienNap.ToString("N")} VNĐ");
 
                 }
                 driver.FindElement(By.Id("btn_up_excel")).Click();
                 IWebElement element = driver.FindElement(By.Id("select_excel_file"));
                 element.SendKeys(pathFile);
                 var error = "Mã bảo vệ không đúng";
-                while(error == "Mã bảo vệ không đúng")
+                while (error == "Mã bảo vệ không đúng")
                 {
-                     driver.FindElement(By.Id("reloadCaptcha")).Click();
+                    driver.FindElement(By.Id("reloadCaptcha")).Click();
                     string strResult = CommonMethods.ReadRecaptcha(driver, "img_CAPTCHA_RESULT", "reloadCaptcha");
                     CommonMethods.SetInput(driver, "txtSeCode", strResult);
                     driver.FindElement(By.Id("btnUpload")).Click();
-                    error = driver.FindElement(By.Id("lblError"))?.GetAttribute("innerText")?? driver.FindElement(By.Id("excel_error_form"))?.GetAttribute("innerText");
+                    error = driver.FindElement(By.Id("lblError"))?.GetAttribute("innerText") ?? driver.FindElement(By.Id("excel_error_form"))?.GetAttribute("innerText");
                 }
-                if(!string.IsNullOrEmpty(error))
+                if (!string.IsNullOrEmpty(error))
                 {
                     throw new Exception(error);
 
                 }
+                var message = $"Nạp tiền thành công cho tài khoản {objkind.GetValue(kind.ToString())}:%0ATổng số tiền đã nạp: {tongTienNap.ToString("N")} VNĐ";
+                var objDataRecharge = dataRecharge.GetValue("data").ToObject<JObject>();
+                foreach (var item in objDataRecharge)
+                {
+                    message += $"%0A{item.Key}: {int.Parse(item.Value.ToString()).ToString("N")} VNĐ";
+                }
+                CommonMethods.notifycation_tele(message);
 
             }
-            catch (System.Exception ex) {
+            catch (Exception ex) {
                 driver.Quit ();
+                CommonMethods.notifycation_tele($"Nạp tiền thất bại cho tài khoản {objkind.GetValue(kind.ToString())}:%0ALỗi: {ex.Message}");
                 throw ex;
             }
             driver.Quit ();
-            return info;
+            dataRecharge["balanceinfo"] = balanceinfo;
+            dataRecharge["tong-tien-nap"] = tongTienNap;
+            return dataRecharge;
 
         }
     }
